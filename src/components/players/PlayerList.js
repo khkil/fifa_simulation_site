@@ -21,7 +21,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -39,40 +38,37 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
 
-export default function CustomizedTables() {
+const PlayerList = ({ pages }) => {
+  console.log(pages);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell>선수</StyledTableCell>
+            <StyledTableCell align="center">급여</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {row.calories}
-                <img
-                  src="https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p100001397.png?rd=202310090430"
-                  alt=""
-                  onerror="this.src='https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'"
-                ></img>
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
-            </StyledTableRow>
-          ))}
+          {pages.map(({ content }) =>
+            content?.map(({ spId, name }) => (
+              <StyledTableRow key={spId}>
+                <StyledTableCell component="th" scope="row">
+                  {name}
+                  <img
+                    src={`https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${spId}.png?rd=202310090430`}
+                    alt=""
+                    onerror="this.src='https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'"
+                  ></img>
+                </StyledTableCell>
+                <StyledTableCell align="right">2</StyledTableCell>
+              </StyledTableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default PlayerList;
