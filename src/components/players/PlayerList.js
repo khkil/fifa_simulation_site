@@ -1,3 +1,5 @@
+import { getPositionGroup } from "@/utils";
+import { Box, Typography, useTheme } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,6 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
+import CustomImage from "../common/CustomImage";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -26,46 +29,73 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+const Player = ({
+  player: {
+    spId,
+    playerName,
+    season: { imageUrl },
+    positions,
+  },
+  theme: {
+    palette: { player },
+  },
+}) => {
+  return (
+    <StyledTableRow key={spId}>
+      <StyledTableCell align="left">
+        <Box
+          sx={{
+            display: "flex",
+          }}
+        >
+          <Box>
+            <CustomImage
+              width={100}
+              height={100}
+              src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${spId}.png?rd=202310090430`}
+            />
+          </Box>
+          <Box p={2}>
+            <Box
+              sx={{
+                display: "flex",
+              }}
+            >
+              <img style={{ height: 20, paddingRight: 5 }} src={imageUrl} />
+              {playerName}
+            </Box>
+            <Box>
+              {positions.map(({ positionName, stat }) => (
+                <>
+                  <Typography variant="caption" color={player[getPositionGroup(positionName)]}>
+                    {positionName}
+                  </Typography>
+                  <Typography variant="overline" className={getPositionGroup(positionName)} sx={{ mr: 0.5 }}>
+                    {stat}
+                  </Typography>
+                </>
+              ))}
+            </Box>
+          </Box>
+        </Box>
+      </StyledTableCell>
+      <StyledTableCell align="center">2</StyledTableCell>
+    </StyledTableRow>
+  );
+};
 
 const PlayerList = ({ pages }) => {
-  console.log(pages);
+  const theme = useTheme();
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>선수</StyledTableCell>
+            <StyledTableCell align="center">선수</StyledTableCell>
             <StyledTableCell align="center">급여</StyledTableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {pages.map(({ content }) =>
-            content?.map(({ spId, name }) => (
-              <StyledTableRow key={spId}>
-                <StyledTableCell component="th" scope="row">
-                  {name}
-                  <img
-                    src={`https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${spId}.png?rd=202310090430`}
-                    alt=""
-                    onerror="this.src='https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/not_found.png'"
-                  ></img>
-                </StyledTableCell>
-                <StyledTableCell align="right">2</StyledTableCell>
-              </StyledTableRow>
-            ))
-          )}
-        </TableBody>
+        <TableBody>{pages.map(({ content }) => content?.map((player, index) => <Player key={index} player={player} theme={theme} />))}</TableBody>
       </Table>
     </TableContainer>
   );

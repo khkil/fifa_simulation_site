@@ -1,3 +1,4 @@
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useState } from "react";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import "../styles/globals.css";
@@ -15,10 +16,26 @@ export default function App({ Component, pageProps: { dehydratedState, ...pagePr
       })
   );
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#3e3d55",
+      },
+      player: {
+        striker: "#f6425f",
+        midfielder: "#00d28b",
+        defender: "#2b7def",
+        goalKeeper: "#f2be57",
+      },
+    },
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={dehydratedState}>
-        <Component {...pageProps} />
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
       </Hydrate>
     </QueryClientProvider>
   );

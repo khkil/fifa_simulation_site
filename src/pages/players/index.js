@@ -19,7 +19,7 @@ const playerListPage = () => {
 
   return (
     <CommonLayout>
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
           <PlayerList pages={pages} />
         </InfiniteScroll>
