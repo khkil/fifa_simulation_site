@@ -2,7 +2,7 @@ import { Adb, Menu } from "@mui/icons-material";
 import { AppBar, Avatar, Box, Button, Container, IconButton, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["선수 조회", "거래 목록"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
@@ -82,7 +82,7 @@ function Header() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="길기환" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
           </Box>

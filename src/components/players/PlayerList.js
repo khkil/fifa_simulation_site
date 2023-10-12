@@ -1,6 +1,6 @@
 import { LEFT_FOOT } from "@/constants";
-import { convertPriceFormat, getOverallColor, getPositionGroup } from "@/utils";
-import { Box, Typography, useTheme } from "@mui/material";
+import { convertPriceFormat, getOverallColor, getPlusStatFromUpgradeValue, getPositionGroup } from "@/utils";
+import { Box, Slider, Typography, useTheme } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
-import { useCallback } from "react";
+import { useMemo, useState } from "react";
 import CustomImage from "../common/CustomImage";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -39,18 +39,24 @@ const Player = ({
     preferredFoot,
     leftFoot,
     rightFoot,
-    price,
+    priceList,
     season: { imageUrl },
-    average: { speed, shooting, passing, dribble, physical, defending },
+    average,
     positions,
   },
   theme: {
     palette: { player, overall },
   },
 }) => {
-  const getOverallUnit = useCallback((overall) => {
-    return Math.floor(overall / 10) * 10;
-  });
+  const [upgradeValue, setUpgradeValue] = useState(1);
+  const { speed, shooting, passing, dribble, physical, defending } = useMemo(() => {
+    const obj = { ...average };
+    for (const key in obj) {
+      obj[key] = obj[key] + getPlusStatFromUpgradeValue(upgradeValue);
+    }
+    return obj;
+  }, [average, upgradeValue]);
+
   return (
     <StyledTableRow key={spId}>
       <StyledTableCell align="left">
@@ -76,13 +82,13 @@ const Player = ({
               {playerName}
             </Box>
             <Box>
-              {positions.map(({ positionName, stat }) => (
+              {positions.map(({ positionName, overall }) => (
                 <>
                   <Typography variant="caption" color={player[getPositionGroup(positionName)]}>
                     {positionName}
                   </Typography>
                   <Typography variant="overline" className={getPositionGroup(positionName)} sx={{ mr: 0.5 }}>
-                    {stat}
+                    {overall + getPlusStatFromUpgradeValue(upgradeValue)}
                   </Typography>
                 </>
               ))}
@@ -109,6 +115,23 @@ const Player = ({
           </Box>
         </Box>
       </StyledTableCell>
+      <StyledTableCell align="center">
+        <Typography id="non-linear-slider" gutterBottom>
+          강화단계: <strong>+{upgradeValue}</strong>
+        </Typography>
+        <Slider
+          aria-label="Temperature"
+          defaultValue={1}
+          getAriaValueText={(value) => {
+            setUpgradeValue(value);
+          }}
+          valueLabelDisplay="auto"
+          step={1}
+          marks
+          min={1}
+          max={10}
+        />
+      </StyledTableCell>
       <StyledTableCell align="center">{pay}</StyledTableCell>
       <StyledTableCell align="center">
         <Typography color={getOverallColor(overall, speed)}>{speed}</Typography>
@@ -128,7 +151,7 @@ const Player = ({
       <StyledTableCell align="center">
         <Typography color={getOverallColor(overall, defending)}>{defending}</Typography>
       </StyledTableCell>
-      <StyledTableCell align="center">{convertPriceFormat(price)} BP</StyledTableCell>
+      <StyledTableCell align="center">{convertPriceFormat(priceList[upgradeValue - 1].price)} BP</StyledTableCell>
     </StyledTableRow>
   );
 };
@@ -141,6 +164,9 @@ const PlayerList = ({ pages }) => {
         <TableHead>
           <TableRow>
             <StyledTableCell align="center">선수</StyledTableCell>
+            <StyledTableCell width={200} align="center">
+              강화수치
+            </StyledTableCell>
             <StyledTableCell align="center">급여</StyledTableCell>
             <StyledTableCell align="center">스피드</StyledTableCell>
             <StyledTableCell align="center">슛</StyledTableCell>
@@ -148,7 +174,9 @@ const PlayerList = ({ pages }) => {
             <StyledTableCell align="center">드리블</StyledTableCell>
             <StyledTableCell align="center">피지컬</StyledTableCell>
             <StyledTableCell align="center">수비</StyledTableCell>
-            <StyledTableCell align="center">현재 가격</StyledTableCell>
+            <StyledTableCell width={200} align="center">
+              현재 가격
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>{pages.map(({ content }) => content?.map((player, index) => <Player key={index} theme={theme} player={player} />))}</TableBody>
