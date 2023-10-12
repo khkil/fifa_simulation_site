@@ -1,4 +1,5 @@
-import { getPositionGroup } from "@/utils";
+import { LEFT_FOOT } from "@/constants";
+import { convertPriceFormat, getOverallColor, getPositionGroup } from "@/utils";
 import { Box, Typography, useTheme } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -8,6 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
+import { useCallback } from "react";
 import CustomImage from "../common/CustomImage";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -33,13 +35,22 @@ const Player = ({
   player: {
     spId,
     playerName,
+    pay,
+    preferredFoot,
+    leftFoot,
+    rightFoot,
+    price,
     season: { imageUrl },
+    average: { speed, shooting, passing, dribble, physical, defending },
     positions,
   },
   theme: {
-    palette: { player },
+    palette: { player, overall },
   },
 }) => {
+  const getOverallUnit = useCallback((overall) => {
+    return Math.floor(overall / 10) * 10;
+  });
   return (
     <StyledTableRow key={spId}>
       <StyledTableCell align="left">
@@ -76,10 +87,48 @@ const Player = ({
                 </>
               ))}
             </Box>
+            <Box
+              sx={{
+                display: "flex",
+              }}
+            >
+              {preferredFoot === LEFT_FOOT ? (
+                <>
+                  <strong>L{leftFoot}</strong>
+                  <pre>-</pre>
+                  <span>R{rightFoot}</span>
+                </>
+              ) : (
+                <>
+                  <span>L{leftFoot}</span>
+                  <pre>-</pre>
+                  <strong>R{rightFoot}</strong>
+                </>
+              )}
+            </Box>
           </Box>
         </Box>
       </StyledTableCell>
-      <StyledTableCell align="center">2</StyledTableCell>
+      <StyledTableCell align="center">{pay}</StyledTableCell>
+      <StyledTableCell align="center">
+        <Typography color={getOverallColor(overall, speed)}>{speed}</Typography>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        <Typography color={getOverallColor(overall, shooting)}>{shooting}</Typography>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        <Typography color={getOverallColor(overall, passing)}>{passing}</Typography>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        <Typography color={getOverallColor(overall, dribble)}>{dribble}</Typography>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        <Typography color={getOverallColor(overall, physical)}>{physical}</Typography>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        <Typography color={getOverallColor(overall, defending)}>{defending}</Typography>
+      </StyledTableCell>
+      <StyledTableCell align="center">{convertPriceFormat(price)} BP</StyledTableCell>
     </StyledTableRow>
   );
 };
@@ -93,9 +142,16 @@ const PlayerList = ({ pages }) => {
           <TableRow>
             <StyledTableCell align="center">선수</StyledTableCell>
             <StyledTableCell align="center">급여</StyledTableCell>
+            <StyledTableCell align="center">스피드</StyledTableCell>
+            <StyledTableCell align="center">슛</StyledTableCell>
+            <StyledTableCell align="center">패스</StyledTableCell>
+            <StyledTableCell align="center">드리블</StyledTableCell>
+            <StyledTableCell align="center">피지컬</StyledTableCell>
+            <StyledTableCell align="center">수비</StyledTableCell>
+            <StyledTableCell align="center">현재 가격</StyledTableCell>
           </TableRow>
         </TableHead>
-        <TableBody>{pages.map(({ content }) => content?.map((player, index) => <Player key={index} player={player} theme={theme} />))}</TableBody>
+        <TableBody>{pages.map(({ content }) => content?.map((player, index) => <Player key={index} theme={theme} player={player} />))}</TableBody>
       </Table>
     </TableContainer>
   );
