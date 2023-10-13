@@ -50,11 +50,11 @@ const Player = ({
 }) => {
   const [upgradeValue, setUpgradeValue] = useState(1);
   const { speed, shooting, passing, dribble, physical, defending } = useMemo(() => {
-    const obj = { ...average };
-    for (const key in obj) {
-      obj[key] = obj[key] + getPlusStatFromUpgradeValue(upgradeValue);
+    const plusAverage = { ...average };
+    for (const key in plusAverage) {
+      plusAverage[key] = plusAverage[key] + getPlusStatFromUpgradeValue(upgradeValue);
     }
-    return obj;
+    return plusAverage;
   }, [average, upgradeValue]);
 
   return (
@@ -69,7 +69,7 @@ const Player = ({
             <CustomImage
               width={100}
               height={100}
-              src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${spId}.png?rd=202310090430`}
+              src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${spId}.png`}
             />
           </Box>
           <Box p={2}>

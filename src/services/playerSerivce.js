@@ -1,7 +1,7 @@
-import axiosInstance from "./axios";
+import axios from "./axios";
 
 export const fetchAllPlayers = async (params) => {
-  const { data } = await axiosInstance.get(`/api/players`, {
+  const { data } = await axios.get(`/api/players`, {
     params,
   });
   return data;
