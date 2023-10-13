@@ -70,6 +70,7 @@ const Player = ({
               width={100}
               height={100}
               src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${spId}.png`}
+              spId={spId}
             />
           </Box>
           <Box p={2}>

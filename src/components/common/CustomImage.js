@@ -21,8 +21,12 @@ const CustomImage = ({ src, alt, ...props }) => {
       alt={alt || "image"}
       blurDataURL={"data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOcOnt2PQAF5AJMrzp1XwAAAABJRU5ErkJggg=="}
       onError={() => {
-        setImgPath(noImageSrc);
-        console.log("img error");
+        if (props?.spId) {
+          const pId = Number(props.spId.toString().substring(5, 9));
+          setImgPath(`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/players/p${pId}.png`);
+        } else {
+          setImgPath(noImageSrc);
+        }
       }}
       {...props}
     />

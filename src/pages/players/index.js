@@ -7,18 +7,20 @@ import { useMemo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useInfiniteQuery } from "react-query";
 
-const playerListPage = ({ clubs, skills }) => {
-  console.log(clubs);
-  const [params, setParams] = useState({
-    clubIds: [],
-    skillIds: [],
-  });
+export const initialParams = {
+  clubIds: [],
+  skillIds: [],
+  seasonIds: [],
+  name: "",
+};
 
+const playerListPage = ({ clubs, skills, seasons }) => {
+  const [params, setParams] = useState(initialParams);
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isFetching, isLoading, isError } = useInfiniteQuery(
     ["players", params],
     ({ pageParam = 1 }) => fetchAllPlayers({ page: pageParam, ...params }),
     {
-      getNextPageParam: ({ last }, allPages) => !last && allPages.length + 1,
+      getNextPageParam: ({ last }, allPages) => (!last ? allPages.length + 1 : undefined),
     }
   );
 
@@ -27,7 +29,7 @@ const playerListPage = ({ clubs, skills }) => {
   return (
     <CommonLayout>
       <Container maxWidth="lg">
-        <PlayerSearchBoxes params={params} setParams={setParams} clubs={clubs} skills={skills} />
+        <PlayerSearchBoxes params={params} setParams={setParams} clubs={clubs} skills={skills} seasons={seasons} />
         <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
           <PlayerList pages={pages} />
         </InfiniteScroll>
@@ -37,13 +39,18 @@ const playerListPage = ({ clubs, skills }) => {
 };
 
 export const getServerSideProps = async () => {
-  const responses = await Promise.all([fetch(`${process.env.API_DOMAIN}/api/clubs`), fetch(`${process.env.API_DOMAIN}/api/skills`)]);
+  const responses = await Promise.all([
+    fetch(`${process.env.API_DOMAIN}/api/clubs`),
+    fetch(`${process.env.API_DOMAIN}/api/skills`),
+    fetch(`${process.env.API_DOMAIN}/api/seasons`),
+  ]);
 
-  const [{ data: clubs }, { data: skills }] = await Promise.all(responses.map((response) => response.json()));
+  const [{ data: clubs }, { data: skills }, { data: seasons }] = await Promise.all(responses.map((response) => response.json()));
   return {
     props: {
       clubs,
       skills,
+      seasons,
     },
   };
 };
