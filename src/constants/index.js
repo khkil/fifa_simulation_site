@@ -11,3 +11,9 @@ export const POSITION_GROUP = {
   defender: ["SW", "RWB", "RB", "RCB", "CB", "LCB", "LB", "LWB"],
   goalKeeper: ["GK"],
 };
+
+export const TRADE_TYPES = [
+  { type: "all", desc: "전체" },
+  { type: "buy", desc: "구매" },
+  { type: "sell", desc: "판매" },
+];

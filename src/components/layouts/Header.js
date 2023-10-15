@@ -8,11 +8,14 @@ const pages = [
     link: "/players",
   },
   {
-    title: "유저 조회",
-    link: "/users",
+    title: "거래내역",
+    link: "/user/trades",
+  },
+  {
+    title: "경기기록",
+    link: "/user/matches",
   },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
   const router = useRouter();
