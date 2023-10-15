@@ -11,10 +11,11 @@ export const initialParams = {
   clubIds: [],
   skillIds: [],
   seasonIds: [],
+  nations: [],
   name: "",
 };
 
-const playerListPage = ({ clubs, skills, seasons }) => {
+const playerListPage = ({ clubs, skills, seasons, nations }) => {
   const [params, setParams] = useState(initialParams);
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isFetching, isLoading, isError } = useInfiniteQuery(
     ["players", params],
@@ -29,7 +30,7 @@ const playerListPage = ({ clubs, skills, seasons }) => {
   return (
     <CommonLayout>
       <Container maxWidth="lg">
-        <PlayerSearchBoxes params={params} setParams={setParams} clubs={clubs} skills={skills} seasons={seasons} />
+        <PlayerSearchBoxes params={params} setParams={setParams} clubs={clubs} skills={skills} seasons={seasons} nations={nations} />
         <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
           <PlayerList pages={pages} />
         </InfiniteScroll>
@@ -43,14 +44,16 @@ export const getServerSideProps = async () => {
     fetch(`${process.env.API_DOMAIN}/api/clubs`),
     fetch(`${process.env.API_DOMAIN}/api/skills`),
     fetch(`${process.env.API_DOMAIN}/api/seasons`),
+    fetch(`${process.env.API_DOMAIN}/api/nations`),
   ]);
 
-  const [{ data: clubs }, { data: skills }, { data: seasons }] = await Promise.all(responses.map((response) => response.json()));
+  const [{ data: clubs }, { data: skills }, { data: seasons }, { data: nations }] = await Promise.all(responses.map((response) => response.json()));
   return {
     props: {
       clubs,
       skills,
       seasons,
+      nations,
     },
   };
 };

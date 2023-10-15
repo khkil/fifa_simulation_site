@@ -57,7 +57,7 @@ const SeasonSearchBox = ({ seasons, params, setParams }) => {
   );
 };
 
-const DetailInfoSearchBox = ({ clubs, skills, params, setParams }) => {
+const DetailInfoSearchBox = ({ clubs, skills, nations, params, setParams }) => {
   return (
     <>
       <Grid item xs={2} sx={{ ...borderStyle }}>
@@ -96,12 +96,28 @@ const DetailInfoSearchBox = ({ clubs, skills, params, setParams }) => {
             sx={{ width: "45%" }}
           />
         </Box>
+        <Box p={1} sx={{ display: "flex" }}>
+          <Autocomplete
+            multiple
+            options={nations}
+            getOptionLabel={({ nationName }) => nationName}
+            renderInput={(params) => <TextField {...params} label="국가" />}
+            onChange={(_, nations) => {
+              const nationIds = nations.map(({ id }) => id);
+              setParams({
+                ...params,
+                nationIds,
+              });
+            }}
+            sx={{ width: "45%" }}
+          />
+        </Box>
       </Grid>
     </>
   );
 };
 
-const PlayerSearchBoxes = ({ clubs, skills, seasons, params, setParams }) => {
+const PlayerSearchBoxes = ({ clubs, skills, seasons, nations, params, setParams }) => {
   const [searchText, setSearchText] = useState("");
 
   const handleKeyPress = (e) => {
@@ -166,7 +182,7 @@ const PlayerSearchBoxes = ({ clubs, skills, seasons, params, setParams }) => {
         </Grid>
         {/* 선수명 end */}
         <SeasonSearchBox seasons={seasons} params={params} setParams={setParams} />
-        <DetailInfoSearchBox clubs={clubs} skills={skills} params={params} setParams={setParams} />
+        <DetailInfoSearchBox clubs={clubs} skills={skills} nations={nations} params={params} setParams={setParams} />
       </Grid>
     </Paper>
   );
