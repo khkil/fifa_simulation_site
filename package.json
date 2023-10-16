@@ -14,11 +14,14 @@
     "@mui/icons-material": "^5.14.12",
     "@mui/material": "^5.14.12",
     "axios": "^1.5.1",
+    "date-fns": "^2.30.0",
+    "moment": "^2.29.4",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",
     "react-infinite-scroller": "^1.2.6",
     "react-query": "^3.39.3",
+    "react-spinners": "^0.13.8",
     "styled-components": "^6.0.8"
   },
   "devDependencies": {

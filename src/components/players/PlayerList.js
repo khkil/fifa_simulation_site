@@ -1,5 +1,5 @@
 import { LEFT_FOOT } from "@/constants";
-import { convertPriceFormat, getOverallColor, getPlusStatFromUpgradeValue, getPositionGroup } from "@/utils";
+import { convertPriceFormat, getOverallColor, getPlusStatFromGrade, getPositionGroup } from "@/utils";
 import { Box, Slider, Typography, useTheme } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -48,18 +48,18 @@ const Player = ({
     palette: { player, overall },
   },
 }) => {
-  const [upgradeValue, setUpgradeValue] = useState(1);
+  const [grade, setGrade] = useState(1);
   const { speed, shooting, passing, dribble, physical, defending } = useMemo(() => {
     const plusAverage = { ...average };
     for (const key in plusAverage) {
-      plusAverage[key] = plusAverage[key] + getPlusStatFromUpgradeValue(upgradeValue);
+      plusAverage[key] = plusAverage[key] + getPlusStatFromGrade(grade);
     }
     return plusAverage;
-  }, [average, upgradeValue]);
+  }, [average, grade]);
 
   return (
     <StyledTableRow key={spId}>
-      <StyledTableCell align="left">
+      <StyledTableCell align="center">
         <Box
           sx={{
             display: "flex",
@@ -89,7 +89,7 @@ const Player = ({
                     {positionName}
                   </Typography>
                   <Typography variant="overline" className={getPositionGroup(positionName)} sx={{ mr: 0.5 }}>
-                    {overall + getPlusStatFromUpgradeValue(upgradeValue)}
+                    {overall + getPlusStatFromGrade(grade)}
                   </Typography>
                 </>
               ))}
@@ -118,13 +118,13 @@ const Player = ({
       </StyledTableCell>
       <StyledTableCell align="center">
         <Typography id="non-linear-slider" gutterBottom>
-          강화단계: <strong>+{upgradeValue}</strong>
+          강화단계: <strong>+{grade}</strong>
         </Typography>
         <Slider
           aria-label="Temperature"
           defaultValue={1}
           getAriaValueText={(value) => {
-            setUpgradeValue(value);
+            setGrade(value);
           }}
           valueLabelDisplay="auto"
           step={1}
@@ -152,7 +152,7 @@ const Player = ({
       <StyledTableCell align="center">
         <Typography color={getOverallColor(overall, defending)}>{defending}</Typography>
       </StyledTableCell>
-      <StyledTableCell align="center">{convertPriceFormat(priceList[upgradeValue - 1].price)} BP</StyledTableCell>
+      <StyledTableCell align="center">{convertPriceFormat(priceList[grade - 1].price)} BP</StyledTableCell>
     </StyledTableRow>
   );
 };

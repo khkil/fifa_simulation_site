@@ -1,38 +1,60 @@
 import CommonLayout from "@/components/layouts/CommonLayout";
 import NicknameSearchBox from "@/components/user/NicknameSearchBox";
 import TrabeTypeTabs from "@/components/user/trades/TrabeTypeTabs";
-import { TRADE_TYPES } from "@/constants";
+import TradeList from "@/components/user/trades/TradeList";
+import { TRADE_TYPES, TRADE_TYPE_ALL } from "@/constants";
 import { fetchUserTrades } from "@/services/userService";
 import { Container } from "@mui/material";
-import { useState } from "react";
-import { useQuery } from "react-query";
+import { useMemo, useState } from "react";
+import InfiniteScroll from "react-infinite-scroller";
+import { useInfiniteQuery } from "react-query";
 
-const UserTradePage = () => {
-  const [nickname, setNickname] = useState("");
+const PER_PAGE = 10;
+const MAX_LIMIT = 100;
+
+const UserTradePage = ({ query }) => {
   const [tradeType, setTradeType] = useState(TRADE_TYPES[0].type);
+  const useScrollPaging = useMemo(() => tradeType !== TRADE_TYPE_ALL, [tradeType]);
 
-  const { data } = useQuery(
-    ["userTrades"],
-    () =>
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isFetching, isLoading, isError } = useInfiniteQuery(
+    ["userTrades", query.nickname, tradeType],
+    ({ pageParam = 0 }) =>
+      !!query.nickname &&
       fetchUserTrades({
-        nickname,
+        offset: useScrollPaging ? pageParam : 0,
+        limit: useScrollPaging ? pageParam + PER_PAGE : 100,
+        nickname: query.nickname,
         tradeType,
-        offset: 0,
-        limit: 10,
       }),
     {
-      enabled: !!nickname,
+      getNextPageParam: (_, allPages) => {
+        const nextLimit = allPages.length * PER_PAGE;
+        return useScrollPaging && nextLimit < MAX_LIMIT ? nextLimit : undefined;
+      },
     }
   );
+
+  const pages = useMemo(() => data?.pages.filter((page) => !!page) || [], [data]);
 
   return (
     <CommonLayout>
       <Container maxWidth="lg">
-        <NicknameSearchBox nickname={nickname} setNickname={setNickname} />
+        <NicknameSearchBox nickname={query.nickname} />
         <TrabeTypeTabs tradeType={tradeType} setTradeType={setTradeType} />
+        <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
+          {pages.length > 0 && <TradeList pages={pages} />}
+        </InfiniteScroll>
       </Container>
     </CommonLayout>
   );
+};
+
+export const getServerSideProps = async ({ query }) => {
+  return {
+    props: {
+      query,
+    },
+  };
 };
 
 export default UserTradePage;

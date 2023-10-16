@@ -12,8 +12,12 @@ export const POSITION_GROUP = {
   goalKeeper: ["GK"],
 };
 
+export const TRADE_TYPE_ALL = "all";
+export const TRADE_TYPE_SELL = "sell";
+export const TRADE_TYPE_BUY = "buy";
+
 export const TRADE_TYPES = [
-  { type: "all", desc: "전체" },
-  { type: "buy", desc: "구매" },
-  { type: "sell", desc: "판매" },
+  { type: TRADE_TYPE_ALL, desc: "전체" },
+  { type: TRADE_TYPE_BUY, desc: "구매" },
+  { type: TRADE_TYPE_SELL, desc: "판매" },
 ];
