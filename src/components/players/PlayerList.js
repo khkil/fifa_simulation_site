@@ -40,7 +40,7 @@ const Player = ({
     leftFoot,
     rightFoot,
     priceList,
-    season: { imageUrl },
+    season: { id, imageUrl },
     average,
     positions,
   },
@@ -71,6 +71,7 @@ const Player = ({
               height={100}
               src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${spId}.png`}
               spId={spId}
+              seasonId={id}
             />
           </Box>
           <Box p={2}>

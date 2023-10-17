@@ -1,4 +1,4 @@
-import { TRADE_TYPES, TRADE_TYPE_BUY } from "@/constants";
+import { TRADE_TYPES, TRADE_TYPE_ALL, TRADE_TYPE_BUY } from "@/constants";
 import { convertDateFormat, convertPriceFormat } from "@/utils";
 import {
   Box,
@@ -36,14 +36,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Trade = ({ trade: { saleSn, tradeType, playerName, grade, value, recentPrice, tradeDate, season } }) => {
-  const { type, desc } = TRADE_TYPES.find(({ type }) => type === tradeType);
-  const isBenefit = useMemo(() => value - recentPrice > 0, [value, recentPrice]);
+  const { desc } = TRADE_TYPES.find(({ type }) => type === tradeType);
+  const profit = useMemo(() => (tradeType === TRADE_TYPE_BUY ? recentPrice - value : value - recentPrice), [value, recentPrice]);
+
   return (
     <StyledTableRow key={saleSn}>
       {playerName ? (
         <>
           <StyledTableCell align="center">
-            <Chip label={desc} color={type === TRADE_TYPE_BUY ? "error" : "info"} />
+            <Chip label={desc} color={tradeType === TRADE_TYPE_BUY ? "error" : "info"} />
           </StyledTableCell>
           <StyledTableCell align="left">
             {playerName && (
@@ -64,9 +65,9 @@ const Trade = ({ trade: { saleSn, tradeType, playerName, grade, value, recentPri
               <strong>{convertPriceFormat(recentPrice)}</strong> BP
             </Box>
             <Box>
-              <Typography sx={{ color: isBenefit ? "blue" : "red" }}>
-                {isBenefit ? "+" : ""}
-                {convertPriceFormat(value - recentPrice)} BP
+              <Typography sx={{ color: profit > 0 ? "blue" : "red" }}>
+                {profit > 0 ? "+" : ""}
+                {convertPriceFormat(profit)} BP
               </Typography>
             </Box>
           </StyledTableCell>
@@ -81,7 +82,7 @@ const Trade = ({ trade: { saleSn, tradeType, playerName, grade, value, recentPri
   );
 };
 
-const TradeList = ({ pages }) => {
+const TradeList = ({ tradeList, tradeType }) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -97,7 +98,13 @@ const TradeList = ({ pages }) => {
             <StyledTableCell align="center">거래 일자</StyledTableCell>
           </TableRow>
         </TableHead>
-        <TableBody>{pages.map((trades) => trades?.map((trade, index) => <Trade key={index} /* theme={theme} */ trade={trade} />))}</TableBody>
+        <TableBody>
+          {tradeList
+            .filter((trade) => tradeType === TRADE_TYPE_ALL || trade.tradeType === tradeType)
+            .map((trade, index) => (
+              <Trade key={index} /* theme={theme} */ trade={trade} />
+            ))}
+        </TableBody>
       </Table>
     </TableContainer>
   );

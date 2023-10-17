@@ -1,49 +1,53 @@
+import Loader from "@/components/common/Loader";
 import CommonLayout from "@/components/layouts/CommonLayout";
 import NicknameSearchBox from "@/components/user/NicknameSearchBox";
 import TrabeTypeTabs from "@/components/user/trades/TrabeTypeTabs";
+import TradeInfoAlert from "@/components/user/trades/TradeInfoAlert";
 import TradeList from "@/components/user/trades/TradeList";
-import { TRADE_TYPES, TRADE_TYPE_ALL } from "@/constants";
+import { TRADE_TYPES } from "@/constants";
 import { fetchUserTrades } from "@/services/userService";
-import { Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { useMemo, useState } from "react";
-import InfiniteScroll from "react-infinite-scroller";
-import { useInfiniteQuery } from "react-query";
-
-const PER_PAGE = 10;
-const MAX_LIMIT = 100;
+import { useQuery } from "react-query";
 
 const UserTradePage = ({ query }) => {
   const [tradeType, setTradeType] = useState(TRADE_TYPES[0].type);
-  const useScrollPaging = useMemo(() => tradeType !== TRADE_TYPE_ALL, [tradeType]);
+  const enabled = useMemo(() => !!query.nickname, [query]);
 
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isFetching, isLoading, isError } = useInfiniteQuery(
-    ["userTrades", query.nickname, tradeType],
-    ({ pageParam = 0 }) =>
-      !!query.nickname &&
+  const { data, isLoading } = useQuery(
+    ["userTrades", query.nickname],
+    () =>
       fetchUserTrades({
-        offset: useScrollPaging ? pageParam : 0,
-        limit: useScrollPaging ? pageParam + PER_PAGE : 100,
         nickname: query.nickname,
         tradeType,
+        offset: 0,
+        limit: 100,
       }),
     {
-      getNextPageParam: (_, allPages) => {
-        const nextLimit = allPages.length * PER_PAGE;
-        return useScrollPaging && nextLimit < MAX_LIMIT ? nextLimit : undefined;
-      },
+      enabled,
     }
   );
 
-  const pages = useMemo(() => data?.pages.filter((page) => !!page) || [], [data]);
+  const tradeList = useMemo(() => data || [], [data]);
 
   return (
     <CommonLayout>
       <Container maxWidth="lg">
         <NicknameSearchBox nickname={query.nickname} />
-        <TrabeTypeTabs tradeType={tradeType} setTradeType={setTradeType} />
-        <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
-          {pages.length > 0 && <TradeList pages={pages} />}
-        </InfiniteScroll>
+        {enabled && (
+          <>
+            <TradeInfoAlert tradeList={tradeList} />
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ width: "50%" }}>
+                <TrabeTypeTabs tradeType={tradeType} setTradeType={setTradeType} />
+              </Box>
+              <Box sx={{ width: "50%", textAlign: "right" }}>
+                <span>총 {tradeList.length}건</span>
+              </Box>
+            </Box>
+            {isLoading ? <Loader /> : <TradeList tradeList={tradeList} tradeType={tradeType} />}
+          </>
+        )}
       </Container>
     </CommonLayout>
   );

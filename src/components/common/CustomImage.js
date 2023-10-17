@@ -21,8 +21,10 @@ const CustomImage = ({ src, alt, ...props }) => {
       alt={alt || "image"}
       blurDataURL={"data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOcOnt2PQAF5AJMrzp1XwAAAABJRU5ErkJggg=="}
       onError={() => {
-        if (props?.spId) {
-          const pId = Number(props.spId.toString().substring(5, 9));
+        if (props?.spId && props?.seasonId) {
+          const pId = Number(props.spId.toString().replace(props.seasonId.toString(), ""));
+          console.log(props.spId, pId);
+
           setImgPath(`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/players/p${pId}.png`);
         } else {
           setImgPath(noImageSrc);
@@ -31,12 +33,6 @@ const CustomImage = ({ src, alt, ...props }) => {
       {...props}
     />
   );
-};
-
-// 추후 이미지 로더 필요하면 사용
-const imageLoader = ({ src, width, quality }) => {
-  const url = `${src}?w=${width}&q=${quality || 50}`;
-  return url;
 };
 
 export default CustomImage;
