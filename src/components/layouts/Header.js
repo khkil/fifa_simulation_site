@@ -15,10 +15,14 @@ const pages = [
     title: "경기기록",
     link: "/user/matches",
   },
+  {
+    title: "스쿼드 조회",
+    link: "/user/squad",
+  },
 ];
 
 function Header() {
-  const router = useRouter();
+  const { push, pathname } = useRouter();
 
   return (
     <AppBar position="static">
@@ -46,10 +50,12 @@ function Header() {
             {pages.map(({ title, link }, index) => (
               <Button
                 key={index}
+                color="error"
                 onClick={() => {
-                  router.push(link);
+                  push(link);
                 }}
                 sx={{ my: 2, color: "white", display: "block" }}
+                style={{ background: pathname === link && "#6e6d7a" }}
               >
                 {title}
               </Button>

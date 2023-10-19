@@ -4,7 +4,7 @@ import { ko } from "date-fns/locale";
 import { POSITION_GROUP } from "@/constants";
 
 export const getPositionGroup = (position) => {
-  return Object.keys(POSITION_GROUP).find((key) => POSITION_GROUP[key].includes(position));
+  return Object.keys(POSITION_GROUP).find((key) => POSITION_GROUP[key].positions.includes(position));
 };
 
 export const getOverallColor = (colorMap, overall) => {

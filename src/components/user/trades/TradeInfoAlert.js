@@ -20,11 +20,11 @@ const TradeInfoAlert = ({ tradeList }) => {
     <>
       <Box sx={{ display: "flex" }}>
         <Alert sx={{ m: 1, width: "50%" }} severity="error">
-          <h2>판매차익 </h2>
+          <h2>구매차익 </h2>
           {buyPrice > 0 ? "+" : ""} <strong>{convertPriceFormat(buyPrice)}</strong> BP
         </Alert>
         <Alert sx={{ m: 1, width: "50%" }} severity="info">
-          <h2>구매차익 </h2>
+          <h2>판매차익 </h2>
           {sellPrice > 0 ? "+" : ""} <strong>{convertPriceFormat(sellPrice)}</strong> BP
         </Alert>
       </Box>
