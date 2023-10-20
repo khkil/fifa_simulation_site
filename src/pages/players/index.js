@@ -1,3 +1,4 @@
+import Loader from "@/components/common/Loader";
 import CommonLayout from "@/components/layouts/CommonLayout";
 import PlayerList from "@/components/players/PlayerList";
 import PlayerSearchBoxes from "@/components/players/PlayerSearchBoxes";
@@ -32,7 +33,7 @@ const playerListPage = ({ clubs, skills, seasons, nations }) => {
       <Container maxWidth="lg">
         <PlayerSearchBoxes params={params} setParams={setParams} clubs={clubs} skills={skills} seasons={seasons} nations={nations} />
         <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
-          <PlayerList pages={pages} />
+          {pages.length == 0 ? <Loader /> : <PlayerList pages={pages} />}
         </InfiniteScroll>
       </Container>
     </CommonLayout>

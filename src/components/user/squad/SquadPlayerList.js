@@ -3,10 +3,17 @@ import { POSITION_GROUP } from "@/constants";
 import { convertPriceFormat } from "@/utils";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Box, Collapse, Divider, List, ListItemButton, ListItemText, ListSubheader, Typography, useTheme } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const SquadPlayerList = ({ squad }) => {
   const { palette } = useTheme();
+  const { totalPrice, totalPay } = useMemo(
+    () => ({
+      totalPrice: squad.reduce((sum, { recentPrice }) => sum + recentPrice, 0),
+      totalPay: squad.filter(({ positionName }) => positionName !== "SUB").reduce((sum, { pay }) => sum + pay, 0),
+    }),
+    squad
+  );
   return (
     <Box sx={{ p: 3, width: "100%" }}>
       <List
@@ -15,7 +22,12 @@ const SquadPlayerList = ({ squad }) => {
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader" sx={{ border: 1, borderColor: "grey.300" }}>
-            유저 스쿼드
+            <Box display={"flex"} alignItems={"center"}>
+              <span>유저 스쿼드</span>
+
+              <Typography sx={{ float: "right", marginLeft: "auto", fontWeight: "bold" }}>급여 {totalPay}/250</Typography>
+              <Typography sx={{ float: "right", marginLeft: "auto", fontWeight: "bold" }}>구단가치 {convertPriceFormat(totalPrice)} BP</Typography>
+            </Box>
           </ListSubheader>
         }
       >
@@ -50,10 +62,10 @@ const PlayerGroup = ({ group, positions, name, squad, palette }) => {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        {players.map(({ playerId, playerName, grade, positionName, seasonId, seasonImgUrl, recentPrice }) => (
+        {players.map(({ playerId, playerName, grade, positionName, seasonId, seasonImgUrl, recentPrice, pay }) => (
           <List key={playerId} component="div" disablePadding sx={{ borderLeft: 1, borderRight: 1, borderColor: "grey.300" }}>
             <Box sx={{ p: 1.5, display: "flex", alignItems: "center" }}>
-              <Typography sx={{ mr: 2, color: palette.player[group], width: 40 }}>{positionName}</Typography>
+              <Typography sx={{ mr: 2, color: palette.player[group], width: 30, fontWeight: "bold" }}>{positionName}</Typography>
               <CustomImage
                 width={60}
                 height={60}

@@ -83,7 +83,12 @@ const Player = ({
               <img style={{ height: 20, paddingRight: 5 }} src={imageUrl} />
               {playerName}
             </Box>
-            <Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               {positions.map(({ positionName, overall }) => (
                 <>
                   <Typography variant="caption" color={player[getPositionGroup(positionName)]}>
@@ -98,6 +103,7 @@ const Player = ({
             <Box
               sx={{
                 display: "flex",
+                mt: -0.5,
               }}
             >
               {preferredFoot === LEFT_FOOT ? (

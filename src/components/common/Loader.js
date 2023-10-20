@@ -1,21 +1,12 @@
-import { useTheme } from "@mui/material";
-import ClipLoader from "react-spinners/ClipLoader";
+import { Box, useTheme } from "@mui/material";
+import { BeatLoader } from "react-spinners";
 
 const Loader = ({ loading }) => {
   const theme = useTheme();
-  const override = {
-    color: theme.palette.primary.main,
-    margin: "20% 50% 20% 50%",
-  };
   return (
-    <ClipLoader
-      loading={loading}
-      size={100}
-      color={theme.palette.primary.main}
-      cssOverride={override}
-      aria-label="Loading Spinner"
-      data-testid="loader"
-    />
+    <Box sx={{ display: "flex", width: "100%", justifyContent: "center", height: 600, alignItems: "center" }}>
+      <BeatLoader loading={loading} size={15} color={theme.palette.primary.main} aria-label="Loading Spinner" data-testid="loader" />
+    </Box>
   );
 };
 
