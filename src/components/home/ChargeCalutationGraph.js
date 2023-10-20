@@ -1,6 +1,6 @@
 import { convertPriceFormat } from "@/utils";
 import { Add } from "@mui/icons-material";
-import { Alert, Box, IconButton, List, ListItem, Paper, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Box, Card, CardContent, IconButton, List, ListItem, Paper, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { useMemo, useState } from "react";
 
 const units = [
@@ -32,17 +32,25 @@ const ChargeCalutationGraph = () => {
   ]);
   const [additionalDiscounts, setAdditionalDiscounts] = useState([]);
 
-  const totalPrice = useMemo(() => {
+  const { totalPrice, totalCharge } = useMemo(() => {
+    let totalPrice = 0;
+    let totalCharge = 0;
+
     const defaultCharge = 40;
     const totalAdditionalDiscounts = additionalDiscounts.reduce((sum, v) => sum + Number(v), 0);
 
-    const result = priceList.reduce((sum, { price, coupon, unit }) => {
-      const charge = defaultCharge - (defaultCharge * (coupon + totalAdditionalDiscounts)) / 100;
-      const priceWithCharge = (price - (price * charge) / 100) * unit;
-      return priceWithCharge + sum;
+    priceList.forEach(({ price, coupon, unit }) => {
+      totalPrice += price * unit;
+      totalCharge += ((price * (defaultCharge - (defaultCharge * (coupon + totalAdditionalDiscounts)) / 100)) / 100) * unit;
+
+      console.log(price * unit);
+      console.log(((price * (defaultCharge - (defaultCharge * (coupon + totalAdditionalDiscounts)) / 100)) / 100) * unit);
     }, 0);
 
-    return result;
+    return {
+      totalPrice,
+      totalCharge,
+    };
   }, [priceList, additionalDiscounts]);
 
   const addPrice = () => {
@@ -83,9 +91,18 @@ const ChargeCalutationGraph = () => {
           <Add />
         </IconButton>
       </Box>
-      <Alert>
-        최증금액 : <strong>{convertPriceFormat(totalPrice)}</strong> BP
-      </Alert>
+      <Card variant="outlined">
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            최종금액
+          </Typography>
+          <Typography sx={{ mb: 1 }} variant="h5" component="div">
+            {convertPriceFormat(Math.ceil(totalPrice - totalCharge))} BP
+          </Typography>
+          <Typography color="text.secondary">판매금액 : {convertPriceFormat(Math.ceil(totalPrice))} BP</Typography>
+          <Typography color="text.secondary">수수료 : {convertPriceFormat(Math.ceil(totalCharge))} BP</Typography>
+        </CardContent>
+      </Card>
     </Paper>
   );
 };
