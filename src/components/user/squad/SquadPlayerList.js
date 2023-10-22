@@ -3,17 +3,11 @@ import { POSITION_GROUP } from "@/constants";
 import { convertPriceFormat } from "@/utils";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Box, Collapse, Divider, List, ListItemButton, ListItemText, ListSubheader, Typography, useTheme } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 const SquadPlayerList = ({ squad }) => {
   const { palette } = useTheme();
-  const { totalPrice, totalPay } = useMemo(
-    () => ({
-      totalPrice: squad.reduce((sum, { recentPrice }) => sum + recentPrice, 0),
-      totalPay: squad.filter(({ positionName }) => positionName !== "SUB").reduce((sum, { pay }) => sum + pay, 0),
-    }),
-    squad
-  );
+
   return (
     <Box sx={{ p: 3, width: "100%" }}>
       <List
@@ -25,8 +19,8 @@ const SquadPlayerList = ({ squad }) => {
             <Box display={"flex"} alignItems={"center"}>
               <span>유저 스쿼드</span>
 
-              <Typography sx={{ float: "right", marginLeft: "auto", fontWeight: "bold" }}>급여 {totalPay}/250</Typography>
-              <Typography sx={{ float: "right", marginLeft: "auto", fontWeight: "bold" }}>구단가치 {convertPriceFormat(totalPrice)} BP</Typography>
+              <Typography sx={{ float: "right", marginLeft: "auto" }}>급여</Typography>
+              <Typography sx={{ float: "right", marginLeft: "auto" }}>선수 가치</Typography>
             </Box>
           </ListSubheader>
         }
@@ -64,18 +58,32 @@ const PlayerGroup = ({ group, positions, name, squad, palette }) => {
       <Collapse in={open} timeout="auto" unmountOnExit>
         {players.map(({ playerId, playerName, grade, positionName, seasonId, seasonImgUrl, recentPrice, pay }) => (
           <List key={playerId} component="div" disablePadding sx={{ borderLeft: 1, borderRight: 1, borderColor: "grey.300" }}>
-            <Box sx={{ p: 1.5, display: "flex", alignItems: "center" }}>
-              <Typography sx={{ mr: 2, color: palette.player[group], width: 30, fontWeight: "bold" }}>{positionName}</Typography>
-              <CustomImage
-                width={60}
-                height={60}
-                src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${playerId}.png`}
-                spId={playerId}
-                seasonId={seasonId}
-              />
-              <img style={{ height: 20, marginLeft: 20, marginRight: 5 }} src={seasonImgUrl} />
-              {playerName}
-              <strong>+{grade}</strong>
+            <Box sx={{ p: 1.5, display: "flex" }}>
+              <Box sx={{ display: "flex", alignItems: "center", minWidth: "48.5%" }}>
+                <Typography sx={{ mr: 2, color: palette.player[group], width: 30, fontWeight: "bold" }}>{positionName}</Typography>
+                <CustomImage
+                  width={60}
+                  height={60}
+                  src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${playerId}.png`}
+                  spId={playerId}
+                  seasonId={seasonId}
+                />
+                <img style={{ height: 20, marginLeft: 20, marginRight: 5 }} src={seasonImgUrl} />
+                {playerName}
+                <CustomImage width={26} height={35} src={`/images/strong/${grade}.png`} />
+              </Box>
+              <Box sx={{ minWidth: 100 }}>
+                <p
+                  style={{
+                    lineHeight: 2.4,
+                    backgroundSize: 35,
+                    backgroundImage: `url(/images/pay/pay-border.png)`,
+                    backgroundRepeat: "no-repeat",
+                  }}
+                >
+                  <span style={{ marginLeft: `${pay < 10 ? 12 : 8}%` }}>{pay}</span>
+                </p>
+              </Box>
               <Typography sx={{ marginLeft: "auto", fontSize: 15, color: "grey" }}>{convertPriceFormat(recentPrice)} BP</Typography>
             </Box>
             <Divider />

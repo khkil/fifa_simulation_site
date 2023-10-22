@@ -140,7 +140,20 @@ const Player = ({
           max={10}
         />
       </StyledTableCell>
-      <StyledTableCell align="center">{pay}</StyledTableCell>
+      <StyledTableCell align="center">
+        <div>
+          <p
+            style={{
+              lineHeight: 2.4,
+              backgroundImage: `url(/images/pay/pay-border.png)`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "50%",
+            }}
+          >
+            {pay}
+          </p>
+        </div>
+      </StyledTableCell>
       <StyledTableCell align="center">
         <Typography color={getOverallColor(overall, speed)}>{speed}</Typography>
       </StyledTableCell>
@@ -175,7 +188,9 @@ const PlayerList = ({ pages }) => {
             <StyledTableCell width={200} align="center">
               강화수치
             </StyledTableCell>
-            <StyledTableCell align="center">급여</StyledTableCell>
+            <StyledTableCell width={80} align="center">
+              급여
+            </StyledTableCell>
             <StyledTableCell align="center">스피드</StyledTableCell>
             <StyledTableCell align="center">슛</StyledTableCell>
             <StyledTableCell align="center">패스</StyledTableCell>

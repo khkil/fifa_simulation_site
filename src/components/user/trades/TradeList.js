@@ -65,7 +65,7 @@ const Trade = ({ trade: { saleSn, tradeType, playerName, grade, value, recentPri
               <strong>{convertPriceFormat(recentPrice)}</strong> BP
             </Box>
             <Box>
-              <Typography sx={{ color: profit > 0 ? "blue" : "red" }}>
+              <Typography sx={{ color: profit !== 0 && (profit > 0 ? "blue" : "red") }}>
                 {profit > 0 ? "+" : ""}
                 {convertPriceFormat(profit)} BP
               </Typography>

@@ -39,7 +39,7 @@ const UserSquadPage = ({ query }) => {
             <Loader />
           ) : isSuccess ? (
             <>
-              <UserDetailInfo info={info} />
+              <UserDetailInfo squad={squad} info={info} />
               <SquadPlayerList squad={squad} />
             </>
           ) : (
