@@ -11,6 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import { useMemo, useState } from "react";
 import CustomImage from "../common/CustomImage";
+import NotFound from "../common/NotFound";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -179,6 +180,7 @@ const Player = ({
 
 const PlayerList = ({ pages }) => {
   const theme = useTheme();
+  if (pages[0]?.content.length === 0) return <NotFound text={"해당 조건에 맞는 선수를 찾을수 없습니다."} />;
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">

@@ -2,17 +2,23 @@ import Loader from "@/components/common/Loader";
 import NotFound from "@/components/common/NotFound";
 import CommonLayout from "@/components/layouts/CommonLayout";
 import NicknameSearchBox from "@/components/user/NicknameSearchBox";
-import TrabeTypeTabs from "@/components/user/trades/TrabeTypeTabs";
-import TradeInfoAlert from "@/components/user/trades/TradeInfoAlert";
+import TrabeTypeSubHeader from "@/components/user/trades/TrabeTypeSubHeader";
 import TradeList from "@/components/user/trades/TradeList";
 import { TRADE_TYPES } from "@/constants";
 import { fetchUserTrades } from "@/services/userService";
-import { Box, Container, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
+export const sortedList = [
+  { name: "거래일자", value: "date" },
+  { name: "금액", value: "price" },
+];
+
 const UserTradePage = ({ query }) => {
   const [tradeType, setTradeType] = useState(TRADE_TYPES[0].type);
+  const [sort, setSort] = useState(sortedList[0].value);
+
   const enabled = useMemo(() => !!query.nickname, [query]);
 
   const { data, isLoading, isSuccess } = useQuery(
@@ -29,7 +35,15 @@ const UserTradePage = ({ query }) => {
     }
   );
 
-  const tradeList = useMemo(() => data || [], [data]);
+  const tradeList = useMemo(() => {
+    return (data || []).sort((a, b) => {
+      if (sort === "price") {
+        return b.value - a.value;
+      } else if (sort === "date") {
+        return a.tradeDate < b.tradeDate ? 1 : -1;
+      }
+    });
+  }, [data, sort]);
 
   return (
     <CommonLayout>
@@ -42,12 +56,7 @@ const UserTradePage = ({ query }) => {
               <Loader />
             ) : isSuccess ? (
               <>
-                <TradeInfoAlert tradeList={tradeList} />
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Box sx={{ width: "50%" }}>
-                    <TrabeTypeTabs tradeType={tradeType} setTradeType={setTradeType} />
-                  </Box>
-                </Box>
+                <TrabeTypeSubHeader tradeList={tradeList} tradeType={tradeType} setTradeType={setTradeType} sort={sort} setSort={setSort} />
                 <TradeList tradeList={tradeList} tradeType={tradeType} />
               </>
             ) : (

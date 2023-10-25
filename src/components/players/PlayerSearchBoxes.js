@@ -1,4 +1,3 @@
-import { initialParams } from "@/pages/players";
 import { RestartAlt, Search } from "@mui/icons-material";
 import {
   Autocomplete,
@@ -14,6 +13,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const borderStyle = { border: 1, borderColor: "grey.300" };
@@ -119,6 +119,7 @@ const DetailInfoSearchBox = ({ clubs, skills, nations, params, setParams }) => {
 
 const PlayerSearchBoxes = ({ clubs, skills, seasons, nations, params, setParams }) => {
   const [searchText, setSearchText] = useState("");
+  const { reload } = useRouter();
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -132,6 +133,7 @@ const PlayerSearchBoxes = ({ clubs, skills, seasons, nations, params, setParams 
   const handleChange = (e) => {
     setSearchText(e.target.value);
   };
+
   return (
     <Paper elevation={16} sx={{ mb: 3 }}>
       {/* 선수명 start */}
@@ -169,13 +171,7 @@ const PlayerSearchBoxes = ({ clubs, skills, seasons, nations, params, setParams 
           ></TextField>
         </Grid>
         <Grid item xs={2} sx={{ ...borderStyle, borderLeft: 0, p: 2, pl: 0 }}>
-          <Button
-            fullWidth
-            sx={{ height: "100%", ...borderStyle }}
-            onClick={() => {
-              setParams(initialParams);
-            }}
-          >
+          <Button fullWidth sx={{ height: "100%", ...borderStyle }} onClick={reload}>
             초기화
             <RestartAlt />
           </Button>

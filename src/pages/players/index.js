@@ -33,7 +33,8 @@ const playerListPage = ({ clubs, skills, seasons, nations }) => {
       <Container maxWidth="lg">
         <PlayerSearchBoxes params={params} setParams={setParams} clubs={clubs} skills={skills} seasons={seasons} nations={nations} />
         <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
-          {pages.length == 0 ? <Loader /> : <PlayerList pages={pages} />}
+          {isLoading ? <Loader /> : <PlayerList pages={pages} />}
+          {isFetchingNextPage && <Loader height={200} />}
         </InfiniteScroll>
       </Container>
     </CommonLayout>
