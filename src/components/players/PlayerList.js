@@ -1,6 +1,6 @@
 import { LEFT_FOOT } from "@/constants";
 import { convertPriceFormat, getOverallColor, getPlusStatFromGrade, getPositionGroup } from "@/utils";
-import { Box, Slider, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -48,8 +48,11 @@ const Player = ({
   theme: {
     palette: { player, overall },
   },
+  index,
 }) => {
   const [grade, setGrade] = useState(1);
+  const [showGrade, setShowGrade] = useState(false);
+
   const { speed, shooting, passing, dribble, physical, defending } = useMemo(() => {
     const plusAverage = { ...average };
     for (const key in plusAverage) {
@@ -125,21 +128,24 @@ const Player = ({
         </Box>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <Typography id="non-linear-slider" gutterBottom>
-          강화단계: <strong>+{grade}</strong>
-        </Typography>
-        <Slider
-          aria-label="Temperature"
-          defaultValue={1}
-          getAriaValueText={(value) => {
-            setGrade(value);
-          }}
-          valueLabelDisplay="auto"
-          step={1}
-          marks
-          min={1}
-          max={10}
-        />
+        <Box sx={{ position: "absolute", zIndex: 10 - index, ml: 2 }}>
+          <img
+            src={`/images/strong/${grade}.png`}
+            onClick={() => {
+              setShowGrade(!showGrade);
+            }}
+          />
+          {showGrade &&
+            [...Array(10)].map((_, index) => (
+              <img
+                onClick={() => {
+                  setGrade(index + 1);
+                  setShowGrade(false);
+                }}
+                src={`/images/strong/${index + 1}.png`}
+              />
+            ))}
+        </Box>
       </StyledTableCell>
       <StyledTableCell align="center">
         <div>
@@ -186,9 +192,11 @@ const PlayerList = ({ pages }) => {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center">선수</StyledTableCell>
-            <StyledTableCell width={200} align="center">
-              강화수치
+            <StyledTableCell width={330} align="center">
+              선수
+            </StyledTableCell>
+            <StyledTableCell width={100} align="center">
+              강화
             </StyledTableCell>
             <StyledTableCell width={80} align="center">
               급여
@@ -204,7 +212,9 @@ const PlayerList = ({ pages }) => {
             </StyledTableCell>
           </TableRow>
         </TableHead>
-        <TableBody>{pages.map(({ content }) => content?.map((player, index) => <Player key={index} theme={theme} player={player} />))}</TableBody>
+        <TableBody>
+          {pages.map(({ content }) => content?.map((player, index) => <Player key={index} theme={theme} player={player} index={index} />))}
+        </TableBody>
       </Table>
     </TableContainer>
   );
