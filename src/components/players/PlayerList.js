@@ -1,4 +1,4 @@
-import { LEFT_FOOT } from "@/constants";
+import { LEFT_FOOT, RIGHT_FOOT } from "@/constants";
 import { convertPriceFormat, getOverallColor, getPlusStatFromGrade, getPositionGroup } from "@/utils";
 import { Box, Typography, useTheme } from "@mui/material";
 import Paper from "@mui/material/Paper";
@@ -85,7 +85,9 @@ const Player = ({
               }}
             >
               <img style={{ height: 20, paddingRight: 5 }} src={imageUrl} />
-              {playerName}
+              <Typography fontWeight={"bold"} fontSize={16}>
+                {playerName}
+              </Typography>
             </Box>
             <Box
               sx={{
@@ -94,14 +96,14 @@ const Player = ({
               }}
             >
               {positions.map(({ positionName, overall }) => (
-                <>
-                  <Typography variant="caption" color={player[getPositionGroup(positionName)]}>
+                <Box sx={{ display: "flex", pt: 0.5, pb: 0.5 }}>
+                  <Typography fontWeight={"bold"} color={player[getPositionGroup(positionName)]}>
                     {positionName}
                   </Typography>
-                  <Typography variant="overline" className={getPositionGroup(positionName)} sx={{ mr: 0.5 }}>
+                  <Typography className={getPositionGroup(positionName)} sx={{ mr: 1 }}>
                     {overall + getPlusStatFromGrade(grade)}
                   </Typography>
-                </>
+                </Box>
               ))}
             </Box>
             <Box
@@ -110,41 +112,43 @@ const Player = ({
                 mt: -0.5,
               }}
             >
-              {preferredFoot === LEFT_FOOT ? (
-                <>
-                  <strong>L{leftFoot}</strong>
-                  <pre>-</pre>
-                  <span>R{rightFoot}</span>
-                </>
-              ) : (
-                <>
-                  <span>L{leftFoot}</span>
-                  <pre>-</pre>
-                  <strong>R{rightFoot}</strong>
-                </>
-              )}
+              <Typography fontSize={15} fontWeight={preferredFoot === LEFT_FOOT ? "bold" : ""}>
+                L{leftFoot}
+              </Typography>
+              <Typography fontSize={15} sx={{ ml: 0.5, mr: 0.5 }}>
+                -
+              </Typography>
+              <Typography fontSize={15} fontWeight={preferredFoot === RIGHT_FOOT ? "bold" : ""}>
+                R{rightFoot}
+              </Typography>
             </Box>
           </Box>
         </Box>
       </StyledTableCell>
-      <StyledTableCell align="center">
-        <Box sx={{ position: "absolute", zIndex: 10 - index, ml: 2 }}>
-          <img
-            src={`/images/strong/${grade}.png`}
-            onClick={() => {
-              setShowGrade(!showGrade);
-            }}
-          />
-          {showGrade &&
+      <StyledTableCell align="center" sx={{ pb: 4.5, pl: 4 }}>
+        <Box sx={{ position: "absolute", zIndex: 100 - index }}>
+          {showGrade ? (
             [...Array(10)].map((_, index) => (
               <img
                 onClick={() => {
                   setGrade(index + 1);
                   setShowGrade(false);
                 }}
+                width={35}
+                height={25}
                 src={`/images/strong/${index + 1}.png`}
               />
-            ))}
+            ))
+          ) : (
+            <img
+              width={35}
+              height={25}
+              src={`/images/strong/${grade}.png`}
+              onClick={() => {
+                setShowGrade(!showGrade);
+              }}
+            />
+          )}
         </Box>
       </StyledTableCell>
       <StyledTableCell align="center">
