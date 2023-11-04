@@ -43,7 +43,7 @@ function Header() {
               textDecoration: "none",
             }}
           >
-            FIFA
+            FC-OFF
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: "flex" }}>

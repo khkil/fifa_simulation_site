@@ -70,6 +70,7 @@ const ChargeCalutationGraph = () => {
       <ToggleButtonGroup
         value={additionalDiscounts}
         sx={{ width: "100%", p: 1 }}
+        color="info"
         onChange={(e, values) => {
           setAdditionalDiscounts(values);
         }}
@@ -137,7 +138,7 @@ const Price = ({ priceList, setpriceList, index }) => {
       <Box sx={{ display: "flex", width: "100%", height: 40 }}>
         <TextField size="small" name="price" sx={{ width: "60%", mr: 1 }} value={priceInfo.price} onChange={handleChange} label="선수 금액(BP)" />
         <TextField size="small" name="coupon" sx={{ width: "40%", mr: 1 }} value={priceInfo.coupon} onChange={handleChange} label="수수료 쿠폰" />
-        <ToggleButtonGroup exclusive aria-label="text alignment" value={priceInfo.unit.toString()} onChange={handleChange}>
+        <ToggleButtonGroup color="info" exclusive aria-label="text alignment" value={priceInfo.unit.toString()} onChange={handleChange}>
           {units.map(({ text, value }, index) => (
             <ToggleButton value={value.toString()} aria-label="left aligned" name="unit">
               {text}
