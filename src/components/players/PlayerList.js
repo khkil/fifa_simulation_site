@@ -152,18 +152,16 @@ const Player = ({
         </Box>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <div>
-          <p
-            style={{
-              lineHeight: 2.4,
-              backgroundImage: `url(/images/pay/pay-border.png)`,
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "50%",
-            }}
-          >
-            {pay}
-          </p>
-        </div>
+        <p
+          style={{
+            lineHeight: 2.4,
+            backgroundImage: `url(/images/pay/pay-border.png)`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "50%",
+          }}
+        >
+          <Typography sx={{ p: 1, pl: `${pay < 10 ? 12 : 20}`, fontWeight: "bold" }}>{pay}</Typography>
+        </p>
       </StyledTableCell>
       <StyledTableCell align="center">
         <Typography color={getOverallColor(overall, speed)}>{speed}</Typography>

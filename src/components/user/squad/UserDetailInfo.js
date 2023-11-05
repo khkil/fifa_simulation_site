@@ -5,15 +5,16 @@ import { useMemo } from "react";
 const UserDetailInfo = ({ squad, info: { nickname, level, topRanks } }) => {
   const { totalPrice, totalPay } = useMemo(
     () => ({
-      totalPrice: squad.reduce((sum, { recentPrice }) => sum + recentPrice, 0),
+      totalPrice: squad.reduce((sum, { recentPrice }) => sum + (recentPrice || 0), 0),
       totalPay: squad.filter(({ positionName }) => positionName !== "SUB").reduce((sum, { pay }) => sum + pay, 0),
     }),
     squad
   );
+
   return (
-    <Box sx={{ display: "flex", height: 330 }}>
+    <Box sx={{ display: "flex" }}>
       <Box sx={{ p: 3, width: "50%", height: "100%" }}>
-        <Card sx={{ p: 1, pl: 3, pr: 3, height: "100%" }}>
+        <Card sx={{ pl: 2, height: "100%" }}>
           <CardContent>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
               유저 닉네임
@@ -45,7 +46,7 @@ const UserDetailInfo = ({ squad, info: { nickname, level, topRanks } }) => {
         </Card>
       </Box>
       <Box sx={{ p: 3, width: "50%", height: "100%" }}>
-        <Card sx={{ p: 1, pl: 3, pr: 3, height: "100%" }}>
+        <Card sx={{ pl: 2, height: "100%" }}>
           <CardContent>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
               레벨

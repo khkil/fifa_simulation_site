@@ -68,11 +68,12 @@ const PlayerGroup = ({ group, positions, name, squad, palette }) => {
                   spId={playerId}
                   seasonId={seasonId}
                 />
-                <img style={{ height: 20, marginLeft: 20, marginRight: 5 }} src={seasonImgUrl} />
-                {playerName}
-                <CustomImage width={26} height={35} src={`/images/strong/${grade}.png`} />
+                <img style={{ height: 20, marginLeft: 30, marginRight: 10 }} src={seasonImgUrl} />
+                <Typography sx={{ mr: 1, fontSize: 16 }}>{playerName}</Typography>
+
+                <CustomImage width={30} height={35} src={`/images/strong/${grade}.png`} />
               </Box>
-              <Box sx={{ minWidth: 100 }}>
+              <Box sx={{ minWidth: 100, pt: 1 }}>
                 <p
                   style={{
                     lineHeight: 2.4,
@@ -81,10 +82,12 @@ const PlayerGroup = ({ group, positions, name, squad, palette }) => {
                     backgroundRepeat: "no-repeat",
                   }}
                 >
-                  <span style={{ marginLeft: `${pay < 10 ? 12 : 8}%` }}>{pay}</span>
+                  <Typography sx={{ p: 1, pl: `${pay < 10 ? 12 : 8}%`, fontWeight: "bold" }}>{pay}</Typography>
                 </p>
               </Box>
-              <Typography sx={{ marginLeft: "auto", fontSize: 15, color: "grey" }}>{convertPriceFormat(recentPrice)} BP</Typography>
+              <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
+                <Typography sx={{ marginLeft: "auto", fontSize: 15, color: "grey" }}>{convertPriceFormat(recentPrice)} BP</Typography>
+              </Box>
             </Box>
             <Divider />
           </List>

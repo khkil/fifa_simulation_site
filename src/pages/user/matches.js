@@ -1,4 +1,5 @@
 import Loader from "@/components/common/Loader";
+import NotFound from "@/components/common/NotFound";
 import CommonLayout from "@/components/layouts/CommonLayout";
 import NicknameSearchBox from "@/components/user/NicknameSearchBox";
 import UserMatchList from "@/components/user/matches/UserMatchList";
@@ -24,9 +25,9 @@ const UserMatchPage = ({ query, matchTypes }) => {
 
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isFetching, isLoading, isError } = useInfiniteQuery(
     ["matches", selectedMatchType, query.nickname],
-    ({ pageParam = 1 }) => fetchUserMatches({ nickname, matchType: selectedMatchType, page: pageParam }),
+    ({ pageParam = 1 }) => query.nickname && fetchUserMatches({ nickname, matchType: selectedMatchType, page: pageParam }),
     {
-      getNextPageParam: (data, allPages) => (data.length > 0 ? allPages.length + 1 : undefined),
+      getNextPageParam: (data, allPages) => (data?.length > 0 ? allPages.length + 1 : undefined),
     }
   );
 
@@ -50,10 +51,12 @@ const UserMatchPage = ({ query, matchTypes }) => {
         </ToggleButtonGroup>
         <NicknameSearchBox nickname={nickname} />
         <Typography sx={{ pl: 2, color: "#aaaaaa", fontSize: 15 }}>* 선택한 매치타입의 결과를 가져옵니다.</Typography>
-        <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
-          {isLoading ? <Loader /> : <UserMatchList pages={pages} nickname={nickname} />}
-          {isFetchingNextPage && <Loader height={200} />}
-        </InfiniteScroll>
+        {query.nickname && (
+          <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
+            {isLoading ? <Loader /> : pages.length > 0 && pages[0].length > 0 ? <UserMatchList pages={pages} nickname={nickname} /> : <NotFound />}
+            {isFetchingNextPage && <Loader height={200} />}
+          </InfiniteScroll>
+        )}
       </Container>
     </CommonLayout>
   );
