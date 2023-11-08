@@ -1,19 +1,41 @@
-import { convertDateFormat, convertPriceFormat } from "@/utils";
-import { Box, Card, CardContent, Typography } from "@mui/material";
-import { useMemo } from "react";
+import { convertDateFormat } from "@/utils";
+import { Box, Card, CardContent, LinearProgress, Typography, useTheme } from "@mui/material";
 
-const UserDetailInfo = ({ squad, info: { nickname, level, topRanks } }) => {
-  const { totalPrice, totalPay } = useMemo(
-    () => ({
-      totalPrice: squad.reduce((sum, { recentPrice }) => sum + (recentPrice || 0), 0),
-      totalPay: squad.filter(({ positionName }) => positionName !== "SUB").reduce((sum, { pay }) => sum + pay, 0),
-    }),
-    squad
-  );
+const positions = ["fw", "mf", "df"];
+
+const UserDetailInfo = ({ squad: { totalPay, ovr, maintotalPrice }, userInfo: { nickname, level, topRanks } }) => {
+  const { palette } = useTheme();
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <Box sx={{ p: 3, width: "50%", height: "100%" }}>
+    <Box>
+      <Box sx={{ p: 3, width: "100%", height: "100%" }}>
+        <Card sx={{ pl: 2, height: "100%" }}>
+          <CardContent>
+            {positions.map((position) => (
+              <>
+                <Box sx={{ display: "flex" }}>
+                  <Typography sx={{ minWidth: "6%", color: palette[position].main }}>{position.toLocaleUpperCase()}</Typography>
+                  <Typography sx={{ fontWeight: "bold" }}>{ovr[position]}</Typography>
+                </Box>
+                <LinearProgress sx={{ pb: 1, mb: 1 }} color={position} variant="determinate" value={(ovr[position] / 150) * 100} />
+              </>
+            ))}
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              구단 가치
+            </Typography>
+            <Typography variant="inherit" sx={{ mb: 2, fontWeight: "bold", fontSize: 20 }} component="div">
+              {maintotalPrice} BP
+            </Typography>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              급여
+            </Typography>
+            <Typography variant="inherit" sx={{ mb: 2, fontWeight: "bold", fontSize: 20 }} component="div">
+              {totalPay} / 250
+            </Typography>
+          </CardContent>
+        </Card>
+      </Box>
+      <Box sx={{ p: 3, width: "100%", height: "100%" }}>
         <Card sx={{ pl: 2, height: "100%" }}>
           <CardContent>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -21,6 +43,12 @@ const UserDetailInfo = ({ squad, info: { nickname, level, topRanks } }) => {
             </Typography>
             <Typography variant="inherit" sx={{ mb: 2 }} component="div">
               {nickname}
+            </Typography>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              레벨
+            </Typography>
+            <Typography variant="inherit" sx={{ mb: 2 }} component="div">
+              {level}
             </Typography>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
               최고등급
@@ -42,30 +70,6 @@ const UserDetailInfo = ({ squad, info: { nickname, level, topRanks } }) => {
                 </Box>
               </>
             ))}
-          </CardContent>
-        </Card>
-      </Box>
-      <Box sx={{ p: 3, width: "50%", height: "100%" }}>
-        <Card sx={{ pl: 2, height: "100%" }}>
-          <CardContent>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              레벨
-            </Typography>
-            <Typography variant="inherit" sx={{ mb: 2 }} component="div">
-              {level}
-            </Typography>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              구단 가치
-            </Typography>
-            <Typography variant="inherit" sx={{ mb: 2, fontWeight: "bold", fontSize: 20 }} component="div">
-              {convertPriceFormat(totalPrice)} BP
-            </Typography>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              급여
-            </Typography>
-            <Typography variant="inherit" sx={{ mb: 2, fontWeight: "bold", fontSize: 20 }} component="div">
-              {totalPay} / 250
-            </Typography>
           </CardContent>
         </Card>
       </Box>

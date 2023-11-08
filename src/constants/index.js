@@ -6,19 +6,19 @@ export const LEFT_FOOT = "LEFT";
 export const RIGHT_FOOT = "RIGHT";
 
 export const POSITION_GROUP = {
-  goalKeeper: {
+  gk: {
     name: "골키퍼",
     positions: ["GK"],
   },
-  defender: {
+  df: {
     name: "수비수",
     positions: ["SW", "RWB", "RB", "RCB", "CB", "LCB", "LB", "LWB"],
   },
-  midfielder: {
+  mf: {
     name: "미드필더",
     positions: ["RDM", "CDM", "LDM", "RM", "RCM", "CM", "LCM", "LM", "RAM", "CAM", "LAM"],
   },
-  striker: {
+  fw: {
     name: "공격수",
     positions: ["RF", "CF", "LF", "RW", "RS", "ST", "LS", "LW"],
   },

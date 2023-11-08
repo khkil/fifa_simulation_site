@@ -1,7 +1,6 @@
 import { TRADE_TYPES } from "@/constants";
 import { sortedList } from "@/pages/user/trades";
-import { useTheme } from "@emotion/react";
-import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Tab, Tabs } from "@mui/material";
+import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Tab, Tabs, useTheme } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import TradeInfoAlert from "./TradeInfoAlert";
 

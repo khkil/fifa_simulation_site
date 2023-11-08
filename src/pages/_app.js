@@ -22,11 +22,24 @@ export default function App({ Component, pageProps: { dehydratedState, ...pagePr
         main: "#3e3d55",
       },
       player: {
-        striker: "#f6425f",
-        midfielder: "#00d28b",
-        defender: "#2b7def",
-        goalKeeper: "#f2be57",
+        fw: "#f6425f",
+        mf: "#00d28b",
+        df: "#2b7def",
+        gk: "#f2be57",
       },
+      fw: {
+        main: "#f6425f",
+      },
+      mf: {
+        main: "#00d28b",
+      },
+      df: {
+        main: "#2b7def",
+      },
+      gk: {
+        main: "#f2be57",
+      },
+
       overall: {
         over0: "#8f96a0",
         over10: "#8f96a0",
