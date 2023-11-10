@@ -10,7 +10,6 @@ import { useMemo } from "react";
 import { useQueries } from "react-query";
 
 const UserSquadPageNew = ({ query, seasons }) => {
-  console.log(seasons);
   const nickname = query?.nickname;
   const enabled = useMemo(() => !!nickname, [nickname]);
 

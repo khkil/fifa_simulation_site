@@ -22,8 +22,6 @@ const CustomImage = ({ src, alt, ...props }) => {
       onError={() => {
         if (props?.spId && props?.seasonId) {
           const pId = Number(props.spId.toString().replace(props.seasonId.toString(), ""));
-          console.log(props.spId, pId);
-
           setImgPath(`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/players/p${pId}.png`);
         } else {
           setImgPath(noImageSrc);

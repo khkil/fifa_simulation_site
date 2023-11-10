@@ -60,6 +60,9 @@ export default function App({ Component, pageProps: { dehydratedState, ...pagePr
         over160: "#c99b00",
       },
     },
+    typography: {
+      fontFamily: "font-family: 'Noto Sans KR', sans-serif",
+    },
   });
 
   return (

@@ -23,13 +23,13 @@ const UserDetailInfo = ({ squad: { totalPay, ovr, maintotalPrice }, userInfo: { 
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
               구단 가치
             </Typography>
-            <Typography variant="inherit" sx={{ mb: 2, fontWeight: "bold", fontSize: 20 }} component="div">
+            <Typography variant="inherit" sx={{ mb: 2, fontWeight: 400, fontSize: 20, color: "#2e82ef" }} component="div">
               {maintotalPrice} BP
             </Typography>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
               급여
             </Typography>
-            <Typography variant="inherit" sx={{ mb: 2, fontWeight: "bold", fontSize: 20 }} component="div">
+            <Typography variant="inherit" sx={{ mb: 2, fontWeight: 400, fontSize: 20, color: "#2e82ef" }} component="div">
               {totalPay} / 250
             </Typography>
           </CardContent>

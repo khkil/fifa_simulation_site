@@ -42,9 +42,6 @@ const ChargeCalutationGraph = () => {
     priceList.forEach(({ price, coupon, unit }) => {
       totalPrice += price * unit;
       totalCharge += ((price * (defaultCharge - (defaultCharge * (coupon + totalAdditionalDiscounts)) / 100)) / 100) * unit;
-
-      console.log(price * unit);
-      console.log(((price * (defaultCharge - (defaultCharge * (coupon + totalAdditionalDiscounts)) / 100)) / 100) * unit);
     }, 0);
 
     return {
