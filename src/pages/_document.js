@@ -25,7 +25,7 @@ export default function Document() {
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         <meta
           name="keywords"
-          content="피파온라인, 피파온라인4, FC온라인, 스쿼드, FC 스쿼드, FC 전적, 피파 전적, 피파 전적 검색, 경기 정보, 경기 상세 정보, 통계, 경기 평균, 플레이 스타일, 선수 기록, 최고 등급, 구단 정보, 스쿼드, 선수 랭킹"
+          content="FC-ON, 피파온라인, 피파온라인4, FC온라인, 스쿼드, FC 스쿼드, FC 전적, 피파 전적, 피파 전적 검색, 경기 정보, 경기 상세 정보, 통계, 경기 평균, 플레이 스타일, 선수 기록, 최고 등급, 구단 정보, 스쿼드, 선수 랭킹"
         />
         <meta property="og:image" content="https://www.fc-on.com/logo.jpg" />
       </Head>
