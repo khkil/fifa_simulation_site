@@ -1,4 +1,4 @@
-import { convertDateFormat } from "@/utils";
+import { convertDateFormat, convertKorPriceFormat } from "@/utils";
 import { Box, Card, CardContent, LinearProgress, Typography, useTheme } from "@mui/material";
 
 const positions = ["fw", "mf", "df"];
@@ -23,8 +23,11 @@ const UserDetailInfo = ({ squad: { totalPay, ovr, maintotalPrice }, userInfo: { 
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
               구단 가치
             </Typography>
-            <Typography variant="inherit" sx={{ mb: 2, fontWeight: 400, fontSize: 20, color: "#2e82ef" }} component="div">
+            <Typography variant="inherit" sx={{ fontWeight: 400, fontSize: 20, color: "#2e82ef" }} component="div">
               {maintotalPrice} BP
+            </Typography>
+            <Typography variant="inherit" sx={{ mb: 2, fontWeight: 400, fontSize: 15, color: "grey" }} component="div">
+              ({convertKorPriceFormat(maintotalPrice)})
             </Typography>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
               급여

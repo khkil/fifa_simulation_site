@@ -43,6 +43,24 @@ export const convertPriceFormat = (price) => {
   return priceStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
+export const convertKorPriceFormat = (price) => {
+  const koreanUnits = ["조", "억", "만", "원"];
+  let answer = "";
+  price = price.replaceAll(",", "");
+
+  while (price > 0) {
+    const mod = price % 10000;
+    const modToString = mod.toString().replace(/(\d)(\d{3})/, "$1,$2");
+    price = Math.floor(price / 10000);
+
+    const unit = koreanUnits.pop();
+    if (mod > 0) {
+      answer = `${modToString}${unit}${answer}`;
+    }
+  }
+  return answer;
+};
+
 export const convertDateFormat = (date) => {
   const d = new Date(date);
   const now = Date.now();

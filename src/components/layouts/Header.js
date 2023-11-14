@@ -28,6 +28,16 @@ function Header() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          {/* <Image
+            src="/logo.jpg"
+            width={100}
+            height={100}
+            alt="Picture of the author"
+            onClick={() => {
+              push("/");
+            }}
+            style={{ cursor: "pointer" }}
+          /> */}
           <SportsSoccer sx={{ display: "flex", mr: 1 }} />
           <Typography
             variant="h6"
@@ -43,7 +53,7 @@ function Header() {
               textDecoration: "none",
             }}
           >
-            FC-OFF
+            FC-ON
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: "flex" }}>

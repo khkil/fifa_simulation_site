@@ -22,7 +22,7 @@ const SquestField = ({ squad: { players }, seasons }) => {
   );
 };
 
-const Player = ({ player: { spid, name, role, ovr, buildUp, thumb, pay, x, y }, seasons, palette }) => {
+const Player = ({ player: { spid, name, role, ovr, buildUp, price, thumb, pay, x, y }, seasons, palette }) => {
   if ((x === 0) & (y === 0)) return null;
   const positionGroup = getPositionGroup(role.toLocaleUpperCase());
 
@@ -69,6 +69,11 @@ const Player = ({ player: { spid, name, role, ovr, buildUp, thumb, pay, x, y }, 
           {name}
         </Typography>
       </Box>
+      {/* <Box sx={{ display: "flex" }}>
+        <Typography color={"white"} fontWeight={400} fontSize={11}>
+          {price} BP
+        </Typography>
+      </Box> */}
     </div>
   );
 };
