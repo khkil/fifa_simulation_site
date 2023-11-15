@@ -3,7 +3,6 @@ import CommonLayout from "@/components/layouts/CommonLayout";
 import PlayerList from "@/components/players/PlayerList";
 import PlayerSearchBoxes from "@/components/players/PlayerSearchBoxes";
 import { fetchAllPlayers } from "@/services/playerSerivce";
-import { Container } from "@mui/material";
 import { useMemo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useInfiniteQuery } from "react-query";
@@ -30,13 +29,11 @@ const playerListPage = ({ clubs, skills, seasons, nations }) => {
 
   return (
     <CommonLayout>
-      <Container maxWidth="lg">
-        <PlayerSearchBoxes params={params} setParams={setParams} clubs={clubs} skills={skills} seasons={seasons} nations={nations} />
-        <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
-          {isLoading ? <Loader /> : <PlayerList pages={pages} />}
-          {isFetchingNextPage && <Loader height={200} />}
-        </InfiniteScroll>
-      </Container>
+      <PlayerSearchBoxes params={params} setParams={setParams} clubs={clubs} skills={skills} seasons={seasons} nations={nations} />
+      <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
+        {isLoading ? <Loader /> : <PlayerList pages={pages} />}
+        {isFetchingNextPage && <Loader height={200} />}
+      </InfiniteScroll>
     </CommonLayout>
   );
 };
