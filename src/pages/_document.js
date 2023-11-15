@@ -12,7 +12,7 @@ export default function Document() {
           name="description"
           content="FC온라인 스쿼드 조회, 상대와 내 스쿼드 비교, 전적 등을 조회할수 있는 사이트 입니다. 상대방 스쿼드와 내 스쿼드를 비교해 전략을 구상해보세요."
         />
-        <meta property="og:url" content="https://www.fc-on.com" />
+        <meta property="og:url" content="https://fc-on.com" />
         <meta property="og:title" content="FC온라인 전적 검색 FC-ON" />
         <meta property="og:site_name" content="FC온라인 스쿼드 검색 FC-ON" />
         <meta property="og:type" content="website" />
@@ -28,7 +28,7 @@ export default function Document() {
           name="keywords"
           content="FC-ON, 피파온라인, 피파온라인4, FC온라인, 스쿼드, FC 스쿼드, FC 전적, 피파 전적, 피파 전적 검색, 경기 정보, 경기 상세 정보, 통계, 경기 평균, 플레이 스타일, 선수 기록, 최고 등급, 구단 정보, 스쿼드, 선수 랭킹"
         />
-        <meta property="og:image" content="https://www.fc-on.com/logo.jpg" />
+        <meta property="og:image" content="https://fc-on.com/logo.jpg" />
         <meta name="google-adsense-account" content="ca-pub-7047139092050725"></meta>
         <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2820184336962070" crossOrigin="anonymous" />
       </Head>
