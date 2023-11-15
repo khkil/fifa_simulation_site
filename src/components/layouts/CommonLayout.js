@@ -8,19 +8,17 @@ const CommonLayout = ({ children }) => {
       <Header />
       <Box sx={{ pt: 3 }}>
         <Grid container>
-          <Grid item xs={2.5}>
-            <KakaoBanner width={720} height={90} unit={"DAN-fjZJhYt1gy2sneOS"} selector={"kakao_banner1"} />
-          </Grid>
+          <Grid item xs={2.5}></Grid>
           <Grid item xs={7}>
             <Box sx={{ ml: 31 }}>
-              <KakaoBanner width={720} height={90} unit={"DAN-1brnXIhcR91It7ql"} selector={"kakao_banner2"} />
-              <KakaoBanner width={720} height={90} unit={"DAN-cIyfK4j3X2aJocSa"} selector={"kakao_banner3"} />
+              <KakaoBanner width={720} height={90} unit={"DAN-RDzqKJqyvW8vJI9e"} />
             </Box>
             <main>{children}</main>
+            <Box sx={{ mt: 5, ml: 31 }}>
+              <KakaoBanner width={720} height={90} unit={"DAN-RDzqKJqyvW8vJI9e"} />
+            </Box>
           </Grid>
-          <Grid item xs={2.5}>
-            asd
-          </Grid>
+          <Grid item xs={2.5}></Grid>
         </Grid>
       </Box>
     </>

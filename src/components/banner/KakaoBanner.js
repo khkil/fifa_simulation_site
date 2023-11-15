@@ -4,16 +4,14 @@ function KakaoBanner({ unit, width, height, disabled }) {
   const scriptElementWrapper = useRef(null);
 
   useEffect(() => {
-    if (!disabled) {
-      const script = document.createElement("script");
-      script.setAttribute("src", "https://t1.daumcdn.net/kas/static/ba.min.js");
-      scriptElementWrapper.current.appendChild(script);
+    const script = document.createElement("script");
+    script.setAttribute("src", "https://t1.daumcdn.net/kas/static/ba.min.js");
+    scriptElementWrapper.current.appendChild(script);
 
-      return () => {
-        const globalAdfit = window.adfit;
-        if (globalAdfit) globalAdfit.destroy(unit);
-      };
-    }
+    return () => {
+      const globalAdfit = window.adfit;
+      if (globalAdfit) globalAdfit.destroy(unit);
+    };
   }, []);
 
   return (
