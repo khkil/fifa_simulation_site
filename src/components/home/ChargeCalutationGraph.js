@@ -73,10 +73,16 @@ const ChargeCalutationGraph = () => {
         }}
       >
         <ToggleButton value="20" aria-label="left aligned" sx={{ width: "50%" }}>
-          Top Class(20%)
+          <Typography>Top Class</Typography>
+          <Typography fontWeight={"bold"} sx={{ ml: 0.5 }}>
+            (20%)
+          </Typography>
         </ToggleButton>
         <ToggleButton value="30" aria-label="left aligned" sx={{ width: "50%" }}>
-          PC방 할인(30%)
+          <Typography>PC방 할인</Typography>
+          <Typography fontWeight={"bold"} sx={{ ml: 0.5 }}>
+            (30%)
+          </Typography>
         </ToggleButton>
       </ToggleButtonGroup>
       <List component="nav" aria-label="mailbox folders">

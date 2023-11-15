@@ -1,17 +1,27 @@
 import ChargeCalutationGraph from "@/components/home/ChargeCalutationGraph";
 import CommonLayout from "@/components/layouts/CommonLayout";
-import { Container, Grid } from "@mui/material";
+import NicknameSearchBox from "@/components/user/NicknameSearchBox";
+import { Box, Container } from "@mui/material";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const { push } = useRouter();
+  const onSubmit = (nickname) => {
+    push({
+      pathname: "/user/squad",
+      query: { nickname },
+    });
+  };
   return (
     <CommonLayout>
       <Container maxWidth="xl">
-        <Grid container>
-          <Grid xs={8}>메인</Grid>
-          <Grid xs={4}>
+        <NicknameSearchBox nickname={""} label="스쿼드를 검색할 유저의 이름을 입력해주세요." onSubmit={onSubmit} />
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Box>{/* to-do 시세 그래프?  */}</Box>
+          <Box sx={{ width: "40%" }}>
             <ChargeCalutationGraph />
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Container>
     </CommonLayout>
   );
