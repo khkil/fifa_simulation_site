@@ -1,4 +1,5 @@
 import Loader from "@/components/common/Loader";
+import NotFound from "@/components/common/NotFound";
 import CommonLayout from "@/components/layouts/CommonLayout";
 import NicknameSearchBox from "@/components/user/NicknameSearchBox";
 import SquestField from "@/components/user/squad/SquadField";

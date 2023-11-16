@@ -1,6 +1,6 @@
 import { convertDateFormat } from "@/utils";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
-import { Avatar, Box, Chip, Collapse, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
+import { Box, Collapse, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { useMemo, useState } from "react";
 
 const UserMatchList = ({ pages, nickname }) => {
@@ -33,14 +33,14 @@ const MatchRow = ({ match: { matchDate, users }, nickname }) => {
         </TableCell>
         <TableCell scope="row">
           <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <Box sx={{ display: "flex", width: "45%", justifyContent: "flex-end" }} label={users[0].nickname}>
-              <Chip avatar={<Avatar>{users[0].matchResult}</Avatar>} label={<Typography>{users[0].nickname}</Typography>} />
+            <Box sx={{ display: "flex", width: "45%", justifyContent: "flex-end" }}>
+              <TargetUserNickname targetUser={targetUser} user={users[0]} />
             </Box>
             <Typography sx={{ display: "flex", justifyContent: "center", width: "10%", fontWeight: "bold", fontSize: 20 }}>
               {users[0].goal} : {users[1].goal}
             </Typography>
-            <Box sx={{ display: "flex", width: "45%", justifyContent: "flex-start" }} label={users[0].nickname}>
-              <Chip avatar={<Avatar>{users[1].matchResult}</Avatar>} label={<Typography>{users[1].nickname}</Typography>} />
+            <Box sx={{ display: "flex", width: "45%", justifyContent: "flex-start" }}>
+              <TargetUserNickname targetUser={targetUser} user={users[1]} />
             </Box>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -63,4 +63,10 @@ const MatchRow = ({ match: { matchDate, users }, nickname }) => {
     </>
   );
 };
+
+const TargetUserNickname = ({ targetUser, user }) => {
+  const isTargetUser = useMemo(() => targetUser.nickname === user.nickname, [targetUser, user]);
+  return <Typography>{user.nickname}</Typography>;
+};
+
 export default UserMatchList;

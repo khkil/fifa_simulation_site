@@ -12,11 +12,11 @@ const CommonLayout = ({ children }) => {
             {/* <KakaoBanner width={160} height={600} unit={"DAN-APGWQDUr1cnndHEc"} /> */}
           </Grid>
           <Grid item xs={7}>
-            <Box sx={{ ml: 31, mb: 3, height: 90 }}>
+            <Box sx={{ display: "flex", height: 90, justifyContent: "center" }}>
               <KakaoBanner width={720} height={90} unit={"DAN-RDzqKJqyvW8vJI9e"} />
             </Box>
             <main>{children}</main>
-            <Box sx={{ mt: 5, ml: 31 }}>
+            <Box sx={{ display: "flex", height: 90, justifyContent: "center", mt: 10 }}>
               <KakaoBanner width={720} height={90} unit={"DAN-EuSY9A38xFhSj6Dc"} />
             </Box>
           </Grid>
