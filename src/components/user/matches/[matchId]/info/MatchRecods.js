@@ -1,13 +1,12 @@
 import { Grid, LinearProgress, Typography } from "@mui/material";
 const getPercentage = (part, whole) => {
-  console.log(part, whole);
   if (part == 0 || whole == 0) return 0;
   return parseFloat(((part / whole) * 100).toFixed(1));
 };
 
 const MatchRecods = ({ matchInfoList: [user1, user2] }) => {
   return (
-    <Grid container sx={{ p: 5 }} spacing={1}>
+    <Grid container sx={{ p: 2 }} spacing={1}>
       <RecordRow desc={"슛"} value1={user1.shoot.shootTotal} value2={user2.shoot.shootTotal} maxValue={20} />
       <RecordRow desc={"유효슛"} value1={user1.shoot.effectiveShootTotal} value2={user2.shoot.effectiveShootTotal} maxValue={20} />
       <RecordRow
@@ -43,13 +42,13 @@ const RecordRow = ({ value1, value2, desc, maxValue }) => {
       <Grid item xs={3}>
         <LinearProgress variant="determinate" color="info" sx={{ height: 10, borderRadius: 5 }} value={200 - percentage1} />
       </Grid>
-      <Grid item xs={2} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <Grid item xs={1.5} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         <Typography fontSize={17} fontWeight={"bold"}>{`${value1}${desc.indexOf("%") > 1 ? "%" : ""}`}</Typography>
       </Grid>
-      <Grid item xs={2} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <Grid item xs={3} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         <Typography fontSize={17}>{desc}</Typography>
       </Grid>
-      <Grid item xs={2} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <Grid item xs={1.5} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         <Typography fontSize={17} fontWeight={"bold"}>{`${value2}${desc.indexOf("%") > 1 ? "%" : ""}`}</Typography>
       </Grid>
       <Grid item xs={3}>

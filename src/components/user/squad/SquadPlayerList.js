@@ -18,8 +18,8 @@ const SquadPlayerList = ({ players, seasons }) => {
             <Box display={"flex"} alignItems={"center"}>
               <span>유저 스쿼드</span>
 
-              <Typography sx={{ float: "right", marginLeft: "auto" }}>급여</Typography>
-              <Typography sx={{ float: "right", marginLeft: "auto" }}>선수 가치</Typography>
+              <Typography sx={{ marginLeft: "auto" }}>급여</Typography>
+              <Typography sx={{ marginLeft: "auto" }}>선수 가치</Typography>
             </Box>
           </ListSubheader>
         }

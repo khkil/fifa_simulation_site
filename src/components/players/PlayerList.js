@@ -32,6 +32,42 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const PlayerList = ({ pages }) => {
+  const theme = useTheme();
+  if (pages[0]?.content.length === 0) return <NotFound text={"해당 조건에 맞는 선수를 찾을수 없습니다."} />;
+  return (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell width={330} align="center">
+              선수
+            </StyledTableCell>
+            <StyledTableCell width={100} align="center">
+              강화
+            </StyledTableCell>
+            <StyledTableCell width={80} align="center">
+              급여
+            </StyledTableCell>
+            <StyledTableCell align="center">스피드</StyledTableCell>
+            <StyledTableCell align="center">슛</StyledTableCell>
+            <StyledTableCell align="center">패스</StyledTableCell>
+            <StyledTableCell align="center">드리블</StyledTableCell>
+            <StyledTableCell align="center">피지컬</StyledTableCell>
+            <StyledTableCell align="center">수비</StyledTableCell>
+            <StyledTableCell width={200} align="center">
+              현재 가격
+            </StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {pages.map(({ content }) => content?.map((player, index) => <Player key={index} theme={theme} player={player} index={index} />))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
+
 const Player = ({
   player: {
     spId,
@@ -183,42 +219,6 @@ const Player = ({
       </StyledTableCell>
       <StyledTableCell align="center">{convertPriceFormat(priceList[grade - 1].price)} BP</StyledTableCell>
     </StyledTableRow>
-  );
-};
-
-const PlayerList = ({ pages }) => {
-  const theme = useTheme();
-  if (pages[0]?.content.length === 0) return <NotFound text={"해당 조건에 맞는 선수를 찾을수 없습니다."} />;
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell width={330} align="center">
-              선수
-            </StyledTableCell>
-            <StyledTableCell width={100} align="center">
-              강화
-            </StyledTableCell>
-            <StyledTableCell width={80} align="center">
-              급여
-            </StyledTableCell>
-            <StyledTableCell align="center">스피드</StyledTableCell>
-            <StyledTableCell align="center">슛</StyledTableCell>
-            <StyledTableCell align="center">패스</StyledTableCell>
-            <StyledTableCell align="center">드리블</StyledTableCell>
-            <StyledTableCell align="center">피지컬</StyledTableCell>
-            <StyledTableCell align="center">수비</StyledTableCell>
-            <StyledTableCell width={200} align="center">
-              현재 가격
-            </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {pages.map(({ content }) => content?.map((player, index) => <Player key={index} theme={theme} player={player} index={index} />))}
-        </TableBody>
-      </Table>
-    </TableContainer>
   );
 };
 
