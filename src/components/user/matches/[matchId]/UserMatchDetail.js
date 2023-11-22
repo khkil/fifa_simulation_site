@@ -28,6 +28,7 @@ const UserMatchDetail = ({ open, matchId }) => {
       ) : (
         <Box>
           <MatchDetailTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+
           {selectedTab === TAB_RECORD ? (
             <MatchRecods matchInfoList={matchDetail.matchInfo} />
           ) : selectedTab === TAB_LINEUP ? (

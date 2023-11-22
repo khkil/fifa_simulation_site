@@ -46,7 +46,9 @@ export const convertPriceFormat = (price) => {
 export const convertKorPriceFormat = (price) => {
   const koreanUnits = ["조", "억", "만", "원"];
   let answer = "";
-  price = price.replaceAll(",", "");
+  if (typeof price === "string") {
+    price = price.replaceAll(",", "");
+  }
 
   while (price > 0) {
     const mod = price % 10000;
@@ -55,10 +57,10 @@ export const convertKorPriceFormat = (price) => {
 
     const unit = koreanUnits.pop();
     if (mod > 0) {
-      answer = `${modToString}${unit}${answer}`;
+      answer = `${modToString}${unit} ${answer}`;
     }
   }
-  return answer;
+  return answer.trim();
 };
 
 export const convertDateFormat = (date) => {
@@ -74,4 +76,9 @@ export const convertDateFormat = (date) => {
     return formatDistanceToNow(d, { addSuffix: true, locale: ko });
   } */
   return format(d, "PPP EEE p", { locale: ko }); // 날짜 포맷
+};
+
+export const getPercentage = (part, whole) => {
+  if (part == 0 || whole == 0) return 0;
+  return parseFloat(((part / whole) * 100).toFixed(1));
 };

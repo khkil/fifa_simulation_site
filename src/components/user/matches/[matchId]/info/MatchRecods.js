@@ -1,8 +1,5 @@
+import { getPercentage } from "@/utils";
 import { Grid, LinearProgress, Typography } from "@mui/material";
-const getPercentage = (part, whole) => {
-  if (part == 0 || whole == 0) return 0;
-  return parseFloat(((part / whole) * 100).toFixed(1));
-};
 
 const MatchRecods = ({ matchInfoList: [user1, user2] }) => {
   return (
