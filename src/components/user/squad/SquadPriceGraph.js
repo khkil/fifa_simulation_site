@@ -17,7 +17,7 @@ const options = {
   },
 };
 
-const UserSquadPriceGraph = ({ priceList }) => {
+const SquadPriceGraph = ({ priceList }) => {
   const labels = useMemo(() => priceList.map(({ date }) => date), [priceList]);
   const values = useMemo(() => priceList.map(({ totalPrice }) => totalPrice), [priceList]);
 
@@ -36,4 +36,4 @@ const UserSquadPriceGraph = ({ priceList }) => {
   return <Line options={options} data={data} />;
 };
 
-export default UserSquadPriceGraph;
+export default SquadPriceGraph;

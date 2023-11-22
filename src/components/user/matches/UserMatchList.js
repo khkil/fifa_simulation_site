@@ -2,7 +2,7 @@ import { convertDateFormat } from "@/utils";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { Box, Collapse, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { useMemo, useState } from "react";
-import UserMatchDetail from "./UserMatchDetail";
+import UserMatchDetail from "./[matchId]/UserMatchDetail";
 
 const UserMatchList = ({ pages, nickname }) => {
   return (
