@@ -21,6 +21,11 @@ export const fetchUserMatches = async (params) => {
   return data;
 };
 
+export const fetchUserMatcheDetail = async ({ matchId }) => {
+  const { data } = await axios.get(`/api/user/matches/${matchId}`);
+  return data;
+};
+
 export const fetchUserSquad = async (params) => {
   const { data } = await axios.get(`/api/user/squad`, {
     params,

@@ -2,6 +2,7 @@ import Loader from "@/components/common/Loader";
 import NotFound from "@/components/common/NotFound";
 import CommonLayout from "@/components/layouts/CommonLayout";
 import NicknameSearchBox from "@/components/user/NicknameSearchBox";
+import UserSquadPriceGraph from "@/components/user/matches/UserSquadPriceGraph";
 import SquestField from "@/components/user/squad/SquadField";
 import SquadPlayerList from "@/components/user/squad/SquadPlayerList";
 import UserDetailInfo from "@/components/user/squad/UserDetailInfo";
@@ -49,6 +50,7 @@ const UserSquadPageNew = ({ query, seasons }) => {
                 </Grid>
 
                 <Grid item xs={12}>
+                  <UserSquadPriceGraph priceList={squad.totalPriceList} />
                   <SquadPlayerList players={squad.players} seasons={seasons} />
                 </Grid>
               </Grid>

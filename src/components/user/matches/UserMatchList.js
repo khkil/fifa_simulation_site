@@ -2,6 +2,7 @@ import { convertDateFormat } from "@/utils";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { Box, Collapse, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { useMemo, useState } from "react";
+import UserMatchDetail from "./UserMatchDetail";
 
 const UserMatchList = ({ pages, nickname }) => {
   return (
@@ -15,7 +16,7 @@ const UserMatchList = ({ pages, nickname }) => {
   );
 };
 
-const MatchRow = ({ match: { matchDate, users }, nickname }) => {
+const MatchRow = ({ match: { matchId, matchDate, users }, nickname }) => {
   const [open, setOpen] = useState(false);
   const targetUser = useMemo(() => users.find((user) => user.nickname === nickname), [users, nickname]);
   return (
@@ -49,14 +50,9 @@ const MatchRow = ({ match: { matchDate, users }, nickname }) => {
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6} sx={{ background: "#f8fafb" }}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                경기 상세정보
-              </Typography>
-              <Box>aasd</Box>
-            </Box>
+            <UserMatchDetail open={open} matchId={matchId} />
           </Collapse>
         </TableCell>
       </TableRow>
