@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Img = styled(Image)`
@@ -11,6 +11,11 @@ const Img = styled(Image)`
 const CustomImage = ({ src, alt, ...props }) => {
   const noImageSrc = "/images/noImg/prd_noimage.png";
   const [imgPath, setImgPath] = useState(src || noImageSrc);
+
+  useEffect(() => {
+    setImgPath(src);
+  }, [src]);
+
   return (
     <Img
       src={imgPath}

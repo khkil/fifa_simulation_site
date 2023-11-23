@@ -22,9 +22,9 @@ const UserMatchDetail = ({ open, matchId }) => {
   const [selectedTab, setSelectedTab] = useState(TAB_LINEUP);
 
   return (
-    <Box sx={{ margin: 1, minHeight: 300 }}>
+    <Box sx={{ minHeight: 300 }}>
       {isLoading ? (
-        <Loader height={"100%"} />
+        <Loader height={300} />
       ) : (
         <Box>
           <MatchDetailTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />

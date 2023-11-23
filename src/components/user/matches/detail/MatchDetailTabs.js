@@ -9,7 +9,7 @@ const data = [
 ];
 const MatchDetailTabs = ({ selectedTab, setSelectedTab }) => {
   return (
-    <ToggleButtonGroup value={selectedTab} color="info">
+    <ToggleButtonGroup value={selectedTab} color="info" sx={{ p: 2 }}>
       {data.map(({ title, value }) => (
         <ToggleButton
           index={value}
