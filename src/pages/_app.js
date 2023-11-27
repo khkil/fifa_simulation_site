@@ -61,7 +61,8 @@ export default function App({ Component, pageProps: { dehydratedState, ...pagePr
       },
     },
     typography: {
-      fontFamily: "font-family: 'Noto Sans KR', sans-serif",
+      //fontFamily: "font-family: 'Noto Sans KR', sans-serif",
+      fontFamily: "font-family: 'IBM Plex Sans KR', sans-serif;",
     },
   });
 

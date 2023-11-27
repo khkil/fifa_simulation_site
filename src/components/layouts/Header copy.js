@@ -38,12 +38,7 @@ function Header() {
             }}
             style={{ cursor: "pointer" }}
           /> */}
-          <button
-            class="btn btn-ghost text-xl"
-            onClick={() => {
-              push("/");
-            }}
-          >
+          <button class="btn btn-ghost text-xl">
             <SportsSoccer sx={{ display: "flex" }} />
             FC-ON
           </button>

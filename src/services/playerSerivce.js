@@ -6,3 +6,10 @@ export const fetchAllPlayers = async (params) => {
   });
   return data;
 };
+
+export const fetchPlayerPriceWave = async (params) => {
+  const { data } = await axios.get(`/api/players/price-wave`, {
+    params,
+  });
+  return data;
+};
