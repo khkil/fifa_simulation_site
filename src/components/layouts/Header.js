@@ -39,7 +39,7 @@ function Header() {
             style={{ cursor: "pointer" }}
           /> */}
           <button
-            class="btn btn-ghost text-xl"
+            className="btn btn-ghost text-xl"
             onClick={() => {
               push("/");
             }}
