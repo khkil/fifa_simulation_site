@@ -8,7 +8,7 @@ export const fetchAllPlayers = async (params) => {
 };
 
 export const fetchPlayerPriceWave = async (params) => {
-  const { data } = await axios.get(`/api/players/price-wave`, {
+  const { data } = await axios.get(`/api/players/price-rank`, {
     params,
   });
   return data;
