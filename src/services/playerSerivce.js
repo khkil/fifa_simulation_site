@@ -13,3 +13,10 @@ export const fetchPlayerPriceWave = async (params) => {
   });
   return data;
 };
+
+export const fetchPlayerPriceByOverall = async ({ overall }) => {
+  const { data } = await axios.get(`/api/price/overall/${overall}`, {
+    params,
+  });
+  return data;
+};

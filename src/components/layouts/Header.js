@@ -19,6 +19,10 @@ const pages = [
     title: "스쿼드 조회",
     link: "/user/squad",
   },
+  {
+    title: "선수 강화",
+    link: "/upgrade",
+  },
 ];
 
 function Header() {
