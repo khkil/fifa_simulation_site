@@ -1,6 +1,7 @@
 import { fetchPlayerDetail } from "@/services/playerSerivce";
 import { useMemo } from "react";
 import { useQuery } from "react-query";
+import Loader from "../common/Loader";
 import Positions from "../players/Positions";
 
 const TargetPlayer = ({ selectPlayer: { playerId, grade } }) => {
@@ -9,12 +10,15 @@ const TargetPlayer = ({ selectPlayer: { playerId, grade } }) => {
   });
 
   const { spId, playerName, season, priceList, positions } = useMemo(() => data || {}, [data]);
+  //const price = useMemo(() => data?.priceList[grade] || 0, [priceList, grade]);
 
   return (
     <div className="mx-5 border border-gray-300 rounded-lg bg-gray-50 h-80 flex items-center justify-center">
-      <div className="">
+      <div>
         {!playerId ? (
           <NotSelected />
+        ) : isLoading ? (
+          <Loader />
         ) : (
           <div className="flex flex-col items-center p-10">
             <img
@@ -22,8 +26,13 @@ const TargetPlayer = ({ selectPlayer: { playerId, grade } }) => {
               src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${spId}.png`}
               alt={playerName}
             />
-            <h5 className="mb-1 text-xl font-medium text-gray-900">{playerName}</h5>
+            <div className="flex items-center">
+              <img src={season.imageUrl} className="mr-1 h-5" />
+              <h5 className="mb-1 text-xl font-bold text-gray-900 mr-1">{playerName}</h5>
+              <img src={`/images/strong/${grade}.png`} className="h-5" onClick={() => {}} />
+            </div>
             <Positions positions={positions} />
+            {/* {price} */}
             <div className="flex mt-4 md:mt-6">
               <a
                 href="#"
