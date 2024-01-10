@@ -1,9 +1,11 @@
 import { fetchAllPlayers } from "@/services/playerSerivce";
-import { convertPriceFormat, getPlusStatFromGrade, getPositionGroup } from "@/utils";
+import { convertPriceFormat } from "@/utils";
 import { useMemo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useInfiniteQuery } from "react-query";
 import CustomImage from "../common/CustomImage";
+import Grades from "../players/Grades";
+import Positions from "../players/Positions";
 
 const TargetPlayerList = () => {
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isFetching, isLoading, isError } = useInfiniteQuery(
@@ -71,7 +73,7 @@ const SearchBar = () => {
 const PlayerList = ({ pages }) => {
   return (
     <div className="relative  shadow-md sm:rounded-lg mt-3">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <table className="table-auto w-full">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
           <tr>
             <th scope="col" className="px-6 py-3">
@@ -80,16 +82,17 @@ const PlayerList = ({ pages }) => {
             <th scope="col" className="py-3">
               선수정보
             </th>
-            <th scope="col" className="px-3 py-3" width={150}></th>
+            <th scope="col" className="px-3 py-3 alg" width={150}></th>
           </tr>
         </thead>
-        <tbody>{pages.map(({ content }) => content?.map((player) => <Player key={player.spId} player={player} />))}</tbody>
+        <tbody>{pages.map(({ content }) => content?.map((player, index) => <Player index={index} key={player.spId} player={player} />))}</tbody>
       </table>
     </div>
   );
 };
 
 const Player = ({
+  index,
   player: {
     spId,
     playerName,
@@ -102,27 +105,10 @@ const Player = ({
   const priceFromGrade = useMemo(() => priceList[grade - 1]?.price || 0, [grade]);
 
   return (
-    <tr className="odd:bg-white  even:bg-gray-50 ">
+    <tr className="odd:bg-white  even:bg-gray-50">
       <td>
-        <div className="flex px-3">
-          <div className="dropdown">
-            <div tabIndex={grade} role="button" className="btn">
-              <img src={`/images/strong/${grade}.png`} onClick={() => {}} />
-            </div>
-            <ul tabIndex={grade} className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box">
-              {Array.from({ length: 10 }, (_, index) => index + 1).map((v) => (
-                <li key={v}>
-                  <a
-                    onClick={() => {
-                      setGrade(v);
-                    }}
-                  >
-                    <img key={v} src={`/images/strong/${v}.png`} />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="flex items-center justify-center">
+          <Grades grade={grade} setGrade={setGrade} index={index} />
         </div>
       </td>
       <td className="py-4">
@@ -140,24 +126,29 @@ const Player = ({
               <p className="text-black text-base font-bold">{playerName}</p>
             </div>
             <div className="flex">
-              {positions.map(({ positionName, overall }) => (
-                <div className="flex mr-2">
-                  <p className={`text-${getPositionGroup(positionName)} text-base`}>{positionName}</p>
-                  <p className="text-base">{overall + getPlusStatFromGrade(grade)}</p>
-                </div>
-              ))}
+              <Positions positions={positions} plusGrade={grade} />
             </div>
             <div>{convertPriceFormat(priceFromGrade)}BP</div>
           </div>
         </div>
       </td>
       <td className="px-3 py-4">
-        <button
-          type="button"
-          className="text-white end-2.5 bottom-2.5 bg-lime-950 hover:bg-lime-800 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-2 py-1 "
-        >
-          {"선택"}
-        </button>
+        <div className="flex justify-end">
+          <button
+            type="button"
+            class="text-white bg-gray-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"
+              />
+            </svg>
+
+            <span class="sr-only">Icon description</span>
+          </button>
+        </div>
       </td>
     </tr>
   );
