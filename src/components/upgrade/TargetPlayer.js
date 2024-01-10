@@ -1,18 +1,29 @@
-const TargetPlayer = ({ playerId }) => {
+import { fetchPlayerDetail } from "@/services/playerSerivce";
+import { useMemo } from "react";
+import { useQuery } from "react-query";
+import Positions from "../players/Positions";
+
+const TargetPlayer = ({ selectPlayer: { playerId, grade } }) => {
+  const { data, isLoading } = useQuery([`playerDetail`, playerId], () => fetchPlayerDetail(playerId), {
+    enabled: !!playerId,
+  });
+
+  const { spId, playerName, season, priceList, positions } = useMemo(() => data || {}, [data]);
+
   return (
-    <div className="px-10">
-      <div iv className="w-full bg-gray-100 border border-gray-200 rounded-lg shadow">
+    <div className="mx-5 border border-gray-300 rounded-lg bg-gray-50 h-80 flex items-center justify-center">
+      <div className="">
         {!playerId ? (
           <NotSelected />
         ) : (
           <div className="flex flex-col items-center p-10">
             <img
               className="w-24 h-24 mb-3 rounded-full shadow-lg"
-              src="http://localhost:3001/_next/image?url=https%3A%2F%2Ffco.dn.nexoncdn.co.kr%2Flive%2FexternalAssets%2Fcommon%2FplayersAction%2Fp110190043.png&w=828&q=75"
-              alt="Bonnie image"
+              src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${spId}.png`}
+              alt={playerName}
             />
-            <h5 className="mb-1 text-xl font-medium text-gray-900">Bonnie Green</h5>
-            <span className="text-sm text-black">Visual Designer</span>
+            <h5 className="mb-1 text-xl font-medium text-gray-900">{playerName}</h5>
+            <Positions positions={positions} />
             <div className="flex mt-4 md:mt-6">
               <a
                 href="#"
@@ -36,11 +47,7 @@ const TargetPlayer = ({ playerId }) => {
 
 const NotSelected = () => {
   return (
-    <div
-      id="alert-additional-content-5"
-      class="p-4 border border-gray-300 rounded-lg bg-gray-50 dark:border-gray-600 dark:bg-gray-800 h-80 flex items-center justify-center"
-      role="alert"
-    >
+    <div className="flex items-center justify-center">
       <svg
         class="flex-shrink-0 w-4 h-4 me-2 dark:text-gray-300"
         aria-hidden="true"

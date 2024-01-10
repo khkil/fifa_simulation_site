@@ -4,15 +4,15 @@ import TargetPlayerList from "@/components/upgrade/TargetPlayerList";
 import { useState } from "react";
 
 const UpgradeSimulationPage = () => {
-  const [player, setPlayer] = useState(null);
+  const [selectPlayer, setSelectPlayer] = useState({ playerId: null, grade: null });
   return (
     <CommonLayout>
       <div className="flex">
         <div className="w-1/2">
-          <TargetPlayer playerId={playerId} />
+          <TargetPlayer selectPlayer={selectPlayer} />
         </div>
         <div className="w-1/2">
-          <TargetPlayerList />
+          <TargetPlayerList setSelectPlayer={setSelectPlayer} />
         </div>
       </div>
     </CommonLayout>

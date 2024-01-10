@@ -2,6 +2,10 @@ import { useState } from "react";
 
 const Grades = ({ grade, setGrade }) => {
   const [open, setOpen] = useState(false);
+  const handleClick = (value) => {
+    setGrade(value);
+    //setOpen(false);
+  };
   return (
     <div class="dropdown dropdown-hover" onMouseOver={() => setOpen(true)} onMouseOut={() => setOpen(false)}>
       <div tabindex={grade} role="button" class="btn">
@@ -13,7 +17,7 @@ const Grades = ({ grade, setGrade }) => {
             <li key={v}>
               <a
                 onClick={() => {
-                  setGrade(v);
+                  handleClick(v);
                 }}
               >
                 <img key={v} src={`/images/strong/${v}.png`} />

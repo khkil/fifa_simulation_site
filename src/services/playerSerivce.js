@@ -1,9 +1,14 @@
 import axios from "./axios";
 
-export const fetchAllPlayers = async (params) => {
+export const fetchPlayers = async (params) => {
   const { data } = await axios.get(`/api/players`, {
     params,
   });
+  return data;
+};
+
+export const fetchPlayerDetail = async (playerId) => {
+  const { data } = await axios.get(`/api/players/${playerId}`);
   return data;
 };
 

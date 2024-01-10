@@ -1,4 +1,4 @@
-import { fetchAllPlayers } from "@/services/playerSerivce";
+import { fetchPlayers } from "@/services/playerSerivce";
 import { convertPriceFormat } from "@/utils";
 import { useMemo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
@@ -7,10 +7,10 @@ import CustomImage from "../common/CustomImage";
 import Grades from "../players/Grades";
 import Positions from "../players/Positions";
 
-const TargetPlayerList = () => {
+const TargetPlayerList = ({ setSelectPlayer }) => {
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isFetching, isLoading, isError } = useInfiniteQuery(
     ["players"],
-    ({ pageParam = 1 }) => fetchAllPlayers({ page: pageParam, size: 15 }),
+    ({ pageParam = 1 }) => fetchPlayers({ page: pageParam, size: 15 }),
     {
       getNextPageParam: ({ last }, allPages) => (!last ? allPages.length + 1 : undefined),
     }
@@ -22,7 +22,7 @@ const TargetPlayerList = () => {
     <div>
       <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
         <SearchBar />
-        <PlayerList pages={pages} />
+        <PlayerList pages={pages} setSelectPlayer={setSelectPlayer} />
       </InfiniteScroll>
     </div>
   );
@@ -70,7 +70,7 @@ const SearchBar = () => {
   );
 };
 
-const PlayerList = ({ pages }) => {
+const PlayerList = ({ pages, setSelectPlayer }) => {
   return (
     <div className="relative  shadow-md sm:rounded-lg mt-3">
       <table className="table-auto w-full">
@@ -85,7 +85,11 @@ const PlayerList = ({ pages }) => {
             <th scope="col" className="px-3 py-3 alg" width={150}></th>
           </tr>
         </thead>
-        <tbody>{pages.map(({ content }) => content?.map((player, index) => <Player index={index} key={player.spId} player={player} />))}</tbody>
+        <tbody>
+          {pages.map(({ content }) =>
+            content?.map((player, index) => <Player index={index} key={player.spId} player={player} setSelectPlayer={setSelectPlayer} />)
+          )}
+        </tbody>
       </table>
     </div>
   );
@@ -100,9 +104,14 @@ const Player = ({
     priceList,
     season: { id: seasonId, imageUrl: seasonImageUrl },
   },
+  setSelectPlayer,
 }) => {
   const [grade, setGrade] = useState(1);
   const priceFromGrade = useMemo(() => priceList[grade - 1]?.price || 0, [grade]);
+
+  const selectPlayer = (playerId) => {
+    setSelectPlayer({ playerId, grade });
+  };
 
   return (
     <tr className="odd:bg-white  even:bg-gray-50">
@@ -137,6 +146,9 @@ const Player = ({
           <button
             type="button"
             class="text-white bg-gray-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2"
+            onClick={() => {
+              selectPlayer(spId);
+            }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path
