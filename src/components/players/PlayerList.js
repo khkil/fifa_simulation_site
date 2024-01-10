@@ -1,5 +1,5 @@
 import { LEFT_FOOT, RIGHT_FOOT } from "@/constants";
-import { convertPriceFormat, getOverallColor, getPlusStatFromGrade, getPositionGroup } from "@/utils";
+import { convertPriceFormat, getOverallColor, getPlusStatFromGrade } from "@/utils";
 import { Box, Typography, useTheme } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -12,6 +12,8 @@ import { styled } from "@mui/material/styles";
 import { useMemo, useState } from "react";
 import CustomImage from "../common/CustomImage";
 import NotFound from "../common/NotFound";
+import Grades from "./Grades";
+import Positions from "./Positions";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -87,7 +89,6 @@ const Player = ({
   index,
 }) => {
   const [grade, setGrade] = useState(1);
-  const [showGrade, setShowGrade] = useState(false);
 
   const { speed, shooting, passing, dribble, physical, defending } = useMemo(() => {
     const plusAverage = { ...average };
@@ -131,16 +132,7 @@ const Player = ({
                 alignItems: "center",
               }}
             >
-              {positions.map(({ positionName, overall }) => (
-                <Box sx={{ display: "flex", pt: 0.5, pb: 0.5 }}>
-                  <Typography fontWeight={"bold"} color={player[getPositionGroup(positionName)]}>
-                    {positionName}
-                  </Typography>
-                  <Typography className={getPositionGroup(positionName)} sx={{ mr: 1 }}>
-                    {overall + getPlusStatFromGrade(grade)}
-                  </Typography>
-                </Box>
-              ))}
+              <Positions positions={positions} plusGrade={grade} />
             </Box>
             <Box
               sx={{
@@ -161,31 +153,8 @@ const Player = ({
           </Box>
         </Box>
       </StyledTableCell>
-      <StyledTableCell align="center" sx={{ pb: 4.5, pl: 4 }}>
-        <Box sx={{ position: "absolute", zIndex: 100 - index }}>
-          {showGrade ? (
-            [...Array(10)].map((_, index) => (
-              <img
-                onClick={() => {
-                  setGrade(index + 1);
-                  setShowGrade(false);
-                }}
-                width={35}
-                height={25}
-                src={`/images/strong/${index + 1}.png`}
-              />
-            ))
-          ) : (
-            <img
-              width={35}
-              height={25}
-              src={`/images/strong/${grade}.png`}
-              onClick={() => {
-                setShowGrade(!showGrade);
-              }}
-            />
-          )}
-        </Box>
+      <StyledTableCell align="center">
+        <Grades grade={grade} setGrade={setGrade} />
       </StyledTableCell>
       <StyledTableCell align="center">
         <p
