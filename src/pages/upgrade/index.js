@@ -1,4 +1,5 @@
 import CommonLayout from "@/components/layouts/CommonLayout";
+import IngredientPlayers from "@/components/upgrade/IngredientPlayers";
 import TargetPlayer from "@/components/upgrade/TargetPlayer";
 import TargetPlayerList from "@/components/upgrade/TargetPlayerList";
 import { useState } from "react";
@@ -10,6 +11,7 @@ const UpgradeSimulationPage = () => {
       <div className="flex">
         <div className="w-1/2">
           <TargetPlayer selectPlayer={selectPlayer} />
+          <IngredientPlayers />
         </div>
         <div className="w-1/2">
           <TargetPlayerList setSelectPlayer={setSelectPlayer} />

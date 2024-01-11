@@ -60,7 +60,7 @@ function Header() {
                   push(link);
                 }}
                 sx={{ my: 2, color: "white", display: "block" }}
-                style={{ background: pathname === link && "#6e6d7a" }}
+                style={{ background: pathname === link ? "#6e6d7a" : "" }}
               >
                 {title}
               </Button>
