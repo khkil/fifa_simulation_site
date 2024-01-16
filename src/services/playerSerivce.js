@@ -7,6 +7,11 @@ export const fetchPlayers = async (params) => {
   return data;
 };
 
+export const fetchPlayersByOverall = async ({ overall }) => {
+  const { data } = await axios.get(`/api/price/overall/${overall}`);
+  return data;
+};
+
 export const fetchPlayerDetail = async (playerId) => {
   const { data } = await axios.get(`/api/players/${playerId}`);
   return data;

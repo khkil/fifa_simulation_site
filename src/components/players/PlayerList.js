@@ -1,5 +1,5 @@
 import { LEFT_FOOT, RIGHT_FOOT } from "@/constants";
-import { convertPriceFormat, getOverallColor, getPlusStatFromGrade } from "@/utils";
+import { convertPriceFormat, getOverallColor, getPlusOverallFromGrade } from "@/utils";
 import { Box, Typography, useTheme } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -93,7 +93,7 @@ const Player = ({
   const { speed, shooting, passing, dribble, physical, defending } = useMemo(() => {
     const plusAverage = { ...average };
     for (const key in plusAverage) {
-      plusAverage[key] = plusAverage[key] + getPlusStatFromGrade(grade);
+      plusAverage[key] = plusAverage[key] + getPlusOverallFromGrade(grade);
     }
     return plusAverage;
   }, [average, grade]);

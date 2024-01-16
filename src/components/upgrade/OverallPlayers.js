@@ -1,17 +1,16 @@
-import { fetchPlayers } from "@/services/playerSerivce";
-import { convertPriceFormat, getPlusOverallFromGrade } from "@/utils";
-import { useMemo, useState } from "react";
+import { fetchPlayersByOverall } from "@/services/playerSerivce";
+import { convertPriceFormat } from "@/utils";
+import { useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useInfiniteQuery } from "react-query";
 import CustomImage from "../common/CustomImage";
 import Loader from "../common/Loader";
-import Grades from "../players/Grades";
 import Positions from "../players/Positions";
 
-const TargetPlayerList = ({ setSelectPlayer }) => {
+const overallPlayers = ({ ingredients, setIngredients, overall }) => {
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isFetching, isLoading, isError } = useInfiniteQuery(
-    ["targetPlayers"],
-    ({ pageParam = 1 }) => fetchPlayers({ page: pageParam, size: 15 }),
+    ["overallPlayers"],
+    ({ pageParam = 1 }) => fetchPlayersByOverall({ overall, page: pageParam }),
     {
       getNextPageParam: ({ last }, allPages) => (!last ? allPages.length + 1 : undefined),
     }
@@ -23,7 +22,7 @@ const TargetPlayerList = ({ setSelectPlayer }) => {
     <div>
       <InfiniteScroll hasMore={hasNextPage} loadMore={() => !isFetchingNextPage && fetchNextPage()}>
         <SearchBar />
-        {isLoading ? <Loader /> : <PlayerList pages={pages} setSelectPlayer={setSelectPlayer} />}
+        {isLoading ? <Loader /> : <PlayerList pages={pages} ingredients={ingredients} setIngredients={setIngredients} />}
       </InfiniteScroll>
     </div>
   );
@@ -72,30 +71,27 @@ const SearchBar = () => {
 };
 
 const Player = ({
-  index,
-  player: {
+  player,
+  ingredients,
+  setIngredients,
+  /* player: {
     spId,
     playerName,
     maxOverall,
     positions,
-    priceList,
+    price,
     season: { id: seasonId, imageUrl: seasonImageUrl },
-  },
-  setSelectPlayer,
+  }, */
 }) => {
-  const [grade, setGrade] = useState(1);
-  const priceFromGrade = useMemo(() => priceList[grade - 1]?.price || 0, [grade]);
-  const overall = useMemo(() => maxOverall + getPlusOverallFromGrade(grade), [maxOverall, grade]);
-
-  const selectPlayer = (playerId) => {
-    setSelectPlayer({ playerId, grade, overall });
+  const selectPlayer = () => {
+    setIngredients([...ingredients, player]);
   };
 
   return (
     <tr className="odd:bg-white  even:bg-gray-50">
       <td width={150}>
         <div className="flex items-center justify-center">
-          <Grades grade={grade} setGrade={setGrade} index={index} />
+          <img src={`/images/strong/${player.grade}.png`} />
         </div>
       </td>
       <td className="py-4">
@@ -103,48 +99,48 @@ const Player = ({
           <CustomImage
             width={70}
             height={70}
-            src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${spId}.png`}
-            spId={spId}
-            seasonId={seasonId}
+            src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${player.spId}.png`}
+            spId={player.spId}
+            seasonId={player.season.id}
           />
           <div className="p-2">
             <div className="flex">
-              <img style={{ height: 20, paddingRight: 5 }} src={seasonImageUrl} />
-              <p className="text-black text-base font-bold">{playerName}</p>
+              <img style={{ height: 20, paddingRight: 5 }} src={player.season.imageUrl} />
+              <p className="text-black text-base font-bold">{player.playerName}</p>
             </div>
             <div className="flex">
-              <Positions positions={positions} plusGrade={grade} />
+              <Positions positions={player.positions} plusGrade={1} />
             </div>
-            <div>{convertPriceFormat(priceFromGrade)}BP</div>
+            <div>{convertPriceFormat(player.price)}BP</div>
           </div>
         </div>
       </td>
       <td className="px-3 py-4">
-        <div className="flex justify-end">
-          <button
-            type="button"
-            class="text-white bg-gray-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2"
-            onClick={() => {
-              selectPlayer(spId);
-            }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"
-              />
-            </svg>
-
-            <span class="sr-only">Icon description</span>
-          </button>
+        <div class="custom-number-input h-10 w-32">
+          <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+            <button
+              data-action="decrement"
+              class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none border-0"
+            >
+              <span class="m-auto text-2xl font-thin">−</span>
+            </button>
+            <div type="text" class="w-full bg-gray-300 font-semibold text-md flex justify-center" name="custom-input-number">
+              0
+            </div>
+            <button
+              data-action="increment"
+              class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer"
+            >
+              <span class="m-auto text-2xl font-thin">+</span>
+            </button>
+          </div>
         </div>
       </td>
     </tr>
   );
 };
 
-const PlayerList = ({ pages, setSelectPlayer }) => {
+const PlayerList = ({ pages, ingredients, setIngredients }) => {
   return (
     <div className="relative  shadow-md sm:rounded-lg mt-3">
       <table className="table-auto w-full">
@@ -161,11 +157,11 @@ const PlayerList = ({ pages, setSelectPlayer }) => {
         </thead>
         <tbody>
           {pages.map(({ content }) =>
-            content?.map((player, index) => <Player index={index} key={player.spId} player={player} setSelectPlayer={setSelectPlayer} />)
+            content?.map((player, index) => <Player key={index} player={player} ingredients={ingredients} setIngredients={setIngredients} />)
           )}
         </tbody>
       </table>
     </div>
   );
 };
-export default TargetPlayerList;
+export default overallPlayers;
