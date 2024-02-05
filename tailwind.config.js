@@ -6,6 +6,7 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/flowbite-react/lib/**/*.js",
   ],
+  safelist: ["text-df", "text-mf", "text-fw", "text-gk"], // dynamic class not removed list
   theme: {
     extend: {
       colors: {
@@ -15,6 +16,7 @@ module.exports = {
         mf: "#00d28b",
         df: "#2b7def",
         gk: "#f2be57",
+        bp: "#2e82ef",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

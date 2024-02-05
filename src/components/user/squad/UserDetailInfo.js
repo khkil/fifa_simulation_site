@@ -33,7 +33,7 @@ const UserDetailInfo = ({ squad: { totalPay, ovr, maintotalPrice }, userInfo: { 
               급여
             </Typography>
             <Typography variant="inherit" sx={{ mb: 2, fontWeight: 400, fontSize: 20, color: "#2e82ef" }} component="div">
-              {totalPay} / 250
+              {totalPay} / {process.env.NEXT_PUBLIC_FC_ONLINE_MAX_PAY}
             </Typography>
           </CardContent>
         </Card>

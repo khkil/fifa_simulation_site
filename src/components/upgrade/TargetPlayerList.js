@@ -1,5 +1,5 @@
 import { fetchPlayers } from "@/services/playerSerivce";
-import { convertPriceFormat, getPlusOverallFromGrade } from "@/utils";
+import { getPlusOverallFromGrade } from "@/utils";
 import { useMemo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useInfiniteQuery } from "react-query";
@@ -7,6 +7,7 @@ import CustomImage from "../common/CustomImage";
 import Loader from "../common/Loader";
 import Grades from "../players/Grades";
 import Positions from "../players/Positions";
+import Price from "../players/Price";
 
 const TargetPlayerList = ({ setSelectPlayer }) => {
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isFetching, isLoading, isError } = useInfiniteQuery(
@@ -115,7 +116,7 @@ const Player = ({
             <div className="flex">
               <Positions positions={positions} plusGrade={grade} />
             </div>
-            <div>{convertPriceFormat(priceFromGrade)}BP</div>
+            <Price price={priceFromGrade} />
           </div>
         </div>
       </td>

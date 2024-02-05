@@ -6,7 +6,7 @@ import TargetPlayerList from "@/components/upgrade/TargetPlayerList";
 import { useMemo, useState } from "react";
 
 //export const INITIAL_PLAYER = { playerId: null, grade: null, overall: null };
-export const INITIAL_PLAYER = { playerId: 264184881, grade: 5, overall: 125 };
+export const INITIAL_PLAYER = { playerId: 264184881, grade: 5, overall: 115 };
 
 const UpgradeSimulationPage = () => {
   const [selectPlayer, setSelectPlayer] = useState(INITIAL_PLAYER);

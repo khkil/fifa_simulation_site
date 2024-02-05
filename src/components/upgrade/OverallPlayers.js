@@ -1,11 +1,11 @@
 import { fetchPlayersByOverall } from "@/services/playerSerivce";
-import { convertPriceFormat } from "@/utils";
 import { useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useInfiniteQuery } from "react-query";
 import CustomImage from "../common/CustomImage";
 import Loader from "../common/Loader";
 import Positions from "../players/Positions";
+import Price from "../players/Price";
 
 const overallPlayers = ({ ingredients, setIngredients, overall }) => {
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isFetching, isLoading, isError } = useInfiniteQuery(
@@ -70,22 +70,16 @@ const SearchBar = () => {
   );
 };
 
-const Player = ({
-  player,
-  ingredients,
-  setIngredients,
-  /* player: {
-    spId,
-    playerName,
-    maxOverall,
-    positions,
-    price,
-    season: { id: seasonId, imageUrl: seasonImageUrl },
-  }, */
-}) => {
+const Player = ({ player, ingredients, setIngredients }) => {
   const selectPlayer = () => {
     setIngredients([...ingredients, player]);
   };
+
+  const addPlayer = () => {
+    setIngredients([...ingredients, player]);
+  };
+
+  const count = useMemo(() => ingredients.filter(({ spId }) => spId === player.spId).length, [ingredients]);
 
   return (
     <tr className="odd:bg-white  even:bg-gray-50">
@@ -111,12 +105,12 @@ const Player = ({
             <div className="flex">
               <Positions positions={player.positions} plusGrade={1} />
             </div>
-            <div>{convertPriceFormat(player.price)}BP</div>
+            <Price price={player.price} />
           </div>
         </div>
       </td>
       <td className="px-3 py-4">
-        <div class="custom-number-input h-10 w-32">
+        <div class="custom-number-input h-10 w-24">
           <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
             <button
               data-action="decrement"
@@ -125,11 +119,12 @@ const Player = ({
               <span class="m-auto text-2xl font-thin">−</span>
             </button>
             <div type="text" class="w-full bg-gray-300 font-semibold text-md flex justify-center" name="custom-input-number">
-              0
+              {count}
             </div>
             <button
               data-action="increment"
               class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer"
+              onClick={addPlayer}
             >
               <span class="m-auto text-2xl font-thin">+</span>
             </button>

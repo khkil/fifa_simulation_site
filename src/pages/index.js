@@ -4,18 +4,9 @@ import CommonLayout from "@/components/layouts/CommonLayout";
 import NicknameSearchBox from "@/components/user/NicknameSearchBox";
 import { fetchPlayerPriceWave } from "@/services/playerSerivce";
 import { Box, Container, Grid } from "@mui/material";
-import { useRouter } from "next/router";
 import { useQueries } from "react-query";
 
 export default function Home() {
-  const { push } = useRouter();
-  const onSubmit = (nickname) => {
-    push({
-      pathname: "/user/squad",
-      query: { nickname },
-    });
-  };
-
   const [{ data: plusPrice, ...plusProps }, { data: minusPrice, ...minusProps }] = useQueries([
     {
       queryKey: ["plusPrice"],
