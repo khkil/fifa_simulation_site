@@ -71,12 +71,23 @@ const SearchBar = () => {
 };
 
 const Player = ({ player, ingredients, setIngredients }) => {
-  const selectPlayer = () => {
+  const addPlayer = () => {
+    if (ingredients.length >= process.env.NEXT_PUBLIC_FC_ONLINE_MAX_UPGRADE_CARD_COUNT) {
+      alert(`강화 선수는 최대 ${process.env.NEXT_PUBLIC_FC_ONLINE_MAX_UPGRADE_CARD_COUNT}명 까지 가능합니다.`);
+      return;
+    }
     setIngredients([...ingredients, player]);
   };
 
-  const addPlayer = () => {
-    setIngredients([...ingredients, player]);
+  const deletePlayer = (spId) => {
+    const ingredientSpIds = ingredients.map(({ spId }) => spId);
+
+    const usedIndex = ingredientSpIds.indexOf(spId);
+    if (usedIndex > -1) {
+      let arr = [...ingredients];
+      arr.splice(usedIndex, 1);
+      setIngredients(arr);
+    }
   };
 
   const count = useMemo(() => ingredients.filter(({ spId }) => spId === player.spId).length, [ingredients]);
@@ -115,6 +126,9 @@ const Player = ({ player, ingredients, setIngredients }) => {
             <button
               data-action="decrement"
               class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none border-0"
+              onClick={() => {
+                deletePlayer(player.spId);
+              }}
             >
               <span class="m-auto text-2xl font-thin">−</span>
             </button>

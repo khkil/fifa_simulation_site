@@ -25,7 +25,7 @@ const pages = [
   },
 ];
 
-function Header() {
+export default function Header() {
   const { push, pathname } = useRouter();
 
   return (
@@ -71,4 +71,3 @@ function Header() {
     </AppBar>
   );
 }
-export default Header;
