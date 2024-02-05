@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <CommonLayout>
       <Container maxWidth="xl">
-        <NicknameSearchBox nickname={""} label="스쿼드를 검색할 유저의 이름을 입력해주세요." onSubmit={onSubmit} />
+        <NicknameSearchBox pathname={"/user/squad"} />
         <Grid container spacing={10} mb={3}>
           <Grid item xs={6}>
             <PlayerPriceRank title={"시세 급 상승 순위"} priceRank={plusPrice} isLoading={plusProps.isLoading} />

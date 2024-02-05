@@ -8,10 +8,12 @@ import SquadPriceGraph from "@/components/user/squad/SquadPriceGraph";
 import UserDetailInfo from "@/components/user/squad/UserDetailInfo";
 import { fetchUserInfo, fetchUserSquad } from "@/services/userService";
 import { Container, Grid, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { useQueries } from "react-query";
 
 const UserSquadPageNew = ({ query, seasons }) => {
+  const router = useRouter();
   const nickname = query?.nickname;
   const enabled = useMemo(() => !!nickname, [nickname]);
 
