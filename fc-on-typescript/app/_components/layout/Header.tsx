@@ -25,8 +25,8 @@ const menus: Array<Menu> = [
 
 export default function Header() {
   return (
-    <header className="border-b border-gray-300 rounded;">
-      <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
+    <header className="border-b border-gray-300">
+      <nav className="bg-white border-gray-200 px-4 lg:px-6 p-4">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <Link href="/" className="flex items-center">
             <img src="/images/common/logo.png" className="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
