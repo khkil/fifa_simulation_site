@@ -27,7 +27,7 @@ export default async function customFetch({ url, method = "GET", params = {} }: 
   };
 
   if ("GET" === method) {
-    url += "?" + new URLSearchParams(JSON.stringify(params)).toString();
+    url += "?" + new URLSearchParams(params).toString();
   } else {
     options.body = JSON.stringify(params);
   }

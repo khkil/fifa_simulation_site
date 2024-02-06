@@ -7,7 +7,7 @@ interface Props {
 
 export default function Alert({ theme, title }: Props) {
   return (
-    <div className={`w-full flex items-center p-4 mb-4 text-sm  text-${theme} common_border rounded-lg bg-blue-50" role="alert`}>
+    <div className={`w-full flex items-center bg-white p-4 mb-4 text-sm  text-${theme} common_border rounded-lg bg-blue-50" role="alert`}>
       <svg
         className="flex-shrink-0 inline w-4 h-4 me-3"
         aria-hidden="true"
