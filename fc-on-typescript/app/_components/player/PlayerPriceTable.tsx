@@ -23,7 +23,7 @@ export default async function PlayerPriceTable({ theme, title, sort }: Props) {
       <Alert theme={theme} title={title} />
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg common_border">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
             <tr>
               <th scope="col" className="px-6 py-3">
