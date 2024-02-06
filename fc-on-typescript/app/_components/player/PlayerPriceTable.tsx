@@ -1,6 +1,7 @@
 import { fetchPlayerPriceRank } from "@/app/_service/playerService";
 import { Theme } from "@/app/_types";
 import Alert from "../ui/Alert";
+import CustomImage from "./PlayerImage";
 import PlayerWithSeason from "./PlayerWithSeason";
 
 interface Props {
@@ -14,7 +15,7 @@ export default async function PlayerPriceTable({ theme, title, sort }: Props) {
     data: playerPriceList,
   }: {
     data: Array<PlayerPriceRank>;
-  } = await fetchPlayerPriceRank();
+  } = await fetchPlayerPriceRank({ sort });
 
   return (
     <div className="w-full">
@@ -36,10 +37,12 @@ export default async function PlayerPriceTable({ theme, title, sort }: Props) {
             </tr>
           </thead>
           <tbody>
-            {playerPriceList.map(({ seasonImgUrl, playerName }: PlayerPriceRank) => (
+            {playerPriceList.map(({ playerId, seasonImgUrl, playerName }: PlayerPriceRank) => (
               <tr className="odd:bg-white even:bg-gray-50  border-b ">
-                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap ">
-                  <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Jese image" />
+                <th scope="row" className="flex items-center py-4 text-gray-900 whitespace-nowrap ">
+                  <div className="mx-4">
+                    <CustomImage spId={playerId} seasonId={1} />
+                  </div>
                   <PlayerWithSeason seasonImgUrl={seasonImgUrl} playerName={playerName} />
                 </th>
                 <td className="px-6 py-4">Silver</td>
