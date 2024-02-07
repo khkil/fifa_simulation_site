@@ -15,7 +15,6 @@ interface Props {
 
 const CustomImage = ({ spId, width = 50, height = 50 }: Props) => {
   const playerImageSrc = `https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${spId}.png`;
-  const noImageSrc = "/images/noImg/prd_noimage.png";
   const [imgPath, setImgPath] = useState<string>(playerImageSrc);
 
   return (

@@ -1,5 +1,11 @@
 "use client";
 
+import {useEffect} from "react";
+
 export default function PlayerListPage() {
-  return <div>선수조회</div>;
+  useEffect(() => {
+    const t = 'test';
+    alert(t);
+  }, []);
+  return <div>asd</div>;
 }
