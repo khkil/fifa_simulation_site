@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 8098",
+    "dev": "next dev -p 3098",
     "build": "next build",
-    "start": "next start -p 8098",
+    "start": "next start -p 3098",
     "lint": "next lint"
   },
   "dependencies": {
@@ -14,7 +14,8 @@
     "next": "14.1.0",
     "prettier": "^3.2.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-query": "^3.39.3"
   },
   "devDependencies": {
     "@types/node": "^20",

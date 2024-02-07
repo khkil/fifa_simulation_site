@@ -21,25 +21,24 @@ export default async function PlayerPriceTable({ theme, title, sort }: Props) {
   return (
     <div className="w-full">
       <Alert theme={theme} title={title} />
-
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg common_border">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 py-3">
                 선수명
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 py-3">
                 변동금액(%)
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 py-3">
                 현재 가격
               </th>
             </tr>
           </thead>
           <tbody>
             {playerPriceList.map(({ playerId, seasonImgUrl, playerName, todayPrice, yesterdayPrice, percentage }: PlayerPriceRank) => (
-              <tr className="odd:bg-white even:bg-gray-50  border-b ">
+              <tr key={playerId} className="odd:bg-white even:bg-gray-50  border-b">
                 <th scope="row" className="flex items-center py-4 text-gray-900 whitespace-nowrap ">
                   <div className="mx-4">
                     <CustomImage spId={playerId} />

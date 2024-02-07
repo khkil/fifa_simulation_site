@@ -36,7 +36,7 @@ export const getPlusOverallFromGrade = (grade: number) => {
   }
 };
 
-export const convertPriceFormat = (price: number): string => {
+export const convertPriceFormat = (price: number | string): string => {
   if (!price) return "0";
   const priceStr = typeof price === "string" ? price : price.toString();
   return priceStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
