@@ -4,7 +4,7 @@ import useSWR from "swr";
 import { fetchUserSquad } from "@/app/_service/userService";
 
 export default function FieldPlayers({ nickname }: { nickname: string }) {
-  const { data, isLoading } = useSWR("squad", () => fetchUserSquad(nickname));
+  const { data, isLoading } = useSWR(`squad_${nickname}`, () => fetchUserSquad(nickname));
 
   console.log(data, isLoading);
 

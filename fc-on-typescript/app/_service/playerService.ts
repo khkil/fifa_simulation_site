@@ -1,8 +1,9 @@
-import { Pageable, Response } from "@/app/_types";
+import { Response } from "@/app/_types";
 import { SUCCESS_STATUS } from "@/app/_constants";
 import customFetch from ".";
+import { Order } from "@/app/_types/pageable";
 
-export const fetchPlayers = async (params?: Pageable) => {
+export const fetchPlayers = async (params?: Order) => {
   const { status, data, message }: Response = await customFetch({ url: "/api/players", params });
   if (status !== SUCCESS_STATUS) {
     throw new Error(message);
@@ -10,7 +11,7 @@ export const fetchPlayers = async (params?: Pageable) => {
   return data;
 };
 
-export const fetchPlayerPriceRank = async (params?: Pageable) => {
+export const fetchPlayerPriceRank = async (params?: Order) => {
   try {
     return customFetch({ url: "/api/players/price-rank", params });
   } catch (e) {

@@ -6,8 +6,3 @@ export declare interface Response {
 }
 
 export declare type Theme = "info" | "error" | "success" | "warning" | "normal";
-
-export declare interface Pageable {
-  sort?: string;
-  desc?: string;
-}
