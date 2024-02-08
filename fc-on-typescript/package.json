@@ -9,14 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.18",
+    "@heroicons/react": "^2.1.1",
     "date-fns": "^3.3.1",
     "flowbite": "^2.2.1",
     "next": "14.1.0",
     "prettier": "^3.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "react-infinite-scroller": "^1.2.6",
-    "react-query": "^3.39.3",
+    "react-intersection-observer": "^9.7.0",
     "swr": "^2.2.4"
   },
   "devDependencies": {

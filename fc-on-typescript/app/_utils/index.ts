@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { POSITION_GROUP } from "../_constants";
 
-export const getPositionGroup = (position) => {
+export const getPositionGroup = (position: string) => {
   return Object.keys(POSITION_GROUP).find((key) => POSITION_GROUP[key].positions.includes(position));
 };
 
