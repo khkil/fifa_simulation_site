@@ -1,13 +1,13 @@
-import { Pageable } from "@/app/_types";
+import { Pageable, Response } from "@/app/_types";
+import { SUCCESS_STATUS } from "@/app/_constants";
 import customFetch from ".";
 
 export const fetchPlayers = async (params?: Pageable) => {
-  try {
-    return customFetch({ url: "/api/players", params });
-  } catch (e) {
-    console.error(e);
-    throw new Error("선수 목록을 가져오는데 실패하였습니다.");
+  const { status, data, message }: Response = await customFetch({ url: "/api/players", params });
+  if (status !== SUCCESS_STATUS) {
+    throw new Error(message);
   }
+  return data;
 };
 
 export const fetchPlayerPriceRank = async (params?: Pageable) => {

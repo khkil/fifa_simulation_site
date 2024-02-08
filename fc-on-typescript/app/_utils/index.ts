@@ -11,7 +11,7 @@ export const getOverallColor = (colorMap, overall) => {
   return colorMap[`over${overallUnit}`];
 };
 
-export const getPlusOverallFromGrade = (grade: number) => {
+export const getPlusOverallFromGrade = (grade: number): number => {
   switch (grade) {
     case 2:
       return 1;

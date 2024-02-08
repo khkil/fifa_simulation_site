@@ -13,7 +13,7 @@ interface Props {
   height?: number;
 }
 
-const CustomImage = ({ spId, width = 50, height = 50 }: Props) => {
+export default function CustomImage({ spId, width = 50, height = 50 }: Props) {
   const playerImageSrc = `https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${spId}.png`;
   const [imgPath, setImgPath] = useState<string>(playerImageSrc);
 
@@ -32,6 +32,4 @@ const CustomImage = ({ spId, width = 50, height = 50 }: Props) => {
       }}
     />
   );
-};
-
-export default CustomImage;
+}

@@ -4,6 +4,7 @@ import { convertKorPriceFormat, convertPriceFormat } from "@/app/_utils";
 import Alert from "../ui/Alert";
 import CustomImage from "./PlayerImage";
 import PlayerWithSeason from "./PlayerWithSeason";
+import { PlayerPriceRank } from "@/app/_types/player";
 
 interface Props {
   title: string;

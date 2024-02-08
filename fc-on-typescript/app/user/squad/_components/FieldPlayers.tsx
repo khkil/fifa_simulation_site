@@ -1,11 +1,12 @@
 "use client";
 
+import useSWR from "swr";
 import { fetchUserSquad } from "@/app/_service/userService";
-import useSquad from "@/app/_hooks/swr";
 
 export default function FieldPlayers({ nickname }: { nickname: string }) {
-  const { data } = useSquad(nickname);
-  console.log(data);
+  const { data, isLoading } = useSWR("squad", () => fetchUserSquad(nickname));
+
+  console.log(data, isLoading);
 
   return <div className="w-full h-screen bg-[url(/images/squad/soccer_field.jpg)] bg-no-repeat bg-contain"></div>;
 }

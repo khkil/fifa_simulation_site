@@ -27,13 +27,15 @@ export default async function customFetch({ url, method = "GET", params = {} }: 
   };
 
   if ("GET" === method) {
+    // @ts-ignore
     url += "?" + new URLSearchParams(params).toString();
   } else {
     options.body = JSON.stringify(params);
   }
 
   const response = await fetch(`${baseUrl}${url}`, options);
-  if (response.ok) {
-    return await response.json();
+  if (!response.ok) {
+    throw new Error("Fail data fetching");
   }
+  return await response.json();
 }
