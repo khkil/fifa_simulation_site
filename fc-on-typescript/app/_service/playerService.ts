@@ -21,6 +21,38 @@ export const fetchPlayerPriceRank = async (params?: Pageable) => {
   }
 };
 
+export const fetchSeasons = async () => {
+  const { status, data, message } = await customFetch({ url: "/api/seasons" });
+  if (status !== SUCCESS_STATUS) {
+    throw new Error(message);
+  }
+  return data;
+};
+
+export const fetchClubs = async () => {
+  const { status, data, message } = await customFetch({ url: "/api/clubs" });
+  if (status !== SUCCESS_STATUS) {
+    throw new Error(message);
+  }
+  return data;
+};
+
+export const fetchSkills = async () => {
+  const { status, data, message } = await customFetch({ url: "/api/skills" });
+  if (status !== SUCCESS_STATUS) {
+    throw new Error(message);
+  }
+  return data;
+};
+
+export const fetchNations = async () => {
+  const { status, data, message } = await customFetch({ url: "/api/nations" });
+  if (status !== SUCCESS_STATUS) {
+    throw new Error(message);
+  }
+  return data;
+};
+
 /* export const fetchPlayersByOverall = async ({ overall }) => {
   const { data } = await axios.get(`/api/price/overall/${overall}`);
   return data;

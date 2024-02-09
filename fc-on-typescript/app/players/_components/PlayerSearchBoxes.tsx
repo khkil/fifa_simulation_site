@@ -1,8 +1,9 @@
 import useSWR from "swr";
-import { fetchSeasons } from "@/app/_service/seasonService";
 import { Season } from "@/app/_types/season";
 import { PlayerSearchParams } from "@/app/_types/player";
 import Image from "next/image";
+import customFetch from "@/app/_service";
+import { fetchClubs, fetchNations, fetchSeasons, fetchSkills } from "@/app/_service/playerService";
 
 interface Props {
   params: PlayerSearchParams;
@@ -99,5 +100,9 @@ const SeasonSearchBox = ({ params: { seasonIds = [], ...props }, setParams }: Pr
 };
 
 const DetailInfoSearchBox = ({ params, setParams }: Props) => {
-  return <div className={"flex"}>asd</div>;
+  const { data: clubs } = useSWR<Season[], Error>(`clubs`, fetchClubs);
+  const { data: skills } = useSWR<Season[], Error>(`skills`, fetchSkills);
+  const { data: nations } = useSWR<Season[], Error>(`nations`, fetchNations);
+
+  return <div className={"flex"}></div>;
 };

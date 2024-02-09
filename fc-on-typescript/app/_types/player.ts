@@ -30,6 +30,16 @@ export declare interface Position {
   overall: number;
 }
 
+export declare interface skill {
+  id: number;
+  skillName: string;
+}
+
+export declare interface club {
+  id: number;
+  clubName: string;
+}
+
 export declare interface PlayerPriceRank {
   percentage: number;
   playerId: number;
