@@ -38,3 +38,11 @@ export declare interface PlayerPriceRank {
   todayPrice: number;
   yesterdayPrice: number;
 }
+
+export declare interface PlayerSearchParams {
+  clubIds?: number[];
+  skillIds?: number[];
+  seasonIds?: number[];
+  nationIds?: number[];
+  name?: string;
+}

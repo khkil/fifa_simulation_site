@@ -2,8 +2,9 @@ import { Response } from "@/app/_types";
 import { SUCCESS_STATUS } from "@/app/_constants";
 import customFetch from ".";
 import { Pageable } from "@/app/_types/pageable";
+import { PlayerSearchParams } from "@/app/_types/player";
 
-export const fetchPlayers = async (params?: Pageable) => {
+export const fetchPlayers = async (params?: Pageable | PlayerSearchParams) => {
   const { status, data, message }: Response = await customFetch({ url: "/api/players", params });
   if (status !== SUCCESS_STATUS) {
     throw new Error(message);

@@ -1,27 +1,20 @@
 "use client";
 
-import { Key, useEffect, useState } from "react";
-import useSWRInfinite from "swr/infinite";
+import { Key, useEffect } from "react";
 import { fetchPlayers } from "@/app/_service/playerService";
+import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
-import { Player, PlayerSearchParams } from "@/app/_types/player";
+import { Player } from "@/app/_types/player";
 import PlayerRow from "@/app/players/_components/PlayerRow";
-import PlayerSearchBoxes from "@/app/players/_components/PlayerSearchBoxes";
 
 const getPageKey = (pageIndex = 1) => {
   return pageIndex.toString();
 };
 
-//https://klloo.github.io/swr-pagination/
-export default function PlayerListPage() {
-  const [params, setParams] = useState<PlayerSearchParams>({});
-  const { data, size, setSize, isLoading, mutate } = useSWRInfinite(
-    getPageKey,
-    (page) => fetchPlayers({ page: parseInt(page) + 1, size: 15, ...params }),
-    {
-      revalidateFirstPage: false,
-    },
-  );
+export default function PlayerList() {
+  const { data, size, setSize, isLoading } = useSWRInfinite(getPageKey, (page) => fetchPlayers({ page: parseInt(page) + 1, size: 15 }), {
+    revalidateFirstPage: false,
+  });
   const [ref, inView] = useInView();
 
   useEffect(() => {
@@ -30,14 +23,9 @@ export default function PlayerListPage() {
     }
   }, [inView]);
 
-  useEffect(() => {
-    mutate();
-  }, [params]);
-
   // @ts-ignore
   return (
     <div>
-      <PlayerSearchBoxes params={params} setParams={setParams} />
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg common_border">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
