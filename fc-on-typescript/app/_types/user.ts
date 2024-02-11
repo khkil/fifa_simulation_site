@@ -1,4 +1,4 @@
-type Player = {
+export declare type Player = {
   spid: number;
   pid: number;
   name: string;
@@ -12,15 +12,30 @@ type Player = {
   y: number;
 };
 
+export declare type TeamColor = {
+  lv: number;
+  name: string;
+  image: string;
+  skill: string;
+  playercnt: number;
+  playerlist: number[];
+};
+
+export declare type Overall = {
+  df: number;
+  fw: number;
+  mf: number;
+  total?: number;
+};
+
 export declare interface UserSquad {
   formation: string;
   maintotalPrice: string;
   totalPay: number;
-  ovr: {
-    df: number;
-    fw: number;
-    mf: number;
-    total: number;
-  };
+  ovr: Overall;
   players: Player[];
+  totalTeamColor: {
+    affiliation: Record<string, TeamColor>;
+    enhance: Record<string, TeamColor>;
+  };
 }

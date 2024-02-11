@@ -70,7 +70,7 @@ const PlayerNameSearchBox = ({ params, setParams }: Props) => {
 };
 
 const SeasonSearchBox = ({ params: { seasonIds = [], ...props }, setParams }: Props) => {
-  const { data: seasons } = useSWR<Season[], Error>(`season`, fetchSeasons);
+  const { data: seasons } = useSWR<Season[], Error>("seasons", fetchSeasons);
   const onClick = (id: number) => {
     if (seasonIds.includes(id)) {
       seasonIds = seasonIds.filter((v) => v !== id);
