@@ -21,7 +21,7 @@ export const UserProfile = ({
   const allTeamColors = useMemo(() => ({ ...affiliation, ...enhance }), [affiliation, enhance]);
 
   return (
-    <div className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow">
+    <div className="w-full h-[1000px] p-6 bg-white border border-gray-200 rounded-lg shadow">
       <div className={"flex items-center mb-5"}>
         <h5 className="text-2xl font-semibold tracking-tight text-gray-900">{nickname}</h5>
         <h5 className="mx-2 text-xl font-semibold tracking-tight text-gray-900">님의 프로필</h5>
@@ -43,7 +43,7 @@ export const UserProfile = ({
         </p>
       </div>
       <div className={"mb-5"}>
-        <p className="font-semibold text-slate-500 mb-1">팀컬러</p>
+        <p className="font-semibold text-slate-500 mb-3">팀컬러</p>
         {Object.keys(allTeamColors).map((key) => (
           <SquadTeamColor key={key} teamColor={allTeamColors[key]} players={players} />
         ))}
@@ -68,7 +68,7 @@ const SquadTeamColor = ({ teamColor: { name, skill, image, playerlist }, players
             width={100}
             height={100}
             alt={"squad_player"}
-            className={"w-10 h-10"}
+            className={"w-16 h-16 border mx-0.5 bg-gray-200 rounded-lg"}
             src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common${thumb}`}
           />
         ))}

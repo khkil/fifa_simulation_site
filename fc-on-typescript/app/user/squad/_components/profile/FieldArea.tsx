@@ -15,7 +15,7 @@ interface Props {
   squad: UserSquad;
 }
 
-export default function FieldPlayers({ seasons, nickname, squad }: Props) {
+export default function FieldArea({ seasons, nickname, squad }: Props) {
   return (
     <div className="relative w-[800px] h-[1000px] bg-[url(/images/squad/soccer_field.jpg)] bg-no-repeat bg-contain">
       {squad?.players
@@ -23,10 +23,6 @@ export default function FieldPlayers({ seasons, nickname, squad }: Props) {
         .map(({ spid, pid, x, y, name, role, thumb, ovr, buildUp, pay }) => {
           const seasonId = parseInt(spid.toString().slice(0, 3));
           const season: Season | undefined = seasons.find(({ id }) => id === seasonId);
-
-          if (!season?.imageUrl) {
-            console.log(seasonId);
-          }
 
           return (
             <div

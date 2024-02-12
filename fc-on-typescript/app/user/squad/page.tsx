@@ -1,15 +1,18 @@
 "use client";
 
 import NicknameSearchBox from "@/app/_components/ui/SearchBar";
-import FieldPlayers from "./_components/FieldPlayers";
+import FieldArea from "./_components/profile/FieldArea";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import { Season } from "@/app/_types/season";
 import { fetchSeasons } from "@/app/_service/playerService";
 import { fetchUserSquad } from "@/app/_service/userService";
 import { UserSquad } from "@/app/_types/user";
-import { UserProfile } from "@/app/user/squad/_components/UserProfile";
+import { UserProfile } from "@/app/user/squad/_components/profile/UserProfile";
+import FieldPlayers from "@/app/user/squad/_components/information/FieldPlayers";
+import SquadTab from "@/app/user/squad/_components/SquadTab";
+import PriceGraph from "@/app/user/squad/_components/information/PriceGraph";
 
 const data: UserSquad = {
   formation: "4-2-2-2",
@@ -342,6 +345,7 @@ const data: UserSquad = {
 export default function UserSquadPage() {
   const searchParams = useSearchParams();
   const nickname: string = useMemo(() => searchParams.get("nickname") || "", [searchParams]);
+  const [tabIndex, setTabIndex] = useState<number>(0);
 
   const { data: seasons, isLoading: isLoadingSeason } = useSWR<Season[]>("seasons", fetchSeasons);
   //const { data: squad, isLoading: isLoadingSquad } = useSWR<UserSquad, Error>(`squad_${nickname}`, () => fetchUserSquad(nickname));
@@ -353,12 +357,24 @@ export default function UserSquadPage() {
         isLoadingSeason /*|| isLoadingSquad*/ ? (
           <div>로딩 </div>
         ) : (
-          <div className="flex space-x-10 pt-10 ">
-            <div className="w-1/2">
-              <UserProfile nickname={nickname} squad={data} />
-            </div>
-            <div className="w-1/2">
-              <FieldPlayers nickname={nickname} seasons={seasons} squad={data} />
+          <div className={"pt-5"}>
+            <SquadTab tabIndex={tabIndex} setTabIndex={setTabIndex} />
+            <div className={"pt-2"}>
+              {tabIndex === 0 ? (
+                <div className="flex space-x-10">
+                  <div className="w-1/2">
+                    <UserProfile nickname={nickname} squad={data} />
+                  </div>
+                  <div className="w-1/2">
+                    <FieldArea nickname={nickname} seasons={seasons} squad={data} />
+                  </div>
+                </div>
+              ) : (
+                <div className={"pt-2"}>
+                  <FieldPlayers players={data.players} seasons={seasons} />
+                  <PriceGraph />
+                </div>
+              )}
             </div>
           </div>
         )
