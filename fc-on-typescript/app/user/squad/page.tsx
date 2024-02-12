@@ -12,7 +12,8 @@ import { UserSquad } from "@/app/_types/user";
 import { UserProfile } from "@/app/user/squad/_components/profile/UserProfile";
 import FieldPlayers from "@/app/user/squad/_components/information/FieldPlayers";
 import SquadTab from "@/app/user/squad/_components/SquadTab";
-import PriceGraph from "@/app/user/squad/_components/information/PriceGraph";
+import WeeklyPriceGraph from "@/app/user/squad/_components/information/WeeklyPriceGraph";
+import PositionPriceGraph from "@/app/user/squad/_components/information/PositionPriceGraph";
 
 const data: UserSquad = {
   formation: "4-2-2-2",
@@ -33,75 +34,10 @@ const data: UserSquad = {
       ovr: 99,
       pay: 5,
       buildUp: 8,
-      price: "325,000,000,000",
-      thumb: "/players/p189342.png?rd=202402111150",
+      price: "322,000,000,000",
+      thumb: "/players/p189342.png?rd=202402120820",
       x: 50.0,
       y: -31.30000000000001,
-    },
-    {
-      spid: 254214100,
-      pid: 214100,
-      name: "루드 굴리트",
-      role: "ldm",
-      ovr: 124,
-      pay: 26,
-      buildUp: 7,
-      price: "197,000,000,000",
-      thumb: "/playersAction/p254214100.png?rd=202402111150",
-      x: 35.0,
-      y: 33.0,
-    },
-    {
-      spid: 268001075,
-      pid: 1075,
-      name: "A. 델피에로",
-      role: "rm",
-      ovr: 128,
-      pay: 25,
-      buildUp: 7,
-      price: "906,000,000,000",
-      thumb: "/playersAction/p268001075.png?rd=202402111150",
-      x: 80.62,
-      y: 67.0,
-    },
-    {
-      spid: 268006235,
-      pid: 6235,
-      name: "파벨 네드베드",
-      role: "lm",
-      ovr: 128,
-      pay: 25,
-      buildUp: 7,
-      price: "879,000,000,000",
-      thumb: "/playersAction/p268006235.png?rd=202402111150",
-      x: 19.37,
-      y: 67.0,
-    },
-    {
-      spid: 100247703,
-      pid: 247703,
-      name: "이언 러시",
-      role: "rs",
-      ovr: 129,
-      pay: 30,
-      buildUp: 2,
-      price: "2,200,000,000,000",
-      thumb: "/playersAction/p100247703.png?rd=202402111150",
-      x: 60.0,
-      y: 87.0,
-    },
-    {
-      spid: 110013128,
-      pid: 13128,
-      name: "안드리 셰우첸코",
-      role: "ls",
-      ovr: 129,
-      pay: 42,
-      buildUp: 1,
-      price: "5,020,000,000,000",
-      thumb: "/playersAction/p110013128.png?rd=202402111150",
-      x: 39.0,
-      y: 87.0,
     },
     {
       spid: 260193082,
@@ -111,8 +47,8 @@ const data: UserSquad = {
       ovr: 119,
       pay: 19,
       buildUp: 7,
-      price: "171,000,000,000",
-      thumb: "/playersAction/p260193082.png?rd=202402111150",
+      price: "181,000,000,000",
+      thumb: "/playersAction/p260193082.png?rd=202402120820",
       x: 94.5,
       y: 22.0,
     },
@@ -124,10 +60,23 @@ const data: UserSquad = {
       ovr: 120,
       pay: 17,
       buildUp: 8,
-      price: "272,000,000,000",
-      thumb: "/playersAction/p280232756.png?rd=202402111150",
+      price: "290,000,000,000",
+      thumb: "/playersAction/p280232756.png?rd=202402120820",
       x: 65.0,
       y: 15.0,
+    },
+    {
+      spid: 256178603,
+      pid: 178603,
+      name: "마츠 후멜스",
+      role: "CB",
+      ovr: 109,
+      pay: 24,
+      buildUp: 2,
+      price: "186,000,000",
+      thumb: "/playersAction/p256178603.png?rd=202402120820",
+      x: 0.0,
+      y: 0.0,
     },
     {
       spid: 242205452,
@@ -137,8 +86,8 @@ const data: UserSquad = {
       ovr: 120,
       pay: 16,
       buildUp: 8,
-      price: "721,000,000,000",
-      thumb: "/playersAction/p242205452.png?rd=202402111150",
+      price: "735,000,000,000",
+      thumb: "/playersAction/p242205452.png?rd=202402120820",
       x: 35.0,
       y: 15.0,
     },
@@ -150,8 +99,8 @@ const data: UserSquad = {
       ovr: 122,
       pay: 19,
       buildUp: 8,
-      price: "365,000,000,000",
-      thumb: "/playersAction/p265243237.png?rd=202402111150",
+      price: "367,000,000,000",
+      thumb: "/playersAction/p265243237.png?rd=202402120820",
       x: 5.5,
       y: 22.0,
     },
@@ -163,36 +112,10 @@ const data: UserSquad = {
       ovr: 124,
       pay: 31,
       buildUp: 2,
-      price: "2,150,000,000,000",
-      thumb: "/playersAction/p100005471.png?rd=202402111150",
+      price: "2,130,000,000,000",
+      thumb: "/playersAction/p100005471.png?rd=202402120820",
       x: 65.0,
       y: 33.0,
-    },
-    {
-      spid: 322265418,
-      pid: 265418,
-      name: "H. 소나",
-      role: "CM",
-      ovr: 53,
-      pay: 5,
-      buildUp: 1,
-      price: "1,070",
-      thumb: "/players/p265418.png?rd=202402111150",
-      x: 0.0,
-      y: 0.0,
-    },
-    {
-      spid: 322264142,
-      pid: 264142,
-      name: "A. 도런",
-      role: "ST",
-      ovr: 51,
-      pay: 5,
-      buildUp: 1,
-      price: "1,100",
-      thumb: "/players/p264142.png?rd=202402111150",
-      x: 0.0,
-      y: 0.0,
     },
     {
       spid: 300263065,
@@ -203,7 +126,46 @@ const data: UserSquad = {
       pay: 5,
       buildUp: 1,
       price: "1,010",
-      thumb: "/players/p263065.png?rd=202402111150",
+      thumb: "/players/p263065.png?rd=202402120820",
+      x: 0.0,
+      y: 0.0,
+    },
+    {
+      spid: 254214100,
+      pid: 214100,
+      name: "루드 굴리트",
+      role: "ldm",
+      ovr: 124,
+      pay: 26,
+      buildUp: 7,
+      price: "204,000,000,000",
+      thumb: "/playersAction/p254214100.png?rd=202402120820",
+      x: 35.0,
+      y: 33.0,
+    },
+    {
+      spid: 268001075,
+      pid: 1075,
+      name: "A. 델피에로",
+      role: "rm",
+      ovr: 128,
+      pay: 25,
+      buildUp: 7,
+      price: "900,000,000,000",
+      thumb: "/playersAction/p268001075.png?rd=202402120820",
+      x: 80.62,
+      y: 67.0,
+    },
+    {
+      spid: 322265418,
+      pid: 265418,
+      name: "H. 소나",
+      role: "CM",
+      ovr: 53,
+      pay: 5,
+      buildUp: 1,
+      price: "1,070",
+      thumb: "/players/p265418.png?rd=202402120820",
       x: 0.0,
       y: 0.0,
     },
@@ -215,10 +177,23 @@ const data: UserSquad = {
       ovr: 104,
       pay: 19,
       buildUp: 2,
-      price: "158,000,000",
-      thumb: "/playersAction/p276242619.png?rd=202402111150",
+      price: "156,000,000",
+      thumb: "/playersAction/p276242619.png?rd=202402120820",
       x: 0.0,
       y: 0.0,
+    },
+    {
+      spid: 268006235,
+      pid: 6235,
+      name: "파벨 네드베드",
+      role: "lm",
+      ovr: 128,
+      pay: 25,
+      buildUp: 7,
+      price: "800,000,000,000",
+      thumb: "/playersAction/p268006235.png?rd=202402120820",
+      x: 19.37,
+      y: 67.0,
     },
     {
       spid: 265242374,
@@ -228,8 +203,34 @@ const data: UserSquad = {
       ovr: 106,
       pay: 21,
       buildUp: 1,
-      price: "179,000,000",
-      thumb: "/playersAction/p265242374.png?rd=202402111150",
+      price: "161,000,000",
+      thumb: "/playersAction/p265242374.png?rd=202402120820",
+      x: 0.0,
+      y: 0.0,
+    },
+    {
+      spid: 100247703,
+      pid: 247703,
+      name: "이언 러시",
+      role: "rs",
+      ovr: 129,
+      pay: 30,
+      buildUp: 2,
+      price: "2,280,000,000,000",
+      thumb: "/playersAction/p100247703.png?rd=202402120820",
+      x: 60.0,
+      y: 87.0,
+    },
+    {
+      spid: 322264142,
+      pid: 264142,
+      name: "A. 도런",
+      role: "ST",
+      ovr: 51,
+      pay: 5,
+      buildUp: 1,
+      price: "1,100",
+      thumb: "/players/p264142.png?rd=202402120820",
       x: 0.0,
       y: 0.0,
     },
@@ -241,23 +242,23 @@ const data: UserSquad = {
       ovr: 92,
       pay: 15,
       buildUp: 1,
-      price: "40,500,000",
-      thumb: "/playersAction/p234190362.png?rd=202402111150",
+      price: "42,000,000",
+      thumb: "/playersAction/p234190362.png?rd=202402120820",
       x: 0.0,
       y: 0.0,
     },
     {
-      spid: 256178603,
-      pid: 178603,
-      name: "마츠 후멜스",
-      role: "CB",
-      ovr: 109,
-      pay: 24,
-      buildUp: 2,
-      price: "201,000,000",
-      thumb: "/playersAction/p256178603.png?rd=202402111150",
-      x: 0.0,
-      y: 0.0,
+      spid: 110013128,
+      pid: 13128,
+      name: "안드리 셰우첸코",
+      role: "ls",
+      ovr: 129,
+      pay: 42,
+      buildUp: 1,
+      price: "4,980,000,000,000",
+      thumb: "/playersAction/p110013128.png?rd=202402120820",
+      x: 39.0,
+      y: 87.0,
     },
   ],
   totalPriceList: [
@@ -309,6 +310,10 @@ const data: UserSquad = {
       totalPrice: 13150604103170,
       date: "2024-02-10",
     },
+    {
+      totalPrice: 13154590003170,
+      date: "2024-02-11",
+    },
   ],
   totalTeamColor: {
     affiliation: {
@@ -345,7 +350,7 @@ const data: UserSquad = {
 export default function UserSquadPage() {
   const searchParams = useSearchParams();
   const nickname: string = useMemo(() => searchParams.get("nickname") || "", [searchParams]);
-  const [tabIndex, setTabIndex] = useState<number>(0);
+  const [tabIndex, setTabIndex] = useState<number>(1);
 
   const { data: seasons, isLoading: isLoadingSeason } = useSWR<Season[]>("seasons", fetchSeasons);
   //const { data: squad, isLoading: isLoadingSquad } = useSWR<UserSquad, Error>(`squad_${nickname}`, () => fetchUserSquad(nickname));
@@ -369,12 +374,17 @@ export default function UserSquadPage() {
                     <FieldArea nickname={nickname} seasons={seasons} squad={data} />
                   </div>
                 </div>
-              ) : (
-                <div className={"pt-2"}>
-                  <FieldPlayers players={data.players} seasons={seasons} />
-                  <PriceGraph />
+              ) : tabIndex === 1 ? (
+                <div className="flex space-x-10">
+                  <div className="w-1/2">
+                    <FieldPlayers players={data.players} seasons={seasons} />
+                  </div>
+                  <div className="w-1/2">
+                    <WeeklyPriceGraph totalPriceList={data.totalPriceList} />
+                    <PositionPriceGraph totalPriceList={data.totalPriceList} />
+                  </div>
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         )

@@ -28,6 +28,10 @@ export declare type Overall = {
   total?: number;
 };
 
+export declare type TotalPrice = {
+  totalPrice: number;
+  date: Date;
+};
 export declare interface UserSquad {
   formation: string;
   maintotalPrice: string;
@@ -38,4 +42,5 @@ export declare interface UserSquad {
     affiliation: Record<string, TeamColor>;
     enhance: Record<string, TeamColor>;
   };
+  totalPriceList: TotalPrice[];
 }

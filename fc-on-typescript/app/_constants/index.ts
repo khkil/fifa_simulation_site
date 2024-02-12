@@ -1,11 +1,19 @@
 // 공통
+import { PositionGroup } from "@/app/_types/position";
+
 export const SUCCESS_STATUS: string = "success";
 export const FAIL_STATUS: string = "fail";
 
 export const LEFT_FOOT: string = "LEFT";
 export const RIGHT_FOOT: string = "RIGHT";
 
-export const POSITION_GROUP = {
+export const POSITION_GROUP: Record<
+  PositionGroup,
+  {
+    name: string;
+    positions: string[];
+  }
+> = {
   gk: {
     name: "골키퍼",
     positions: ["GK"],
