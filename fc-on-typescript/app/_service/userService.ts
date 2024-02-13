@@ -17,3 +17,11 @@ export const fetchUserSquad = async (nickname: string) => {
   }
   return data;
 };
+
+export const fetchUserMatches = async (params: { nickname: string; page: number; matchType: number }) => {
+  const { status, data, message } = await customFetch({ url: `/api/user/matches`, params });
+  if (status !== SUCCESS_STATUS) {
+    throw new Error(message);
+  }
+  return data;
+};

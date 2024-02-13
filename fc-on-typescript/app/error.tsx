@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { DEFAULT_ERROR_MESSAGE } from "@/app/_constants";
 
 export default function Error({ error }: { error?: Error }) {
   useEffect(() => {
@@ -13,7 +14,7 @@ export default function Error({ error }: { error?: Error }) {
     <section>
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
         <div className="mx-auto max-w-screen-sm text-center">
-          <p className="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl">서버와 통신오류가 발생하였습니다.</p>
+          <p className="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl">{DEFAULT_ERROR_MESSAGE}</p>
           <p className="mb-4 text-lg font-light text-gray-500">빠르게 오류를 수정중에 있습니다.</p>
           <Link
             href="/"

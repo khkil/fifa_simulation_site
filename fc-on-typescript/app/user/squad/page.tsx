@@ -29,7 +29,6 @@ export default function UserSquadPage() {
     error: seasonError,
   } = useSWR<Season[], Error>("seasons", nickname ? fetchSeasons : null, {
     revalidateOnFocus: false,
-    isOnline: () => !!nickname,
   });
   const {
     data: squad,
@@ -37,18 +36,16 @@ export default function UserSquadPage() {
     error: squadError,
   } = useSWR<UserSquad, Error>(`squad_${nickname}`, nickname ? () => fetchUserSquad(nickname) : null, {
     revalidateOnFocus: false,
-    isOnline: () => !!nickname,
   });
 
   const isLoading = useMemo<boolean>(() => isLoadingSeason || isLoadingSquad, [isLoadingSeason, isLoadingSquad]);
 
-  if (seasonError || seasonError) return <Error error={seasonError || squadError} />;
   return (
     <div>
       <NicknameSearchBox />
-      {isLoading ? (
+      {!nickname ? null : isLoading ? (
         <Loader description={"스쿼드를 불러오는 중입니다. 잠시만 기다려주세요."} />
-      ) : nickname && seasons && squad ? (
+      ) : seasons && squad ? (
         <div className={"pt-5"}>
           <SquadTab tabIndex={tabIndex} setTabIndex={setTabIndex} />
           <div className={"pt-2"}>

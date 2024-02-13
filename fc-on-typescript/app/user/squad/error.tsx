@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { DEFAULT_ERROR_MESSAGE } from "@/app/_constants";
 
 export default function SquadError({ error }: { error?: Error }) {
   useEffect(() => {
@@ -9,7 +10,7 @@ export default function SquadError({ error }: { error?: Error }) {
   }, [error]);
 
   return (
-    <section className="">
+    <section>
       <div className="container flex items-center h-screen px-6 mx-auto">
         <div className="flex flex-col items-center max-w-sm mx-auto text-center">
           <p className="text-sm font-medium text-primary rounded-full bg-blue-50">
@@ -21,7 +22,7 @@ export default function SquadError({ error }: { error?: Error }) {
               />
             </svg>
           </p>
-          <p className="mt-4 text-gray-500">{error?.message || "스쿼드를 불러오는중 오류가 발생하였습니다."}</p>
+          <p className="mt-4 text-gray-500">{error?.message || DEFAULT_ERROR_MESSAGE}</p>
         </div>
       </div>
     </section>
