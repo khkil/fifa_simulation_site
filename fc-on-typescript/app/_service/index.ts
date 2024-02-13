@@ -1,3 +1,5 @@
+import { Response } from "@/app/_types";
+
 interface Props {
   url: string;
   method?: string;
@@ -10,7 +12,7 @@ interface Options {
   body?: BodyInit;
 }
 
-export default async function customFetch({ url, method = "GET", params = {} }: Props) {
+export default async function customFetch<Response>({ url, method = "GET", params = {} }: Props) {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   let headers = {
@@ -35,7 +37,8 @@ export default async function customFetch({ url, method = "GET", params = {} }: 
 
   const response = await fetch(`${baseUrl}${url}`, options);
   if (!response.ok) {
-    throw new Error("Fail data fetching");
+    const { message } = await response.json();
+    throw new Error(message || "Fail data fetching");
   }
   return await response.json();
 }

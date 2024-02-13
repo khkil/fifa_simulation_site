@@ -17,24 +17,20 @@ export default function WeeklyPriceGraph({ totalPriceList }: Props) {
         sparkline: {
           enabled: false,
         },
-        type: "bar",
         width: "100%",
         height: 400,
         toolbar: {
           show: false,
         },
       },
+
       fill: {
         opacity: 1,
       },
       plotOptions: {
-        style: {
-          padding: "10px",
-        },
         bar: {
           horizontal: true,
           columnWidth: "100%",
-          borderRadiusApplication: "end",
           borderRadius: 6,
           dataLabels: {
             position: "top",
@@ -43,16 +39,16 @@ export default function WeeklyPriceGraph({ totalPriceList }: Props) {
       },
       legend: {
         show: true,
-        position: "bottom",
       },
       dataLabels: {
         enabled: false,
       },
+
       tooltip: {
         x: {
           show: true,
           format: "dd MMM",
-          formatter: (value: string) => `${value} 시세`,
+          formatter: (value: number) => `${value} 시세`,
         },
         y: {
           formatter: (value: number) => `${convertPriceFormat(value)} BP`,
@@ -78,7 +74,7 @@ export default function WeeklyPriceGraph({ totalPriceList }: Props) {
         },
       },
       yaxis: {
-        min: Math.floor(minimumPrice / divide) * divide, // 시작값
+        min: Math.floor((minimumPrice * 0.9) / divide) * divide, // 시작값 소폭 조정
         max: Math.ceil(maximumPrice / divide) * divide,
         labels: {
           show: true,
@@ -106,7 +102,7 @@ export default function WeeklyPriceGraph({ totalPriceList }: Props) {
   };
   return (
     <div className="mixed-chart w-full ">
-      <h2 className={"font-bold text-xl mb-2"}>주간 구단가치</h2>
+      <h2 className={"font-bold text-xl mb-2"}>일별 구단가치</h2>
       <div className="flex justify-between border-gray-200 border-b pb-3">
         <dl>
           <dt className="text-base font-normal text-gray-500 pb-1">현재 구단가치</dt>

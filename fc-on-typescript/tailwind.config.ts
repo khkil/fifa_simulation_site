@@ -34,7 +34,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#00b495",
+        primary: "#269d56",
         info: "#76a9fa",
         error: "#e27778",
         success: "#31c48d",

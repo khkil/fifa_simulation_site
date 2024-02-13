@@ -30,7 +30,7 @@ export declare type Overall = {
 
 export declare type TotalPrice = {
   totalPrice: number;
-  date: Date;
+  date: string;
 };
 export declare interface UserSquad {
   formation: string;

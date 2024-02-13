@@ -1,31 +1,37 @@
 import Chart from "react-apexcharts";
-import { TotalPrice } from "@/app/_types/user";
+import { Player, TotalPrice } from "@/app/_types/user";
 import { POSITION_GROUP } from "@/app/_constants";
-import { Key } from "react";
 import { PositionGroup } from "@/app/_types/position";
+import { convertKorPriceFormat } from "@/app/_utils";
 
 interface Props {
-  totalPriceList: TotalPrice[];
+  players: Player[];
 }
-export default function PositionPriceGraph({ totalPriceList }: Props) {
-  const priceByPositions = Object.keys(POSITION_GROUP).map((key): PositionGroup => {
-    const positions = POSITION_GROUP?.[key];
-    console.log(positions);
+export default function PositionPriceGraph({ players }: Props) {
+  const positionGroups: PositionGroup[] = Object.keys(POSITION_GROUP) as PositionGroup[];
+
+  const priceListByPositionGroup = positionGroups.map((group) => {
+    const positions: string[] = POSITION_GROUP[group].positions;
+    const positionGroupPrice: number = players
+      .filter(({ role }) => positions.includes(role.toUpperCase()))
+      .reduce((sum, { price }) => sum + parseInt(price?.replaceAll(",", "")), 0);
+
+    return { [group]: positionGroupPrice };
   });
-  console.log(priceByPositions);
+
   const chart = {
     options: {
       colors: ["#f2be57", "#2b7def", "#00d28b", "#f6425f"],
-      labels: Object.keys(POSITION_GROUP).map((v) => v.toUpperCase()),
+      labels: priceListByPositionGroup.map((obj) => Object.keys(obj)[0].toUpperCase()),
       yaxis: {
         labels: {
           formatter: function (value: number) {
-            return `${value} BP`;
+            return `${convertKorPriceFormat(value)} BP`;
           },
         },
       },
     },
-    series: [44, 55, 41, 17],
+    series: priceListByPositionGroup.map((obj) => Object.values(obj)[0]),
   };
 
   return (
