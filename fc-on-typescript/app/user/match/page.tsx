@@ -3,7 +3,7 @@
 import NicknameSearchBox from "@/app/_components/ui/SearchBar";
 import { fetchUserMatches } from "@/app/_service/userService";
 import { useSearchParams } from "next/navigation";
-import { Key, useEffect, useMemo } from "react";
+import { Key, useEffect, useMemo, useState } from "react";
 import Loader from "@/app/_components/ui/Loader";
 import SquadError from "@/app/user/squad/error";
 import useSWRInfinite from "swr/infinite";
@@ -28,6 +28,7 @@ export default function UserMatchListPage() {
     },
   );
   const [ref, inView] = useInView();
+  const [matchIds, setMatchIds] = useState<string[]>([]);
 
   useEffect(() => {
     if (inView && !isLoading) {
@@ -44,8 +45,9 @@ export default function UserMatchListPage() {
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg common_border mt-5">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500">
             <tbody>
-              {/*{data?.map((match: Match) => <MatchRow key={match.matchId} match={match} />)}*/}
-              {data?.map((matches: Match[]) => matches?.map((match: Match, index: Key) => <MatchRow key={index} match={match} />))}
+              {data?.map((matches: Match[]) =>
+                matches?.map((match: Match, index: Key) => <MatchRow key={index} match={match} matchIds={matchIds} setMatchIds={setMatchIds} />),
+              )}
             </tbody>
           </table>
         </div>
