@@ -25,3 +25,11 @@ export const fetchUserMatches = async (params: { nickname: string; page: number;
   }
   return data;
 };
+
+export const fetchUserMatchDetail = async (matchId: string) => {
+  const { status, data, message } = await customFetch({ url: `/api/user/matches/${matchId}` });
+  if (status !== SUCCESS_STATUS) {
+    throw new Error(message);
+  }
+  return data;
+};

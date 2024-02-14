@@ -10,19 +10,19 @@ import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import Match from "@/app/_types/match";
 import MatchRow from "@/app/user/_components/MatchRow";
-import { Player } from "@/app/_types/player";
-import PlayerRow from "@/app/players/_components/PlayerRow";
 
-const getPageKey = (pageIndex = 1) => {
-  return pageIndex.toString();
-};
 export default function UserMatchListPage() {
   const searchParams = useSearchParams();
-  const nickname: string = useMemo(() => searchParams.get("nickname") || "", [searchParams]);
+  const nickname: string = searchParams.get("nickname") || "";
 
-  const { data, size, setSize, isLoading, error } = useSWRInfinite(
+  const getPageKey = (pageIndex = 1) => {
+    if (!nickname) return null;
+    return pageIndex.toString();
+  };
+
+  const { data, size, setSize, isLoading, isValidating, error } = useSWRInfinite(
     getPageKey,
-    (page) => (!nickname ? null : fetchUserMatches({ nickname, matchType: 50, page: parseInt(page) + 1 })),
+    (page) => fetchUserMatches({ nickname, matchType: 50, page: parseInt(page) + 1 }),
     {
       revalidateFirstPage: false,
     },
@@ -36,6 +36,7 @@ export default function UserMatchListPage() {
     }
   }, [inView]);
 
+  console.log(isValidating);
   return (
     <div>
       <NicknameSearchBox />
@@ -54,7 +55,13 @@ export default function UserMatchListPage() {
       ) : (
         <SquadError error={error} />
       )}
-      <div ref={ref}></div>
+      {isValidating ? (
+        <div className={"h-24"}>
+          <Loader useScreenHeight={false} />
+        </div>
+      ) : (
+        <div ref={ref}></div>
+      )}
     </div>
   );
 }

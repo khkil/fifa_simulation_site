@@ -35,10 +35,15 @@ export default async function customFetch<Response>({ url, method = "GET", param
     options.body = JSON.stringify(params);
   }
 
-  const response = await fetch(`${baseUrl}${url}`, options);
-  if (!response.ok) {
-    const { message } = await response.json();
-    throw new Error(message || "Fail data fetching");
+  try {
+    const response = await fetch(`${baseUrl}${url}`, options);
+    if (!response.ok) {
+      const { message } = await response.json();
+      throw new Error(message || "응답 데이터를 받아오는데 실패 하였습니다.");
+    }
+    return await response.json();
+  } catch (e) {
+    console.error(e);
+    throw new Error("서버오류가 발생하였습니다.");
   }
-  return await response.json();
 }
