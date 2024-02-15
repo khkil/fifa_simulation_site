@@ -1,11 +1,12 @@
-import Match, { MatchUser } from "@/app/_types/match";
+import Match, { MatchInfo, MatchPlayer, MatchUser } from "@/app/_types/match";
 import { convertDateFormat } from "@/app/_utils";
-import { useCallback, useEffect } from "react";
+import { Fragment, Key, useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 import { UserSquad } from "@/app/_types/user";
 import Error from "@/app/error";
 import { fetchUserMatchDetail, fetchUserSquad } from "@/app/_service/userService";
 import Loader from "@/app/_components/ui/Loader";
+import MatchDetailTab from "@/app/user/match/_components/MatchDetailTab";
 
 interface Props {
   match: Match;
@@ -14,6 +15,7 @@ interface Props {
 }
 export default function MatchRow({ match: { matchId, matchDate, users }, matchIds, setMatchIds }: Props) {
   const winner = users?.reduce((winner: MatchUser, user: MatchUser) => (winner.goal > user.goal ? winner : user), users[0]);
+
   const toggleMatchDetail = useCallback(
     (matchId: string) => {
       const values: string[] = matchIds.includes(matchId) ? matchIds.filter((v) => v !== matchId) : [...matchIds, matchId];
@@ -24,15 +26,15 @@ export default function MatchRow({ match: { matchId, matchDate, users }, matchId
 
   if (!users || !winner) return null;
   return (
-    <tr
-      className="odd:bg-white even:bg-gray-50 border-b cursor-pointer"
-      onClick={() => {
-        toggleMatchDetail(matchId);
-      }}
-    >
+    <tr className="odd:bg-white even:bg-gray-50 border-b cursor-pointer">
       <td className="">
         <details>
-          <summary className={"list-none hover:bg-gray-300 py-3"}>
+          <summary
+            className={"list-none hover:bg-gray-300 py-3"}
+            onClick={() => {
+              toggleMatchDetail(matchId);
+            }}
+          >
             <div className={"flex items-center justify-center"}>
               <p className={"px-5 font-bold text-lg text-gray-700 w-[45%] text-right"}>{users[0].nickname}</p>
               <p className={`px-2 font-bold text-xl  ${users[0].nickname === winner.nickname ? "text-red-400" : "text-black"}`}>{users[0].goal}</p>
@@ -62,14 +64,68 @@ export default function MatchRow({ match: { matchId, matchDate, users }, matchId
 }
 
 export const MatchDetail = ({ matchId }: { matchId: string }) => {
-  const { data, isLoading, error } = useSWR<Match, Error>(`match_${matchId}`, () => fetchUserMatchDetail(matchId), {
+  const {
+    data: matchDetail,
+    isLoading,
+    error,
+  } = useSWR<Match, Error>(`match_${matchId}`, () => fetchUserMatchDetail(matchId), {
     revalidateOnFocus: false,
   });
-  return isLoading ? (
-    <div className={"h-32"}>
-      <Loader useScreenHeight={false} />
+
+  const [tabIndex, setTabIndex] = useState<number>(0);
+
+  if (isLoading)
+    return (
+      <div className={"h-32"}>
+        <Loader useScreenHeight={false} />
+      </div>
+    );
+
+  return (
+    <div className={"p-2 border-t"}>
+      <MatchDetailTab tabIndex={tabIndex} setTabIndex={setTabIndex} />
+      {matchDetail?.matchInfo ? (
+        tabIndex === 0 ? (
+          <div>
+            <MatchRecord matchInfo={matchDetail.matchInfo} />
+
+            <MatchRecord title={"점유율(%)"} maxValue={20} />
+            <MatchRecord title={"코너킥"} maxValue={20} />
+            <MatchRecord title={"태클"} />
+            <MatchRecord title={"파울"} />
+            <MatchRecord title={"오프사이드"} />
+            <MatchRecord title={"경고"} />
+            <MatchRecord title={"퇴장"} />
+            <MatchRecord title={"부상"} />
+          </div>
+        ) : tabIndex === 1 ? (
+          <MatchLineUp matchInfo={matchDetail.matchInfo} />
+        ) : null
+      ) : null}
     </div>
-  ) : (
-    <div className="p-3 border-t">123</div>
+  );
+};
+
+export const MatchRecord = ({ matchInfo }: { matchInfo: MatchInfo[]; key: string; title: string; maxValue?: number }) => {
+  return (
+    <div className="flex">
+      <div className={"w-[30%] text-center"}>그래프</div>
+      <div className={"w-[15%] text-center"}>수치</div>
+      <div className={"w-[10%] text-center"}></div>
+      <div className={"w-[15%] text-center"}>수치</div>
+      <div className={"w-[30%] text-center"}>그래프</div>
+    </div>
+  );
+};
+
+export const MatchLineUp = ({ matchInfo }: { matchInfo: MatchInfo[] }) => {
+  return (
+    <div className="flex justify-center">
+      {matchInfo.map(({ nickname }: MatchInfo) => (
+        <div className={"w-1/2 text-center border-r border-gray-300"}>
+          <div>{nickname}</div>
+        </div>
+      ))}
+    </div>
   );
 };

@@ -9,7 +9,7 @@ import SquadError from "@/app/user/squad/error";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import Match from "@/app/_types/match";
-import MatchRow from "@/app/user/_components/MatchRow";
+import MatchRow from "@/app/user/match/_components/MatchRow";
 
 export default function UserMatchListPage() {
   const searchParams = useSearchParams();
