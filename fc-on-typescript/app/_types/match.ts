@@ -37,7 +37,8 @@ export declare type MatchInfo = {
     matchResult: string;
     matchEndType: number;
     controller: string;
-    cornerKink: 1;
+    possession: number;
+    cornerKink: number;
     foul: number;
     offsideCount: number;
     yellowCards: number;
