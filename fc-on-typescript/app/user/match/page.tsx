@@ -5,11 +5,12 @@ import { fetchUserMatches } from "@/app/_service/userService";
 import { useSearchParams } from "next/navigation";
 import { Key, useEffect, useMemo, useState } from "react";
 import Loader from "@/app/_components/ui/Loader";
-import SquadError from "@/app/user/squad/error";
+import SquadError from "@/app/user/match/error";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import Match from "@/app/_types/match";
 import MatchRow from "@/app/user/match/_components/MatchRow";
+import MatchError from "@/app/user/match/error";
 
 export default function UserMatchListPage() {
   const searchParams = useSearchParams();
@@ -36,7 +37,6 @@ export default function UserMatchListPage() {
     }
   }, [inView]);
 
-  console.log(isValidating);
   return (
     <div>
       <NicknameSearchBox />
@@ -53,7 +53,7 @@ export default function UserMatchListPage() {
           </table>
         </div>
       ) : (
-        <SquadError error={error} />
+        <MatchError error={error} />
       )}
       {isValidating ? (
         <div className={"h-24"}>

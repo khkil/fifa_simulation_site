@@ -1,5 +1,5 @@
 import { Player } from "@/app/_types/user";
-import CustomImage from "@/app/_components/player/PlayerImage";
+import PlayerImage from "@/app/_components/player/PlayerImage";
 import PlayerWithSeason from "@/app/_components/player/PlayerWithSeason";
 import PlayerPositions from "@/app/_components/player/PlayerPositions";
 import { Season } from "@/app/_types/season";
@@ -19,7 +19,7 @@ const FieldPlayer = ({ player: { spid, role, ovr, pay, name, price }, seasons }:
     <tr key={spid} className="odd:bg-white even:bg-gray-50 border-b">
       <td className="flex items-center py-4 text-gray-900 whitespace-nowrap ">
         <div className="px-4">
-          <CustomImage spId={spid} />
+          <PlayerImage spId={spid} />
         </div>
         <div>
           <PlayerWithSeason seasonImgUrl={season?.imageUrl || ""} playerName={name} />

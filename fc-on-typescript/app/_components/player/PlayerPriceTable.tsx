@@ -2,7 +2,7 @@ import { fetchPlayerPriceRank } from "@/app/_service/playerService";
 import { Theme } from "@/app/_types";
 import { convertKorPriceFormat, convertPriceFormat } from "@/app/_utils";
 import Alert from "../ui/Alert";
-import CustomImage from "./PlayerImage";
+import PlayerImage from "./PlayerImage";
 import PlayerWithSeason from "./PlayerWithSeason";
 import { PlayerPriceRank } from "@/app/_types/player";
 
@@ -42,7 +42,7 @@ export default async function PlayerPriceTable({ theme, title, sort }: Props) {
               <tr key={playerId} className="odd:bg-white even:bg-gray-50  border-b">
                 <th scope="row" className="flex items-center py-4 text-gray-900 whitespace-nowrap ">
                   <div className="mx-4">
-                    <CustomImage spId={playerId} />
+                    <PlayerImage spId={playerId} />
                   </div>
                   <PlayerWithSeason seasonImgUrl={seasonImgUrl} playerName={playerName} />
                 </th>

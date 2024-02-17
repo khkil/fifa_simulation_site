@@ -16,7 +16,7 @@ import PositionPriceGraph from "@/app/user/squad/_components/information/Positio
 import { fetchUserSquad } from "@/app/_service/userService";
 import Error from "@/app/error";
 import Loader from "@/app/_components/ui/Loader";
-import SquadError from "@/app/user/squad/error";
+import SquadError from "@/app/user/match/error";
 
 export default function UserSquadPage() {
   const searchParams = useSearchParams();

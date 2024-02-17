@@ -59,7 +59,7 @@ const SquadTeamColor = ({ teamColor: { name, skill, image, playerlist }, players
       <div className={"mb-2 flex items-center"}>
         <img className={"w-6 mr-1.5"} src={image} />
         <p className={"font-semibold mr-1"}>{name}</p>
-        <p className={"font-semibold text-gray-400"}>({skill.replace("|", "")})</p>
+        <p className={"font-semibold text-gray-400"}>({skill.replaceAll("|", " ")})</p>
       </div>
       <div className={"flex"}>
         {teamPlayers.map(({ spid, thumb }) => (

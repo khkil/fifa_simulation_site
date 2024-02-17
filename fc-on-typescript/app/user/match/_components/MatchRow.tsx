@@ -7,6 +7,8 @@ import Error from "@/app/error";
 import { fetchUserMatchDetail, fetchUserSquad } from "@/app/_service/userService";
 import Loader from "@/app/_components/ui/Loader";
 import MatchDetailTab from "@/app/user/match/_components/MatchDetailTab";
+import MatchRecords from "@/app/user/match/_components/MatchRecords";
+import MatchLineup from "@/app/user/match/_components/MatchLineup";
 
 interface Props {
   match: Match;
@@ -28,36 +30,51 @@ export default function MatchRow({ match: { matchId, matchDate, users }, matchId
   return (
     <tr className="odd:bg-white even:bg-gray-50 border-b cursor-pointer">
       <td className="">
-        <details>
-          <summary
-            className={"list-none hover:bg-gray-300 py-3"}
-            onClick={() => {
-              toggleMatchDetail(matchId);
-            }}
-          >
-            <div className={"flex items-center justify-center"}>
-              <p className={"px-5 font-bold text-lg text-gray-700 w-[45%] text-right"}>{users[0].nickname}</p>
-              <p className={`px-2 font-bold text-xl  ${users[0].nickname === winner.nickname ? "text-red-400" : "text-black"}`}>{users[0].goal}</p>
-              <p className={"font-bold text-xl text-black"}>:</p>
-              <p className={`px-2 font-bold text-xl  ${users[1].nickname === winner.nickname ? "text-red-400" : "text-black"}`}>{users[1].goal}</p>
-              <p className={"px-5 font-bold text-lg text-gray-700 w-[45%] text-left"}>{users[1].nickname}</p>
-              <div className={"relative pt-5"}>
-                <svg
-                  className={`w-3 h-3 ${matchIds.includes(matchId) ? "rotate-180" : ""} transition-all duration-200 `}
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
-                </svg>
-              </div>
-            </div>
-            <div className={"pt-2 text-center"}>{convertDateFormat(matchDate)}</div>
-          </summary>
+        {users.length === 2 ? (
+          <details>
+            <summary
+              className={"list-none hover:bg-gray-300 py-3"}
+              onClick={() => {
+                toggleMatchDetail(matchId);
+              }}
+            >
+              <div className={"flex items-center justify-center"}>
+                <div className={"w-[45%] flex justify-end"}>
+                  <p className={"px-5 font-bold text-lg text-gray-700"}>{users[0].nickname}</p>
+                  <p className={`px-2 font-bold text-xl  ${users[0].nickname === winner.nickname ? "text-red-400" : "text-black"}`}>
+                    {users[0].goal}
+                  </p>
+                </div>
 
-          {matchIds.includes(matchId) ? <MatchDetail matchId={matchId} /> : null}
-        </details>
+                <p className={"font-bold text-xl text-black"}>:</p>
+
+                <div className={"w-[45%] flex"}>
+                  <p className={`px-2 font-bold text-xl  ${users[1].nickname === winner.nickname ? "text-red-400" : "text-black"}`}>
+                    {users[1].goal}
+                  </p>
+                  <p className={"px-5 font-bold text-lg text-gray-700 w-[45%] text-left"}>{users[1].nickname}</p>
+                </div>
+
+                <div className={"relative pt-5"}>
+                  <svg
+                    className={`w-3 h-3 ${matchIds.includes(matchId) ? "rotate-180" : ""} transition-all duration-200 `}
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
+                  </svg>
+                </div>
+              </div>
+              <div className={"pt-2 text-center"}>{convertDateFormat(matchDate)}</div>
+            </summary>
+
+            {matchIds.includes(matchId) ? <MatchDetail matchId={matchId} /> : null}
+          </details>
+        ) : (
+          <InvalidMatch />
+        )}
       </td>
     </tr>
   );
@@ -74,19 +91,6 @@ export const MatchDetail = ({ matchId }: { matchId: string }) => {
 
   const [tabIndex, setTabIndex] = useState<number>(0);
 
-  const getPercentage = (part: number, whole: number): number => {
-    if (part == 0 || whole == 0) return 0;
-    return parseFloat(((part / whole) * 100).toFixed(1));
-  };
-
-  const { user1, user2 }: { user1: MatchInfo | undefined; user2: MatchInfo | undefined } = useMemo(
-    () => ({
-      user1: matchDetail?.matchInfo?.[0],
-      user2: matchDetail?.matchInfo?.[1],
-    }),
-    [matchDetail],
-  );
-
   if (isLoading)
     return (
       <div className={"h-32"}>
@@ -94,78 +98,27 @@ export const MatchDetail = ({ matchId }: { matchId: string }) => {
       </div>
     );
 
-  if (!user1 || !user2) return null;
   return (
     <div className={"p-2 border-t"}>
       <MatchDetailTab tabIndex={tabIndex} setTabIndex={setTabIndex} />
       {matchDetail?.matchInfo ? (
         tabIndex === 0 ? (
-          <div className={"pt-5"}>
-            <MatchRecord desc={"슛"} value1={user1?.shoot.shootTotal} value2={user2.shoot.shootTotal} maxValue={20} />
-            <MatchRecord desc={"유효슛"} value1={user1.shoot.effectiveShootTotal} value2={user2.shoot.effectiveShootTotal} maxValue={20} />
-            <MatchRecord
-              desc={"슛 성공률(%)"}
-              value1={getPercentage(user1.shoot.goalTotal, user1.shoot.shootTotal)}
-              value2={getPercentage(user2.shoot.goalTotal, user2.shoot.shootTotal)}
-              maxValue={100}
-            />
-            <MatchRecord
-              desc={"패스 성공률(%)"}
-              value1={getPercentage(user1.pass.passSuccess, user1.pass.passTry)}
-              value2={getPercentage(user2.pass.passSuccess, user2.pass.passTry)}
-              maxValue={100}
-            />
-            {/*<MatchRecord desc={"점유율(%)"} value1={`${user1.matchDetail.possession}`} value2={`${user2.matchDetail.possession}`} maxValue={20} />*/}
-            <MatchRecord desc={"코너킥"} value1={user1.defence.tackleSuccess} value2={user2.defence.tackleSuccess} maxValue={20} />
-            <MatchRecord desc={"태클"} value1={user1.shoot.shootTotal} value2={user2.shoot.shootTotal} maxValue={20} />
-            <MatchRecord desc={"파울"} value1={user1.matchDetail.foul} value2={user2.matchDetail.foul} maxValue={20} />
-            <MatchRecord desc={"오프사이드"} value1={user1.matchDetail.offsideCount} value2={user2.matchDetail.offsideCount} maxValue={20} />
-            <MatchRecord desc={"경고"} value1={user1.matchDetail.yellowCards} value2={user2.matchDetail.yellowCards} maxValue={20} />
-            <MatchRecord desc={"퇴장"} value1={user1.matchDetail.redCards} value2={user2.matchDetail.redCards} maxValue={20} />
-            <MatchRecord desc={"부상"} value1={user1.matchDetail.injury} value2={user2.matchDetail.injury} maxValue={20} />
-          </div>
+          <MatchRecords matchInfo={matchDetail.matchInfo} />
         ) : tabIndex === 1 ? (
-          <MatchLineUp matchInfo={matchDetail.matchInfo} />
+          <MatchLineup matchInfo={matchDetail.matchInfo} />
         ) : null
       ) : null}
     </div>
   );
 };
 
-export const MatchRecord = ({ desc, value1, value2, maxValue }: { desc: string; value1: number; value2: number; maxValue: number }) => {
+const InvalidMatch = () => {
   return (
-    <div className="flex py-2 px-5">
-      <div className={"w-[30%] text-center"}>
-        <div className="w-full bg-gray-200 rounded-full h-2.5 scale-x-[-1]">
-          <div className={`bg-green-500 h-2.5 rounded-full`} style={{ width: `${(value1 / maxValue) * 100}%` }}></div>
-        </div>
-      </div>
-      <div className={"w-[15%] text-center"}>
-        <p className={"font-bold text-lg text-gray-800"}>{`${value1}${desc.indexOf("%") > -1 ? "%" : ""}`}</p>
-      </div>
-      <div className={"w-[10%] text-center"}>
-        <p className={"font-bold text-lg text-gray-800"}>{desc}</p>
-      </div>
-      <div className={"w-[15%] text-center"}>
-        <p className={"font-bold text-lg text-gray-800"}>{`${value2}${desc.indexOf("%") > -1 ? "%" : ""}`}</p>
-      </div>
-      <div className={"w-[30%] text-center"}>
-        <div className="w-full bg-gray-200 rounded-full h-2.5">
-          <div className={`bg-blue-500 h-2.5 rounded-full`} style={{ width: `${(value2 / maxValue) * 100}%` }}></div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export const MatchLineUp = ({ matchInfo }: { matchInfo: MatchInfo[] }) => {
-  return (
-    <div className="flex justify-center">
-      {matchInfo.map(({ nickname }: MatchInfo) => (
-        <div className={"w-1/2 text-center border-r border-gray-300"}>
-          <div>{nickname}</div>
-        </div>
-      ))}
+    <div className={"h-20 bg-gray-100 flex justify-center items-center"}>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+      </svg>
+      <p className={"text-lg font-bold px-2"}>경기정보를 불러올수 없습니다.</p>
     </div>
   );
 };

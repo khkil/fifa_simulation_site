@@ -27,7 +27,7 @@ export declare interface Player {
 
 export declare interface Position {
   positionName: string;
-  overall: number;
+  overall?: number;
 }
 
 export declare interface skill {

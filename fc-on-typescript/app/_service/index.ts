@@ -44,6 +44,7 @@ export default async function customFetch<Response>({ url, method = "GET", param
     return await response.json();
   } catch (e) {
     console.error(e);
-    throw new Error("서버오류가 발생하였습니다.");
+    // @ts-ignore
+    throw new Error(e.message || "서버오류가 발생하였습니다.");
   }
 }

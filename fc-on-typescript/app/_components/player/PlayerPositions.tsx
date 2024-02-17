@@ -12,7 +12,7 @@ export default function PlayerPositions({ positions, plusGrade = 0 }: Props) {
       {positions?.map(({ positionName, overall }, idx) => (
         <div key={idx} className="flex mr-2">
           <p className={`text-${getPositionGroup(positionName)} text-base font-semibold mr-1`}>{positionName}</p>
-          <p className="text-base font-semibold text-gray-700">{overall + getPlusOverallFromGrade(plusGrade)}</p>
+          {overall ? <p className="text-base font-semibold text-gray-700">{overall + getPlusOverallFromGrade(plusGrade)}</p> : null}
         </div>
       ))}
     </div>

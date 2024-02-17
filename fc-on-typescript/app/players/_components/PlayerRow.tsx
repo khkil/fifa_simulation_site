@@ -1,4 +1,4 @@
-import CustomImage from "@/app/_components/player/PlayerImage";
+import PlayerImage from "@/app/_components/player/PlayerImage";
 import PlayerWithSeason from "@/app/_components/player/PlayerWithSeason";
 import PlayerPositions from "@/app/_components/player/PlayerPositions";
 import { Player } from "@/app/_types/player";
@@ -32,7 +32,7 @@ export default function PlayerRow({
     <tr key={spId} className="odd:bg-white even:bg-gray-50 border-b">
       <td className="flex items-center py-4 text-gray-900 whitespace-nowrap">
         <div className="px-4">
-          <CustomImage spId={spId} />
+          <PlayerImage spId={spId} />
         </div>
         <div>
           <PlayerWithSeason seasonImgUrl={imageUrl} playerName={playerName} />
