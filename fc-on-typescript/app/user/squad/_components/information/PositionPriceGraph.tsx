@@ -36,7 +36,7 @@ export default function PositionPriceGraph({ players }: Props) {
 
   return (
     <div>
-      <h2 className={"font-bold text-xl mb-2"}>포지션별 구단가치</h2>
+      <h2 className={"font-bold text-xl mb-2 text-gray-700"}>포지션별 구단가치</h2>
       <Chart options={chart.options} series={chart.series} type="donut" width="380" />
     </div>
   );

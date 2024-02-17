@@ -6,6 +6,11 @@ export const getPositionGroup = (position: string) => {
   return Object.keys(POSITION_GROUP).find((key) => POSITION_GROUP[key].positions.includes(position));
 };
 
+export const getPercentage = (part: number, whole: number): number => {
+  if (part == 0 || whole == 0) return 0;
+  return parseFloat(((part / whole) * 100).toFixed(1));
+};
+
 export const getOverallColor = (colorMap, overall) => {
   const overallUnit = Math.floor(overall / 10) * 10;
   return colorMap[`over${overallUnit}`];
@@ -75,11 +80,6 @@ export const convertDateFormat = (date: string) => {
     return formatDistanceToNow(d, { addSuffix: true, locale: ko });
   } */
   return format(d, "PPP EEE p", { locale: ko }); // 날짜 포맷
-};
-
-export const getPercentage = (part, whole) => {
-  if (part == 0 || whole == 0) return 0;
-  return parseFloat(((part / whole) * 100).toFixed(1));
 };
 
 export const upgradeValue = () => {

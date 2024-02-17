@@ -1,16 +1,12 @@
 import { MatchInfo } from "@/app/_types/match";
 import { useMemo } from "react";
+import { getPercentage } from "@/app/_utils";
 
 interface Props {
   matchInfo: MatchInfo[];
 }
 
 export default function MatchRecords({ matchInfo }: Props) {
-  const getPercentage = (part: number, whole: number): number => {
-    if (part == 0 || whole == 0) return 0;
-    return parseFloat(((part / whole) * 100).toFixed(1));
-  };
-
   const { user1, user2 }: { user1: MatchInfo | undefined; user2: MatchInfo | undefined } = useMemo(
     () => ({
       user1: matchInfo?.[0],

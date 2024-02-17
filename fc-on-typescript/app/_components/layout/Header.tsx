@@ -30,7 +30,7 @@ export default function Header() {
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <Link href="/" className="flex items-center">
             <img src="/images/common/logo.png" className="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
-            <span className="self-center text-xl font-semibold whitespace-nowrap ">FC-ON</span>
+            <span className="self-center text-2xl font-bold whitespace-nowrap text-gray-700">FC-ON</span>
           </Link>
           <div className="flex items-center lg:order-2">
             <a href="#" className="text-gray-800 ">
@@ -46,7 +46,7 @@ export default function Header() {
                     className="block py-2 pr-4 pl-3 text-gray-800 rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0"
                     aria-current="page"
                   >
-                    <p className="font-semibold hover:text-gray-400">{title}</p>
+                    <p className="font-semibold hover:text-gray-400 text-xl">{title}</p>
                   </Link>
                 </li>
               ))}

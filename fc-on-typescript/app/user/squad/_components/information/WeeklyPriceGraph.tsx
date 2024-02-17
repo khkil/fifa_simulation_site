@@ -102,7 +102,7 @@ export default function WeeklyPriceGraph({ totalPriceList }: Props) {
   };
   return (
     <div className="mixed-chart w-full ">
-      <h2 className={"font-bold text-xl mb-2"}>일별 구단가치</h2>
+      <h2 className={"font-bold text-xl mb-2 text-gray-700"}>일별 구단가치</h2>
       <div className="flex justify-between border-gray-200 border-b pb-3">
         <dl>
           <dt className="text-base font-normal text-gray-500 pb-1">현재 구단가치</dt>

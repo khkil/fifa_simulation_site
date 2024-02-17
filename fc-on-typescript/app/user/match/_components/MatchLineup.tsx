@@ -2,7 +2,7 @@ import { MatchInfo, MatchPlayer } from "@/app/_types/match";
 import { Key, useMemo, useState } from "react";
 import PlayerWithSeason from "@/app/_components/player/PlayerWithSeason";
 import PlayerPositions from "@/app/_components/player/PlayerPositions";
-import { convertKorPriceFormat, convertPriceFormat } from "@/app/_utils";
+import { convertKorPriceFormat, convertPriceFormat, getPercentage } from "@/app/_utils";
 import Chart from "react-apexcharts";
 
 interface Props {
@@ -19,7 +19,13 @@ export default function MatchLineup({ matchInfo }: Props) {
 }
 
 const LineupPlayers = ({ player, reverse }: { player: MatchPlayer[]; reverse?: boolean }) => {
-  const [selectPlayer, setSelectPlayer] = useState<MatchPlayer>(player[0]);
+  const [
+    {
+      spId,
+      status: { spRating, goal, shoot, passSuccess, passTry, dribbleSuccess, dribbleTry, aerialSuccess, aerialTry, tackle, tackleTry },
+    },
+    setSelectPlayer,
+  ] = useState<MatchPlayer>(player[0]);
   const squadPrice = useMemo<number>(() => player.reduce((sum, { price }) => sum + price, 0), [player]);
   return (
     <div className={`w-1/2 text-center py-5 border-gray-300 flex ${reverse ? "flex-row-reverse" : "border-r"}`}>
@@ -34,7 +40,7 @@ const LineupPlayers = ({ player, reverse }: { player: MatchPlayer[]; reverse?: b
               key={player.spId}
               aria-current="true"
               type="button"
-              className={`w-full px-4 py-3 font-medium text-left rtl:text-right border-b cursor-pointer border-gray-200 focus:outline-none ${selectPlayer.spId === player.spId ? "text-white bg-gray-600" : "hover:bg-gray-100"} `}
+              className={`w-full px-4 py-3 font-medium text-left rtl:text-right border-b cursor-pointer border-gray-200 focus:outline-none ${spId === player.spId ? "text-white bg-gray-600" : "hover:bg-gray-100"} `}
               onClick={() => {
                 setSelectPlayer(player);
               }}
@@ -51,16 +57,26 @@ const LineupPlayers = ({ player, reverse }: { player: MatchPlayer[]; reverse?: b
         </div>
       </div>
       <div className={"w-5/12"}>
-        <DonutChart percentage={10} />
+        <DonutChart value={spRating} maxValue={10} title={"평점"} />
+        <DonutChart value={getPercentage(goal, shoot)} title={"슛 성공률(%)"} />
+        <DonutChart value={getPercentage(passSuccess, passTry)} title={"패스 성공률(%)"} />
+        <DonutChart value={getPercentage(dribbleSuccess, dribbleTry)} title={"드리블 성공률(%)"} />
+        <DonutChart value={getPercentage(aerialSuccess, aerialTry)} title={"공중볼 성공률(%)"} />
+        <DonutChart value={getPercentage(tackle, tackleTry)} title={"태클 성공률(%)"} />
       </div>
     </div>
   );
 };
 
-const DonutChart = ({ percentage }: { percentage: number }) => {
+const DonutChart = ({ title, value, maxValue = 100 }: { title: string; value: number; maxValue?: number }) => {
   return (
-    <div className="radial-progress" style={{ "--value": 70 }} role="progressbar">
-      70%
+    <div className={"mb-4"}>
+      <p className={"mb-1 text-gray-800 font-semibold"}>{title}</p>
+      {/*@ts-ignore*/}
+      <div className="radial-progress" style={{ "--value": (value / maxValue) * 100 }} role="progressbar">
+        {value}
+        {title.indexOf("%") > -1 ? "%" : ""}
+      </div>
     </div>
   );
 };
