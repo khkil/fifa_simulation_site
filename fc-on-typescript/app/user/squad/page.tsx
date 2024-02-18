@@ -11,12 +11,13 @@ import { UserSquad } from "@/app/_types/user";
 import { UserProfile } from "@/app/user/squad/_components/profile/UserProfile";
 import FieldPlayers from "@/app/user/squad/_components/information/FieldPlayers";
 import SquadTab from "@/app/user/squad/_components/SquadTab";
-import WeeklyPriceGraph from "@/app/user/squad/_components/information/WeeklyPriceGraph";
-import PositionPriceGraph from "@/app/user/squad/_components/information/PositionPriceGraph";
 import { fetchUserSquad } from "@/app/_service/userService";
-import Error from "@/app/error";
 import Loader from "@/app/_components/ui/Loader";
 import SquadError from "@/app/user/match/error";
+import dynamic from "next/dynamic";
+
+const WeeklyPriceGraph = dynamic(() => import("@/app/user/squad/_components/information/WeeklyPriceGraph"), { ssr: false });
+const PositionPriceGraph = dynamic(() => import("@/app/user/squad/_components/information/PositionPriceGraph"), { ssr: false });
 
 export default function UserSquadPage() {
   const searchParams = useSearchParams();
