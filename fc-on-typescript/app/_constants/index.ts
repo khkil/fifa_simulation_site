@@ -10,7 +10,7 @@ export const RIGHT_FOOT: string = "RIGHT";
 export const DEFAULT_ERROR_MESSAGE: string = "데이터를 불러오는중 오류가 발생하였습니다.";
 
 export const POSITION_GROUP: Record<
-  PositionGroup,
+  string,
   {
     name: string;
     positions: string[];

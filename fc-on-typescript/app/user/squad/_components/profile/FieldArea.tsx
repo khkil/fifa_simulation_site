@@ -7,7 +7,7 @@ import { Season } from "@/app/_types/season";
 import { fetchClubs, fetchSeasons } from "@/app/_service/playerService";
 import Image from "next/image";
 import PlayerPay from "@/app/_components/player/PlayerPay";
-import { getPositionGroup } from "@/app/_utils";
+import { getPositionGroupByPosition } from "@/app/_utils";
 
 interface Props {
   nickname: string;
@@ -36,7 +36,7 @@ export default function FieldArea({ seasons, nickname, squad }: Props) {
               <div className={"flex justify-center"}>
                 <div className={"text-center"}>
                   <p className={"text-base text-white font-semibold"}>{ovr}</p>
-                  <p className={`text-lg text-${getPositionGroup(role.toUpperCase())} font-bold`}>{role.toUpperCase()}</p>
+                  <p className={`text-lg text-${getPositionGroupByPosition(role.toUpperCase())} font-bold`}>{role.toUpperCase()}</p>
                 </div>
                 <Image
                   width={100}
