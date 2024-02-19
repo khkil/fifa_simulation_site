@@ -62,4 +62,5 @@ export declare type UpgradeTargetPlayer = {
   playerId: number;
   grade: number;
   overall: number;
+  priceList: PlayerPrice[];
 };

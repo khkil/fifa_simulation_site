@@ -73,6 +73,7 @@ const TargetPlayerRow = ({
     playerName,
     positions,
     maxOverall,
+    priceList,
     season: { imageUrl },
   },
   setTargetPlayer,
@@ -83,8 +84,10 @@ const TargetPlayerRow = ({
   const [grade, setGrade] = useState<number>(1);
 
   const selectPlayer = () => {
-    setTargetPlayer({ playerId: spId, grade: grade, overall: maxOverall });
+    const targetPlayer = { playerId: spId, overall: maxOverall, grade, priceList };
+    setTargetPlayer(targetPlayer);
   };
+
   return (
     <tr className="odd:bg-white even:bg-gray-50 border-b hover:bg-gray-200 cursor-pointer">
       <td className="px-4 py-4">

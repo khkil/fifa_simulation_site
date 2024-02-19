@@ -4,6 +4,7 @@ import { useState } from "react";
 import { UpgradeTargetPlayer } from "@/app/_types/player";
 import TargetPlayer from "@/app/upgrade/_components/TargetPlayer";
 import TargetPlayerList from "@/app/upgrade/_components/TargetPlayerList";
+import IngredientPlayerList from "@/app/upgrade/_components/IngredientPlayerList";
 
 //const defaultTargetPlayer = { playerId: 264184881, grade: 5, overall: 115 };
 const defaultTargetPlayer = null;
@@ -16,7 +17,7 @@ export default function UpgradePage() {
         <TargetPlayer targetPlayer={targetPlayer} />
       </div>
       <div className={"w-2/5"}>
-        <TargetPlayerList setTargetPlayer={setTargetPlayer} />
+        {!targetPlayer ? <TargetPlayerList setTargetPlayer={setTargetPlayer} /> : <IngredientPlayerList playerOverall={targetPlayer.overall} />}
       </div>
     </div>
   );
