@@ -8,12 +8,11 @@ import { Player, PlayerSearchParams } from "@/app/_types/player";
 import PlayerRow from "@/app/players/_components/PlayerRow";
 import PlayerSearchBoxes from "@/app/players/_components/PlayerSearchBoxes";
 
-const getPageKey = (pageIndex = 1) => {
-  return pageIndex.toString();
-};
-
-//https://klloo.github.io/swr-pagination/
 export default function PlayerListPage() {
+  const getPageKey = (pageIndex = 1) => {
+    return pageIndex.toString();
+  };
+
   const [params, setParams] = useState<PlayerSearchParams>({});
   const { data, size, setSize, isLoading, mutate } = useSWRInfinite(
     getPageKey,

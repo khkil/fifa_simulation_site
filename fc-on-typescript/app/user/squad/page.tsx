@@ -1,6 +1,6 @@
 "use client";
 
-import NicknameSearchBox from "@/app/_components/ui/SearchBar";
+import NicknameSearchBar from "@/app/user/_components/NicknameSearchBar";
 import FieldArea from "./_components/profile/FieldArea";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -43,7 +43,7 @@ export default function UserSquadPage() {
 
   return (
     <div>
-      <NicknameSearchBox />
+      <NicknameSearchBar />
       {!nickname ? null : isLoading ? (
         <Loader description={"스쿼드를 불러오는 중입니다. 잠시만 기다려주세요."} />
       ) : seasons && squad ? (

@@ -1,9 +1,10 @@
-/*export declare interface Pageable {
-  content: Array<object | string | number>;
+export declare interface PageResponse {
+  content: any[];
   last: boolean;
-}*/
+  size: number;
+}
 
-export declare interface Pageable {
+export declare interface PageRequest {
   page?: number;
   size?: number;
   sort?: string;

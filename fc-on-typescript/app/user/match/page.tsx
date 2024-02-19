@@ -1,6 +1,6 @@
 "use client";
 
-import NicknameSearchBox from "@/app/_components/ui/SearchBar";
+import NicknameSearchBar from "@/app/user/_components/NicknameSearchBar";
 import { fetchUserMatches } from "@/app/_service/userService";
 import { useSearchParams } from "next/navigation";
 import { Key, useEffect, useMemo, useState } from "react";
@@ -39,7 +39,7 @@ export default function UserMatchListPage() {
 
   return (
     <div>
-      <NicknameSearchBox />
+      <NicknameSearchBar />
       {!nickname ? null : isLoading ? (
         <Loader description={"매치결과를 불러오는 중입니다. 잠시만 기다려주세요."} />
       ) : data ? (

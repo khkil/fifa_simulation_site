@@ -12,7 +12,7 @@ interface Options {
   body?: BodyInit;
 }
 
-export default async function customFetch<Response>({ url, method = "GET", params = {} }: Props) {
+export default async function customFetch({ url, method = "GET", params = {} }: Props) {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   let headers = {
@@ -38,7 +38,7 @@ export default async function customFetch<Response>({ url, method = "GET", param
   try {
     const response = await fetch(`${baseUrl}${url}`, options);
     if (!response.ok) {
-      const { message } = await response.json();
+      const { message } = (await response.json()) as Response;
       throw new Error(message || "응답 데이터를 받아오는데 실패 하였습니다.");
     }
     return await response.json();

@@ -1,18 +1,18 @@
 import { Response } from "@/app/_types";
 import { SUCCESS_STATUS } from "@/app/_constants";
 import customFetch from ".";
-import { Pageable } from "@/app/_types/pageable";
+import { PageResponse, PageRequest } from "@/app/_types/pageable";
 import { PlayerSearchParams } from "@/app/_types/player";
 
-export const fetchPlayers = async (params?: Pageable | PlayerSearchParams) => {
+export const fetchPlayers = async (params?: PageRequest | PlayerSearchParams): Promise<PageResponse> => {
   const { status, data, message }: Response = await customFetch({ url: "/api/players", params });
   if (status !== SUCCESS_STATUS) {
     throw new Error(message);
   }
-  return data;
+  return data as PageResponse;
 };
 
-export const fetchPlayerPriceRank = async (params?: Pageable) => {
+export const fetchPlayerPriceRank = async (params?: PageRequest) => {
   try {
     return customFetch({ url: "/api/players/price-rank", params });
   } catch (e) {

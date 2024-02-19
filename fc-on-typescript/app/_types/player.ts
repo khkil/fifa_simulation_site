@@ -1,4 +1,5 @@
 import { Season } from "@/app/_types/season";
+import { number } from "prop-types";
 
 interface PlayerPrice {
   grade: number;
@@ -56,3 +57,9 @@ export declare interface PlayerSearchParams {
   nationIds?: number[];
   name?: string;
 }
+
+export declare type UpgradeTargetPlayer = {
+  playerId: number;
+  grade: number;
+  overall: number;
+};
