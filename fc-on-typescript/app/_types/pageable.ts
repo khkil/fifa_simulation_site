@@ -1,5 +1,5 @@
-export declare interface PageResponse {
-  content: any[];
+export declare interface PageResponse<T> {
+  content: T[];
   last: boolean;
   size: number;
 }

@@ -62,5 +62,18 @@ export declare type UpgradeTargetPlayer = {
   playerId: number;
   grade: number;
   overall: number;
+  playerName: string;
+  season: Season;
   priceList: PlayerPrice[];
+  positions: Position[];
 };
+
+export declare interface PlayerByOverall {
+  spId: number;
+  playerName: string;
+  overall: number;
+  price: number;
+  grade: number;
+  season: Season;
+  positions: Position[];
+}

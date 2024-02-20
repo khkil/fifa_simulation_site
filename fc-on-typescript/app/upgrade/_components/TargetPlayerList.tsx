@@ -16,12 +16,15 @@ interface Props {
   setTargetPlayer: (player: UpgradeTargetPlayer) => void;
 }
 export default function TargetPlayerList({ setTargetPlayer }: Props) {
-  const getPageKey = (pageIndex = 1) => {
-    return pageIndex.toString();
+  const getPageKey = (page = 1) => {
+    return {
+      page,
+      key: "players",
+    };
   };
 
   const [params, setParams] = useState<PlayerSearchParams>({});
-  const { data, size, setSize, isLoading, mutate, isValidating } = useSWRInfinite<PageResponse, 1>(
+  const { data, size, setSize, isLoading, mutate, isValidating } = useSWRInfinite<PageResponse<Player>, 1>(
     getPageKey,
     (page) => fetchPlayers({ page: parseInt(page) + 1, size: 15, ...params }),
     {
@@ -68,14 +71,7 @@ export default function TargetPlayerList({ setTargetPlayer }: Props) {
 }
 
 const TargetPlayerRow = ({
-  player: {
-    spId,
-    playerName,
-    positions,
-    maxOverall,
-    priceList,
-    season: { imageUrl },
-  },
+  player: { spId, playerName, positions, maxOverall, priceList, season },
   setTargetPlayer,
 }: {
   player: Player;
@@ -84,7 +80,7 @@ const TargetPlayerRow = ({
   const [grade, setGrade] = useState<number>(1);
 
   const selectPlayer = () => {
-    const targetPlayer = { playerId: spId, overall: maxOverall, grade, priceList };
+    const targetPlayer = { playerId: spId, overall: maxOverall, grade, priceList, playerName, season, positions };
     setTargetPlayer(targetPlayer);
   };
 
@@ -98,7 +94,7 @@ const TargetPlayerRow = ({
           <PlayerImage spId={spId} />
         </div>
         <div>
-          <PlayerWithSeason seasonImgUrl={imageUrl} playerName={playerName} />
+          <PlayerWithSeason seasonImgUrl={season.imageUrl} playerName={playerName} />
           <PlayerPositions positions={positions} />
         </div>
       </td>
