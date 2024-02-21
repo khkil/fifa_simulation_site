@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import { Season } from "@/app/_types/season";
 import { fetchPlayers, fetchPlayersByOverall, fetchSeasons } from "@/app/_service/playerService";
@@ -10,6 +10,8 @@ import { useInView } from "react-intersection-observer";
 import PlayerWithSeason from "@/app/_components/player/PlayerWithSeason";
 import PlayerPositions from "@/app/_components/player/PlayerPositions";
 import { convertPriceFormat } from "@/app/_utils";
+import NotFound from "@/app/not-found";
+import NoResults from "@/app/_components/ui/NoResults";
 
 interface Props {
   playerOverall: number;
@@ -17,10 +19,11 @@ interface Props {
 
 export default function IngredientPlayerList({ playerOverall }: Props) {
   const [overall, setOverall] = useState(playerOverall - 1);
+  const [ref, inView] = useInView();
 
   const getPageKey = (page = 1) => {
     return {
-      key: `players_${playerOverall}`,
+      key: `players_${overall}_${page}`,
       page,
     };
   };
@@ -32,7 +35,8 @@ export default function IngredientPlayerList({ playerOverall }: Props) {
       revalidateFirstPage: false,
     },
   );
-  const [ref, inView] = useInView();
+
+  const notFound = useMemo(() => data?.[0]?.totalPages === 0 || false, [data]);
 
   useEffect(() => {
     if (inView && !isLoading) {
@@ -40,33 +44,77 @@ export default function IngredientPlayerList({ playerOverall }: Props) {
     }
   }, [inView]);
 
-  if (isLoading) return <Loader useScreenHeight={false} />;
   return (
-    <div className={"h-[52rem] overflow-y-auto border border-gray-300 rounded-lg"}>
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-        <thead>
-          <tr>
-            <th scope="col" className="py-3 w-2/12 text-center">
-              강화등급
-            </th>
-            <th scope="col" className="py-3 w-7/12">
-              선수정보
-            </th>
-            <th scope="col" className="py-3 w-3/12 pl-9">
-              수량
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((v) =>
-            v.content.map((playerByOverall: PlayerByOverall) => <IngredientPlayerRow key={playerByOverall.spId} playerByOverall={playerByOverall} />),
-          )}
-        </tbody>
-      </table>
-      <div ref={ref}></div>
+    <div>
+      <OverallRangeSlider playerOverall={playerOverall} overall={overall} setOverall={setOverall} />
+      <div className={"h-[52rem] overflow-y-auto border border-gray-300 rounded-lg"}>
+        {isLoading ? (
+          <Loader useScreenHeight={false} />
+        ) : !notFound ? (
+          <div>
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+              <thead>
+                <tr>
+                  <th scope="col" className="py-3 w-2/12 text-center">
+                    강화등급
+                  </th>
+                  <th scope="col" className="py-3 w-7/12">
+                    선수정보
+                  </th>
+                  <th scope="col" className="py-3 w-3/12 pl-9">
+                    수량
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {data?.map((v) =>
+                  v.content.map((playerByOverall: PlayerByOverall) => (
+                    <IngredientPlayerRow key={playerByOverall.spId} playerByOverall={playerByOverall} />
+                  )),
+                )}
+              </tbody>
+            </table>
+            <div ref={ref}></div>
+          </div>
+        ) : (
+          <NoResults text={"일치하는 선수가 없습니다."} />
+        )}
+      </div>
     </div>
   );
 }
+
+const OverallRangeSlider = ({
+  playerOverall,
+  overall,
+  setOverall,
+}: {
+  playerOverall: number;
+  overall: number;
+  setOverall: (ovr: number) => void;
+}) => {
+  return (
+    <div className={"pb-5"}>
+      <label htmlFor="steps-range" className="block mb-2 text-sm font-medium text-gray-900">
+        <span className={"font-semibold"}>강화재료 오버롤 : </span>
+        <span className="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">{overall}</span>
+      </label>
+
+      <input
+        id="steps-range"
+        type="range"
+        min={playerOverall - 10}
+        max={playerOverall + 10}
+        value={overall}
+        step={1}
+        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+        onChange={(e) => {
+          setOverall(parseInt(e.target.value));
+        }}
+      />
+    </div>
+  );
+};
 
 const IngredientPlayerRow = ({
   playerByOverall: {

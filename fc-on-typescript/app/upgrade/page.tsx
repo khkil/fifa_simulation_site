@@ -36,7 +36,7 @@ let defaultTargetPlayer: UpgradeTargetPlayer | null = {
 };
 
 export default function UpgradePage() {
-  const [targetPlayer, setTargetPlayer] = useState<UpgradeTargetPlayer | null>(defaultTargetPlayer);
+  const [targetPlayer, setTargetPlayer] = useState<UpgradeTargetPlayer | null>(null);
   const [ingredientPlayers, setIngredientPlayers] = useState<PlayerByOverall[]>([]);
   return (
     <div className={"flex justify-center space-x-5"}>
