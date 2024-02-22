@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import { Season } from "@/app/_types/season";
 import { fetchPlayers, fetchPlayersByOverall, fetchSeasons } from "@/app/_service/playerService";
@@ -9,15 +9,17 @@ import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import PlayerWithSeason from "@/app/_components/player/PlayerWithSeason";
 import PlayerPositions from "@/app/_components/player/PlayerPositions";
-import { convertPriceFormat } from "@/app/_utils";
+import { convertPriceFormat, upgradeCardMaxCount } from "@/app/_utils";
 import NotFound from "@/app/not-found";
 import NoResults from "@/app/_components/ui/NoResults";
 
 interface Props {
   playerOverall: number;
+  ingredientPlayers: PlayerByOverall[];
+  setIngredientPlayers: (players: PlayerByOverall[]) => void;
 }
 
-export default function IngredientPlayerList({ playerOverall }: Props) {
+export default function IngredientPlayerList({ ingredientPlayers, setIngredientPlayers, playerOverall }: Props) {
   const [overall, setOverall] = useState(playerOverall - 1);
   const [ref, inView] = useInView();
 
@@ -69,7 +71,12 @@ export default function IngredientPlayerList({ playerOverall }: Props) {
               <tbody>
                 {data?.map((v) =>
                   v.content.map((playerByOverall: PlayerByOverall) => (
-                    <IngredientPlayerRow key={playerByOverall.spId} playerByOverall={playerByOverall} />
+                    <IngredientPlayerRow
+                      key={playerByOverall.spId}
+                      playerByOverall={playerByOverall}
+                      ingredientPlayers={ingredientPlayers}
+                      setIngredientPlayers={setIngredientPlayers}
+                    />
                   )),
                 )}
               </tbody>
@@ -117,16 +124,41 @@ const OverallRangeSlider = ({
 };
 
 const IngredientPlayerRow = ({
-  playerByOverall: {
+  playerByOverall,
+  ingredientPlayers,
+  setIngredientPlayers,
+}: {
+  playerByOverall: PlayerByOverall;
+  ingredientPlayers: PlayerByOverall[];
+  setIngredientPlayers: (players: PlayerByOverall[]) => void;
+}) => {
+  const {
+    spId,
     playerName,
     grade,
     price,
     season: { imageUrl },
     positions,
-  },
-}: {
-  playerByOverall: PlayerByOverall;
-}) => {
+  } = playerByOverall;
+
+  const [count, setCount] = useState<number>(0);
+  const plusIngredient = (): void => {
+    if (ingredientPlayers.length > upgradeCardMaxCount) {
+      alert(`강화재료는 ${upgradeCardMaxCount}개 까지 사용가능합니다.`);
+      return;
+    }
+    setIngredientPlayers([...ingredientPlayers, playerByOverall]);
+    setCount(count + 1);
+  };
+
+  const minusIngredient = (): void => {
+    const minusIndex = ingredientPlayers.map((player) => player.spId).lastIndexOf(spId);
+    if (minusIndex > -1) {
+      setIngredientPlayers(ingredientPlayers.filter((_, index) => index !== minusIndex));
+      setCount(count - 1);
+    }
+  };
+
   return (
     <tr className="odd:bg-white even:bg-gray-50 border-b hover:bg-gray-200 cursor-pointer">
       <td className="py-2 w-2/12">
@@ -147,15 +179,15 @@ const IngredientPlayerRow = ({
             <button
               data-action="decrement"
               className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none border-0 border-r border-gray-200"
-              onClick={() => {}}
+              onClick={minusIngredient}
             >
               <span className="m-auto text-2xl font-thin">−</span>
             </button>
-            <div className="w-full bg-gray-300 font-semibold text-md flex justify-center items-center">0</div>
+            <div className="w-full bg-gray-300 font-semibold text-md flex justify-center items-center">{count}</div>
             <button
               data-action="increment"
               className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer border-l border-gray-200"
-              onClick={() => {}}
+              onClick={plusIngredient}
             >
               <span className="m-auto text-2xl font-thin">+</span>
             </button>
