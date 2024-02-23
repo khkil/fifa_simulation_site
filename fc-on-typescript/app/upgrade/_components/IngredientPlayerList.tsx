@@ -3,20 +3,21 @@ import useSWR from "swr";
 import { Season } from "@/app/_types/season";
 import { fetchPlayers, fetchPlayersByOverall, fetchSeasons } from "@/app/_service/playerService";
 import { PageResponse } from "@/app/_types/pageable";
-import { Player, PlayerByOverall } from "@/app/_types/player";
+import { Player, IngredientPlayer } from "@/app/_types/player";
 import Loader from "@/app/_components/ui/Loader";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import PlayerWithSeason from "@/app/_components/player/PlayerWithSeason";
 import PlayerPositions from "@/app/_components/player/PlayerPositions";
-import { convertPriceFormat, upgradeCardMaxCount } from "@/app/_utils";
+import { convertPriceFormat } from "@/app/_utils";
 import NotFound from "@/app/not-found";
 import NoResults from "@/app/_components/ui/NoResults";
+import { UPGRADEABLE_MAX_OVR_DIFF, UPGRADEABLE_MIN_OVR_DIFF, UPGRADE_INGREDIENT_MAX_COUNT } from "@/app/_constants/upgrade";
 
 interface Props {
   playerOverall: number;
-  ingredientPlayers: PlayerByOverall[];
-  setIngredientPlayers: (players: PlayerByOverall[]) => void;
+  ingredientPlayers: IngredientPlayer[];
+  setIngredientPlayers: (players: IngredientPlayer[]) => void;
 }
 
 export default function IngredientPlayerList({ ingredientPlayers, setIngredientPlayers, playerOverall }: Props) {
@@ -30,7 +31,7 @@ export default function IngredientPlayerList({ ingredientPlayers, setIngredientP
     };
   };
 
-  const { data, size, setSize, isLoading, mutate, isValidating } = useSWRInfinite<PageResponse<PlayerByOverall>, Error>(
+  const { data, size, setSize, isLoading, mutate, isValidating } = useSWRInfinite<PageResponse<IngredientPlayer>, Error>(
     getPageKey,
     (page) => fetchPlayersByOverall(overall, { page: parseInt(page) + 1, size: 10 }),
     {
@@ -70,10 +71,10 @@ export default function IngredientPlayerList({ ingredientPlayers, setIngredientP
               </thead>
               <tbody>
                 {data?.map((v) =>
-                  v.content.map((playerByOverall: PlayerByOverall) => (
+                  v.content.map((ingredientPlayer: IngredientPlayer) => (
                     <IngredientPlayerRow
-                      key={playerByOverall.spId}
-                      playerByOverall={playerByOverall}
+                      key={ingredientPlayer.spId}
+                      ingredientPlayer={ingredientPlayer}
                       ingredientPlayers={ingredientPlayers}
                       setIngredientPlayers={setIngredientPlayers}
                     />
@@ -110,8 +111,8 @@ const OverallRangeSlider = ({
       <input
         id="steps-range"
         type="range"
-        min={playerOverall - 10}
-        max={playerOverall + 10}
+        min={playerOverall - UPGRADEABLE_MIN_OVR_DIFF}
+        max={playerOverall + UPGRADEABLE_MAX_OVR_DIFF}
         value={overall}
         step={1}
         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
@@ -124,13 +125,13 @@ const OverallRangeSlider = ({
 };
 
 const IngredientPlayerRow = ({
-  playerByOverall,
+  ingredientPlayer,
   ingredientPlayers,
   setIngredientPlayers,
 }: {
-  playerByOverall: PlayerByOverall;
-  ingredientPlayers: PlayerByOverall[];
-  setIngredientPlayers: (players: PlayerByOverall[]) => void;
+  ingredientPlayer: IngredientPlayer;
+  ingredientPlayers: IngredientPlayer[];
+  setIngredientPlayers: (players: IngredientPlayer[]) => void;
 }) => {
   const {
     spId,
@@ -139,15 +140,15 @@ const IngredientPlayerRow = ({
     price,
     season: { imageUrl },
     positions,
-  } = playerByOverall;
+  } = ingredientPlayer;
 
   const [count, setCount] = useState<number>(0);
   const plusIngredient = (): void => {
-    if (ingredientPlayers.length > upgradeCardMaxCount) {
-      alert(`강화재료는 ${upgradeCardMaxCount}개 까지 사용가능합니다.`);
+    if (ingredientPlayers.length > UPGRADE_INGREDIENT_MAX_COUNT) {
+      alert(`강화재료는 ${UPGRADE_INGREDIENT_MAX_COUNT}개 까지 사용가능합니다.`);
       return;
     }
-    setIngredientPlayers([...ingredientPlayers, playerByOverall]);
+    setIngredientPlayers([...ingredientPlayers, ingredientPlayer]);
     setCount(count + 1);
   };
 

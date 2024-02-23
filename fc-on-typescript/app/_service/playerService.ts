@@ -2,7 +2,7 @@ import { Response } from "@/app/_types";
 import { SUCCESS_STATUS } from "@/app/_constants";
 import customFetch from ".";
 import { PageResponse, PageRequest } from "@/app/_types/pageable";
-import { Player, PlayerByOverall, PlayerSearchParams } from "@/app/_types/player";
+import { Player, IngredientPlayer, PlayerSearchParams } from "@/app/_types/player";
 
 export const fetchPlayers = async (params?: PageRequest | PlayerSearchParams): Promise<PageResponse<Player>> => {
   const { status, data, message }: Response = await customFetch({ url: "/api/players", params });
@@ -12,12 +12,12 @@ export const fetchPlayers = async (params?: PageRequest | PlayerSearchParams): P
   return data as PageResponse<Player>;
 };
 
-export const fetchPlayersByOverall = async (overall: number, params?: PageRequest): Promise<PageResponse<PlayerByOverall>> => {
+export const fetchPlayersByOverall = async (overall: number, params?: PageRequest): Promise<PageResponse<IngredientPlayer>> => {
   const { status, data, message }: Response = await customFetch({ url: `/api/players/overall/${overall}`, params });
   if (status !== SUCCESS_STATUS) {
     throw new Error(message);
   }
-  return data as PageResponse<PlayerByOverall>;
+  return data as PageResponse<IngredientPlayer>;
 };
 
 export const fetchPlayerPriceRank = async (params?: PageRequest) => {

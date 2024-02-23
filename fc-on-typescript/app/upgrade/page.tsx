@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PlayerByOverall, UpgradeTargetPlayer } from "@/app/_types/player";
+import { IngredientPlayer, UpgradeTargetPlayer } from "@/app/_types/player";
 import TargetPlayer from "@/app/upgrade/_components/TargetPlayer";
 import TargetPlayerList from "@/app/upgrade/_components/TargetPlayerList";
 import IngredientPlayerList from "@/app/upgrade/_components/IngredientPlayerList";
@@ -37,7 +37,7 @@ let defaultTargetPlayer: UpgradeTargetPlayer | null = {
   ],
 };
 
-const playerByOverallList = [
+const ingredientPlayerList = [
   {
     spId: 802166906,
     playerName: "프랑코 바레시",
@@ -60,7 +60,7 @@ const playerByOverallList = [
 
 export default function UpgradePage() {
   const [targetPlayer, setTargetPlayer] = useState<UpgradeTargetPlayer | null>(defaultTargetPlayer); // null
-  const [ingredientPlayers, setIngredientPlayers] = useState<PlayerByOverall[]>(playerByOverallList); // []
+  const [ingredientPlayers, setIngredientPlayers] = useState<IngredientPlayer[]>([]); // []
 
   return (
     <div className={"flex justify-center space-x-5"}>

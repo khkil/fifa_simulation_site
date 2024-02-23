@@ -1,21 +1,26 @@
-import { PlayerByOverall, UpgradeTargetPlayer } from "@/app/_types/player";
+import { IngredientPlayer, UpgradeTargetPlayer } from "@/app/_types/player";
 import { useMemo } from "react";
-import { upgradeGauges } from "@/app/_utils";
+import { UPGRADE_GAUGES } from "@/app/_constants/upgrade";
 
 interface Props {
   targetPlayer: UpgradeTargetPlayer;
-  ingredientPlayers: PlayerByOverall[];
+  ingredientPlayers: IngredientPlayer[];
 }
 
 export function UpgradePercentBar({ targetPlayer, ingredientPlayers }: Props) {
   const successPercent = useMemo<number>(() => {
     let value = 0;
-    ingredientPlayers.forEach((v) => {
-      const gauge = upgradeGauges[targetPlayer.grade - 1];
-      v.overall;
+    ingredientPlayers.forEach((ingredientPlayer: IngredientPlayer) => {
+      const upgradeGrade = [targetPlayer.grade - 1];
+      const upgradePercent = [targetPlayer.overall - ingredientPlayer.overall + 5];
+      const gauge = UPGRADE_GAUGES[targetPlayer.grade - 1][targetPlayer.overall - ingredientPlayer.overall + 5];
+
+      console.log(upgradeGrade, upgradePercent);
+      ingredientPlayer.overall;
     });
     return value;
   }, [targetPlayer, ingredientPlayers]);
+
   return (
     <div className="w-full bg-gray-200 rounded-full mt-5">
       <div

@@ -68,7 +68,7 @@ export declare type UpgradeTargetPlayer = {
   positions: Position[];
 };
 
-export declare interface PlayerByOverall {
+export declare interface IngredientPlayer {
   spId: number;
   playerName: string;
   overall: number;

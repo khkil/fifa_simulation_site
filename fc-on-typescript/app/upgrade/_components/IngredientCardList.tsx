@@ -1,15 +1,15 @@
-import { PlayerByOverall } from "@/app/_types/player";
-import { upgradeCardMaxCount } from "@/app/_utils";
+import { IngredientPlayer } from "@/app/_types/player";
 import PlayerWithSeason from "@/app/_components/player/PlayerWithSeason";
+import { UPGRADE_INGREDIENT_MAX_COUNT } from "@/app/_constants/upgrade";
 
 interface Props {
-  ingredientPlayers: PlayerByOverall[];
-  setIngredientPlayers: (players: PlayerByOverall[]) => void;
+  ingredientPlayers: IngredientPlayer[];
+  setIngredientPlayers: (players: IngredientPlayer[]) => void;
 }
 export default function IngredientCardList({ ingredientPlayers, setIngredientPlayers }: Props) {
   return (
     <div className={"mt-5 flex"}>
-      {Array.from({ length: upgradeCardMaxCount }, (_, index) => index + 1).map((v) => (
+      {Array.from({ length: UPGRADE_INGREDIENT_MAX_COUNT }, (_, index) => index + 1).map((v) => (
         <div key={v} className={"border border-gray-300 rounded-lg w-full h-32 text-center"}>
           {ingredientPlayers[v] ? <IngredientCard ingredientPlayer={ingredientPlayers[v]} /> : null}
         </div>
@@ -24,7 +24,7 @@ const IngredientCard = ({
     season: { imageUrl },
   },
 }: {
-  ingredientPlayer: PlayerByOverall;
+  ingredientPlayer: IngredientPlayer;
 }) => {
   return (
     <div>
