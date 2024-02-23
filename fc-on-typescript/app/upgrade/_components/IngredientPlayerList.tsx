@@ -144,10 +144,11 @@ const IngredientPlayerRow = ({
 
   const [count, setCount] = useState<number>(0);
   const plusIngredient = (): void => {
-    if (ingredientPlayers.length > UPGRADE_INGREDIENT_MAX_COUNT) {
+    if (ingredientPlayers.length >= UPGRADE_INGREDIENT_MAX_COUNT) {
       alert(`강화재료는 ${UPGRADE_INGREDIENT_MAX_COUNT}개 까지 사용가능합니다.`);
       return;
     }
+
     setIngredientPlayers([...ingredientPlayers, ingredientPlayer]);
     setCount(count + 1);
   };

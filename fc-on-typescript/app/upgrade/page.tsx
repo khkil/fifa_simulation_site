@@ -7,6 +7,7 @@ import TargetPlayerList from "@/app/upgrade/_components/TargetPlayerList";
 import IngredientPlayerList from "@/app/upgrade/_components/IngredientPlayerList";
 import IngredientCardList from "@/app/upgrade/_components/IngredientCardList";
 import { UpgradePercentBar } from "@/app/upgrade/_components/UpgradePercentBar";
+import NoResults from "@/app/_components/ui/NoResults";
 
 let defaultTargetPlayer: UpgradeTargetPlayer | null = {
   playerId: 287256790,
@@ -65,13 +66,17 @@ export default function UpgradePage() {
   return (
     <div className={"flex justify-center space-x-5"}>
       <div className={"w-3/5"}>
-        <TargetPlayer targetPlayer={targetPlayer} setTargetPlayer={setTargetPlayer} />
-        {targetPlayer ? (
+        {!targetPlayer ? (
+          <div className={"h-96 border border-gray-300 rounded-lg "}>
+            <NoResults text={"강화할 선수를 선택해주세요"} />
+          </div>
+        ) : (
           <div>
+            <TargetPlayer targetPlayer={targetPlayer} setTargetPlayer={setTargetPlayer} setIngredientPlayers={setIngredientPlayers} />
             <IngredientCardList ingredientPlayers={ingredientPlayers} setIngredientPlayers={setIngredientPlayers} />
             <UpgradePercentBar targetPlayer={targetPlayer} ingredientPlayers={ingredientPlayers} />
           </div>
-        ) : null}
+        )}
       </div>
       <div className={"w-2/5"}>
         {!targetPlayer ? (

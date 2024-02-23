@@ -1,4 +1,4 @@
-import { Position, UpgradeTargetPlayer } from "@/app/_types/player";
+import { IngredientPlayer, Position, UpgradeTargetPlayer } from "@/app/_types/player";
 import PlayerWithSeason from "@/app/_components/player/PlayerWithSeason";
 import PlayerPositions from "@/app/_components/player/PlayerPositions";
 import { useMemo } from "react";
@@ -6,19 +6,18 @@ import { convertPriceFormat, getPlusOverallFromGrade } from "@/app/_utils";
 import NoResults from "@/app/_components/ui/NoResults";
 
 interface Props {
-  targetPlayer: UpgradeTargetPlayer | null;
+  targetPlayer: UpgradeTargetPlayer;
   setTargetPlayer: (targetPlayer: null) => void;
+  setIngredientPlayers: (ingredientPlayer: IngredientPlayer[]) => void;
 }
 
-export default function TargetPlayer({ targetPlayer, setTargetPlayer }: Props) {
-  if (!targetPlayer)
-    return (
-      <div className={"h-96 border border-gray-300 rounded-lg "}>
-        <NoResults text={"강화할 선수를 선택해주세요"} />
-      </div>
-    );
-
+export default function TargetPlayer({ targetPlayer, setTargetPlayer, setIngredientPlayers }: Props) {
   const { playerId, grade, priceList, overall, playerName, season, positions } = targetPlayer;
+
+  const resetPlayer = (): void => {
+    setTargetPlayer(null);
+    setIngredientPlayers([]);
+  };
 
   return (
     <div className={" border border-gray-300 rounded-lg p-10 flex flex-col items-center "}>
@@ -95,9 +94,7 @@ export default function TargetPlayer({ targetPlayer, setTargetPlayer }: Props) {
         </button>
         <button
           className="inline-flex items-center px-4 py-2 text-lg font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100"
-          onClick={() => {
-            setTargetPlayer(null);
-          }}
+          onClick={resetPlayer}
         >
           초기화
         </button>

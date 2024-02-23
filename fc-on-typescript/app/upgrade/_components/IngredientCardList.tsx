@@ -9,7 +9,7 @@ interface Props {
 export default function IngredientCardList({ ingredientPlayers, setIngredientPlayers }: Props) {
   return (
     <div className={"mt-5 flex"}>
-      {Array.from({ length: UPGRADE_INGREDIENT_MAX_COUNT }, (_, index) => index + 1).map((v) => (
+      {Array.from({ length: UPGRADE_INGREDIENT_MAX_COUNT }, (_, index) => index).map((v) => (
         <div key={v} className={"border border-gray-300 rounded-lg w-full h-32 text-center"}>
           {ingredientPlayers[v] ? <IngredientCard ingredientPlayer={ingredientPlayers[v]} /> : null}
         </div>
