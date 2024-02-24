@@ -71,11 +71,12 @@ export default function UpgradePage() {
             <NoResults text={"강화할 선수를 선택해주세요"} />
           </div>
         ) : (
-          <div>
-            <TargetPlayer targetPlayer={targetPlayer} setTargetPlayer={setTargetPlayer} setIngredientPlayers={setIngredientPlayers} />
-            <IngredientCardList ingredientPlayers={ingredientPlayers} setIngredientPlayers={setIngredientPlayers} />
-            <UpgradePercentBar targetPlayer={targetPlayer} ingredientPlayers={ingredientPlayers} />
-          </div>
+          <TargetPlayer
+            targetPlayer={targetPlayer}
+            setTargetPlayer={setTargetPlayer}
+            ingredientPlayers={ingredientPlayers}
+            setIngredientPlayers={setIngredientPlayers}
+          />
         )}
       </div>
       <div className={"w-2/5"}>

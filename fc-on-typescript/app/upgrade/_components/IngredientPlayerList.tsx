@@ -1,18 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import useSWR from "swr";
-import { Season } from "@/app/_types/season";
-import { fetchPlayers, fetchPlayersByOverall, fetchSeasons } from "@/app/_service/playerService";
+import { useEffect, useMemo, useState } from "react";
+import { fetchPlayersByOverall } from "@/app/_service/playerService";
 import { PageResponse } from "@/app/_types/pageable";
-import { Player, IngredientPlayer } from "@/app/_types/player";
+import { IngredientPlayer } from "@/app/_types/player";
 import Loader from "@/app/_components/ui/Loader";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import PlayerWithSeason from "@/app/_components/player/PlayerWithSeason";
 import PlayerPositions from "@/app/_components/player/PlayerPositions";
 import { convertPriceFormat } from "@/app/_utils";
-import NotFound from "@/app/not-found";
 import NoResults from "@/app/_components/ui/NoResults";
-import { UPGRADEABLE_MAX_OVR_DIFF, UPGRADEABLE_MIN_OVR_DIFF, UPGRADE_INGREDIENT_MAX_COUNT } from "@/app/_constants/upgrade";
+import { UPGRADE_INGREDIENT_MAX_COUNT, UPGRADEABLE_MAX_OVR_DIFF, UPGRADEABLE_MIN_OVR_DIFF } from "@/app/_constants/upgrade";
 
 interface Props {
   playerOverall: number;
@@ -21,7 +18,9 @@ interface Props {
 }
 
 export default function IngredientPlayerList({ ingredientPlayers, setIngredientPlayers, playerOverall }: Props) {
-  const [overall, setOverall] = useState(playerOverall - 1);
+  const defaultPlayerOverall = playerOverall - 1;
+
+  const [overall, setOverall] = useState(defaultPlayerOverall);
   const [ref, inView] = useInView();
 
   const getPageKey = (page = 1) => {
@@ -31,9 +30,13 @@ export default function IngredientPlayerList({ ingredientPlayers, setIngredientP
     };
   };
 
+  useEffect(() => {
+    setOverall(defaultPlayerOverall);
+  }, [playerOverall]);
+
   const { data, size, setSize, isLoading, mutate, isValidating } = useSWRInfinite<PageResponse<IngredientPlayer>, Error>(
     getPageKey,
-    (page) => fetchPlayersByOverall(overall, { page: parseInt(page) + 1, size: 10 }),
+    ({ page }) => fetchPlayersByOverall(overall, { page: parseInt(page) + 1, size: 10 }),
     {
       revalidateFirstPage: false,
     },
@@ -80,9 +83,11 @@ export default function IngredientPlayerList({ ingredientPlayers, setIngredientP
                     />
                   )),
                 )}
+                <tr ref={ref}>
+                  <td></td>
+                </tr>
               </tbody>
             </table>
-            <div ref={ref}></div>
           </div>
         ) : (
           <NoResults text={"일치하는 선수가 없습니다."} />

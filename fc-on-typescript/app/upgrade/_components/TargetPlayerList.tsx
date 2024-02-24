@@ -52,7 +52,7 @@ export default function TargetPlayerList({ setTargetPlayer }: Props) {
         }}
       />
       <div className={"h-[52rem] overflow-y-auto mt-10 border border-gray-300 rounded-xl"}>
-        {isLoading || isValidating ? (
+        {isLoading ? (
           <Loader useScreenHeight={false} />
         ) : data?.[0].size === 0 ? (
           <NoResults text={"일치하는 선수가 없습니다."} />
@@ -62,6 +62,9 @@ export default function TargetPlayerList({ setTargetPlayer }: Props) {
               {data?.map(({ content }) =>
                 content.map((player: Player, index: Key) => <TargetPlayerRow key={player.spId} player={player} setTargetPlayer={setTargetPlayer} />),
               )}
+              <tr ref={ref}>
+                <td></td>
+              </tr>
             </tbody>
           </table>
         )}
