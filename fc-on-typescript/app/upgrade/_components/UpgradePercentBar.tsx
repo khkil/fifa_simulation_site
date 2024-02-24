@@ -6,7 +6,7 @@ interface Props {
   successPercent: string;
 }
 
-export function UpgradePercentBar({ targetPlayer, ingredientPlayers, successPercent }: Props) {
+export function UpgradePercentBar({ successPercent }: Props) {
   return (
     <div className="w-full bg-gray-200 rounded-full mt-5 h-6 flex items-center">
       <div

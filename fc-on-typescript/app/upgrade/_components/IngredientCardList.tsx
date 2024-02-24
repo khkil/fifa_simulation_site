@@ -12,9 +12,11 @@ interface Props {
 export default function IngredientCardList({ ingredientPlayers, setIngredientPlayers }: Props) {
   return (
     <div className={"mt-5 flex"}>
-      {Array.from({ length: UPGRADE_INGREDIENT_MAX_COUNT }, (_, index) => index).map((v) => (
-        <div key={v} className={"border border-gray-300 rounded-lg w-full text-center h-48"}>
-          {ingredientPlayers[v] ? <IngredientCard ingredientPlayer={ingredientPlayers[v]} /> : null}
+      {Array.from({ length: UPGRADE_INGREDIENT_MAX_COUNT }, (_, index) => index).map((index) => (
+        <div key={index} className={"border border-gray-300 rounded-lg w-full text-center h-[14.5rem]"}>
+          {ingredientPlayers[index] ? (
+            <IngredientCard ingredientPlayer={ingredientPlayers[index]} setIngredientPlayers={setIngredientPlayers} index={index} />
+          ) : null}
         </div>
       ))}
     </div>
@@ -31,9 +33,14 @@ const IngredientCard = ({
     positions,
     season: { imageUrl },
   },
+  setIngredientPlayers,
+  index,
 }: {
   ingredientPlayer: IngredientPlayer;
+  setIngredientPlayers: (players: IngredientPlayer[]) => void;
+  index: number;
 }) => {
+  const removeIngredient = () => {};
   return (
     <div className={"space-y-1 py-3"}>
       <div className={"flex justify-center pb-1"}>
@@ -48,6 +55,11 @@ const IngredientCard = ({
       </div>
       <div className={"flex justify-center items-center"}>
         <p className={"text-bp font-semibold"}>{convertPriceFormat(price)} BP</p>
+      </div>
+      <div className={"flex justify-center items-center"}>
+        <button className={`inline-flex items-center px-2 py-2 text-sm font-medium text-center text-white rounded-lg bg-red-400 hover:bg-gray-300`}>
+          삭제
+        </button>
       </div>
     </div>
   );
