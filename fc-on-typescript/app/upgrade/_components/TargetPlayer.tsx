@@ -53,6 +53,8 @@ export default function TargetPlayer({ targetPlayer, setTargetPlayer, ingredient
       onUpgradeFail();
     }
 
+    setIngredientPlayers([]);
+
     setTimeout(() => {
       setZoomIn(false);
     }, 500);
@@ -86,7 +88,7 @@ export default function TargetPlayer({ targetPlayer, setTargetPlayer, ingredient
               <div className={"flex justify-center items-center"}>
                 <PlayerWithSeason playerName={playerName} seasonImgUrl={season.imageUrl} />
                 <p className={"ml-1 font-semibold"}>선수</p>
-                <img className={"h-5 mx-2"} src={`/images/strong/${grade + 1}.png`} />
+                <img className={"h-5 mx-2"} src={`/images/strong/${grade}.png`} />
                 <p className={"font-semibold mr-1"}> 강화에 </p>
                 <p className={"font-bold mr-1 text-blue-600"}> 성공</p>
                 <p className={"font-semibold"}> 하셨습니다!</p>
