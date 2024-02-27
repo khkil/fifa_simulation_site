@@ -1,14 +1,26 @@
 import Header from "@/app/_components/layout/Header";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import KakaoBanner from "@/app/_components/banner/KakaoBanner";
+import { ReactNode } from "react";
+import "./globals.css";
+import Image from "next/image";
+import type { TemplateString } from "next/dist/lib/metadata/types/metadata-types";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "FC-ON",
   description: "FC온라인 전적 및 스쿼드 조회",
+  keywords: "FC-ON, FC온라인, FC온라인 전적검색, FC온라인 스쿼드 조회, FC온라인 강화",
+  openGraph: {
+    title: "FC온라인 전적검색, 스쿼드 조회 FC-ON ",
+    siteName: "FC온라인 전적검색, 스쿼드 조회 FC-ON ",
+    description: "FC온라인 스쿼드 조회, 전적 등을 조회 및 강화 시뮬레이션을 사용해보세요",
+    images: {
+      url: "/favicon.ico",
+    },
+  },
 };
 
 const globalSWRConfig = {
@@ -19,7 +31,7 @@ const globalSWRConfig = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en" data-theme="light">
