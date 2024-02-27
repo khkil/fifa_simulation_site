@@ -1,20 +1,39 @@
-name: ec2 deploy
+name: Deploy
+
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
 
 jobs:
-  SSH:
+  deploy:
     runs-on: ubuntu-latest
-  
     steps:
-      - uses: actions/checkout@v3
-      - name: ssh to ec2
-        uses: appleboy/ssh-action@master
+      - name: Get Github Actions IP
+        id: ip
+        uses: haythem/public-ip@v1.2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: AKIAXYKJTBMLJPLFDPNM
+          aws-secret-access-key: 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
+          aws-region: ap-northeast-2
+
+      - name: Add Github Actions IP to Security group
+        run: |
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+      - name: SSH Commands
+        uses: appleboy/ssh-action@v0.1.6
         with:
           key: ${{ secrets.HUMANX_KEY }}
           host: 3.39.44.40
           username: ec2-user
           script: |
             whoami
+
+      - name: Remove Github Actions IP From Security Group
+        run: |
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
