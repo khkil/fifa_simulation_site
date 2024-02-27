@@ -10,10 +10,10 @@ jobs:
       - name: execute remote ssh
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.REMOTE_SSH_HOST }}
-          username: ${{ secrets.REMOTE_SSH_USERNAME }}
+          host: ${{ vars.REMOTE_SSH_HOST }}
+          username: ${{ vars.REMOTE_SSH_USERNAME }}
           key: ${{ secrets.HUMANX_KEY }}
-          passphrase: ${{ secrets.REMOTE_SSH_PASSPHRASE }}
-          port: ${{ secrets.REMOTE_SSH_PORT }}
+          passphrase: ${{ vars.REMOTE_SSH_PASSPHRASE }}
+          port: ${{ vars.REMOTE_SSH_PORT }}
           script: |
             whoami
