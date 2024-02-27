@@ -32,7 +32,20 @@ jobs:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USERNAME }}
           script: |
-            whoami
+            # 프로젝트 폴더로 이동
+            cd /home/ec2-user/fc-on/site/fc-on-typescript
+
+            # Git에서 최신 코드를 가져옴
+            git pull
+            
+            # 종속성 설치
+            yarn install
+            
+            # Next.js 애플리케이션 빌드
+            yarn build
+            
+            # PM2로 애플리케이션 실행 또는 다시 시작
+            pm2 startOrReload ecosystem.config.js --env production
 
       - name: Remove Github Actions IP From Security Group
         run: |
