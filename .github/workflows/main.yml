@@ -13,6 +13,5 @@ jobs:
           host: 3.39.44.40
           username: ec2-user
           key: ${{ secrets.HUMANX_KEY }}
-          port: 22
           script: |
             whoami
