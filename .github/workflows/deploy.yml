@@ -1,0 +1,20 @@
+name: ec2 deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  SSH:
+    runs-on: ubuntu-latest
+  
+    steps:
+      - uses: actions/checkout@v3
+      - name: ssh to ec2
+        uses: appleboy/ssh-action@master
+        with:
+          key: ${{ secrets.HUMANX_KEY }}
+          host: 3.39.44.40
+          username: ec2-user
+          script: |
+            whoami
