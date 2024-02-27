@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     siteName: "FC온라인 전적검색, 스쿼드 조회 FC-ON ",
     description: "FC온라인 스쿼드 조회, 전적 등을 조회 및 강화 시뮬레이션을 사용해보세요",
     images: {
-      url: "/favicon.ico",
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/favicon.ico`,
     },
   },
 };
