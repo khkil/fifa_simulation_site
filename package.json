@@ -1,0 +1,38 @@
+{
+  "name": "fc-on-typescript",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3098",
+    "build": "next build",
+    "start": "next start -p 3098",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.18",
+    "@heroicons/react": "^2.1.1",
+    "apexcharts": "^3.45.2",
+    "daisyui": "^4.7.2",
+    "date-fns": "^3.3.1",
+    "flowbite": "^2.2.1",
+    "next": "14.1.0",
+    "prettier": "^3.2.5",
+    "react": "^18",
+    "react-apexcharts": "^1.4.1",
+    "react-dom": "^18",
+    "react-intersection-observer": "^9.7.0",
+    "react-spinners": "^0.13.8",
+    "swr": "^2.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "postcss": "^8.4.34",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.AWS_EC2_USERNAME }}
           script: |
             # 프로젝트 폴더로 이동
-            cd /home/ec2-user/fc-on/site/fc-on-typescript
+            cd /home/ec2-user/fc-on/site
 
             # Git에서 최신 코드를 가져옴
             git pull
