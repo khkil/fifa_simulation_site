@@ -21,7 +21,7 @@ export default function SquadTab({ tabIndex, setTabIndex }: Props) {
         <li key={index} className="w-full">
           <a
             className={`inline-block w-full p-4 text-gray-900 border shadow-md border-gray-200 
-              ${index === tabIndex ? "bg-gray-300 " : "hover:bg-gray-100 bg-white cursor-pointer"} 
+              ${index === tabIndex ? "bg-white" : "bg-gray-300 cursor-pointer hover:bg-gray-50 "} 
               ${index === 0 ? "rounded-s-lg " : index === tabData.length - 1 ? "rounded-r-lg " : ""}`}
             onClick={() => {
               setTabIndex(index);

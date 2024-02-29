@@ -7,7 +7,7 @@ export default function PlayerWithSeason({ playerName, seasonImgUrl }: Props) {
   return (
     <div className="flex items-center">
       <img src={seasonImgUrl} className="min-w-7 h-5 mr-1" />
-      <p className="font-bold text-base">{playerName}</p>
+      <p className="font-bold text-lg">{playerName}</p>
     </div>
   );
 }

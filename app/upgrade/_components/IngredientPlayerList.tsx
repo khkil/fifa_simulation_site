@@ -147,7 +147,8 @@ const IngredientPlayerRow = ({
     positions,
   } = ingredientPlayer;
 
-  const [count, setCount] = useState<number>(0);
+  const ingredientCount = useMemo<number>(() => ingredientPlayers.filter((v) => v.spId === spId).length, [ingredientPlayers]);
+
   const plusIngredient = (): void => {
     if (ingredientPlayers.length >= UPGRADE_INGREDIENT_MAX_COUNT) {
       alert(`강화재료는 ${UPGRADE_INGREDIENT_MAX_COUNT}개 까지 사용가능합니다.`);
@@ -155,14 +156,12 @@ const IngredientPlayerRow = ({
     }
 
     setIngredientPlayers([...ingredientPlayers, ingredientPlayer]);
-    setCount(count + 1);
   };
 
   const minusIngredient = (): void => {
     const minusIndex = ingredientPlayers.map((player) => player.spId).lastIndexOf(spId);
     if (minusIndex > -1) {
       setIngredientPlayers(ingredientPlayers.filter((_, index) => index !== minusIndex));
-      setCount(count - 1);
     }
   };
 
@@ -190,7 +189,7 @@ const IngredientPlayerRow = ({
             >
               <span className="m-auto text-2xl font-thin">−</span>
             </button>
-            <div className="w-full bg-gray-300 font-semibold text-md flex justify-center items-center">{count}</div>
+            <div className="w-full bg-gray-300 font-semibold text-md flex justify-center items-center">{ingredientCount}</div>
             <button
               data-action="increment"
               className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer border-l border-gray-200"

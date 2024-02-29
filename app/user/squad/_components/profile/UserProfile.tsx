@@ -57,12 +57,13 @@ const SquadTeamColor = ({ teamColor: { name, skill, image, playerlist }, players
   return (
     <div className={"mb-5 mt-2"}>
       <div className={"mb-2 flex items-center"}>
-        <img className={"w-6 mr-1.5"} src={image} />
+        <img className={"w-6 mr-1.5"} src={image}/>
         <p className={"font-semibold mr-1"}>{name}</p>
-        <p className={"font-semibold text-gray-400"}>({skill.replaceAll("|", " ")})</p>
+        {/*<p className={"font-semibold text-gray-400"}>({skill.replaceAll("|", " ")})</p>*/}
+        <p className={"font-semibold text-gray-400"}>({skill.slice(0, -1).split("|").join(", ")})</p>
       </div>
-      <div className={"flex"}>
-        {teamPlayers.map(({ spid, thumb }) => (
+      <div className={"flex flex-wrap"}>
+        {teamPlayers.map(({spid, thumb }) => (
           <Image
             key={spid}
             width={100}

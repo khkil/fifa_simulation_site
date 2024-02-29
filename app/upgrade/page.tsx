@@ -10,8 +10,8 @@ import { UpgradePercentBar } from "@/app/upgrade/_components/UpgradePercentBar";
 import NoResults from "@/app/_components/ui/NoResults";
 
 export default function UpgradePage() {
-  const [targetPlayer, setTargetPlayer] = useState<UpgradeTargetPlayer | null>(null); // null
-  const [ingredientPlayers, setIngredientPlayers] = useState<IngredientPlayer[]>([]); // []
+  const [targetPlayer, setTargetPlayer] = useState<UpgradeTargetPlayer | null>(null);
+  const [ingredientPlayers, setIngredientPlayers] = useState<IngredientPlayer[]>([]);
 
   return (
     <div className={"flex justify-center space-x-5"}>
