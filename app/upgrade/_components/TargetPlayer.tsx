@@ -15,9 +15,15 @@ interface Props {
   setIngredientPlayers: (ingredientPlayer: IngredientPlayer[]) => void;
 }
 
+interface TotalPrice {
+  used: number;
+  profit: number;
+}
+
 export default function TargetPlayer({ targetPlayer, setTargetPlayer, ingredientPlayers, setIngredientPlayers }: Props) {
   let { playerId, grade, priceList, overall, playerName, season, positions } = targetPlayer;
 
+  const totalIngredientPrice: number = useMemo<number>(() => ingredientPlayers.reduce((sum, { price }) => sum + price, 0), [ingredientPlayers]);
   const successPercent = useMemo<number>(() => {
     let value = 0;
     ingredientPlayers.forEach((ingredientPlayer: IngredientPlayer) => {
@@ -32,6 +38,11 @@ export default function TargetPlayer({ targetPlayer, setTargetPlayer, ingredient
   const [zoomIn, setZoomIn] = useState<boolean>(false);
   const [upgradeSuccess, setUpgradeSuccess] = useState<boolean | null>(null);
 
+  const [totalPrice, setTotalPrice] = useState<TotalPrice>({
+    used: 0,
+    profit: 0,
+  });
+
   const resetPlayer = (): void => {
     setTargetPlayer(null);
     setIngredientPlayers([]);
@@ -42,10 +53,7 @@ export default function TargetPlayer({ targetPlayer, setTargetPlayer, ingredient
       alert("최대 10강까지 강화가능합니다");
       return;
     }
-    /*else if (successPercent === 0) {
-      alert("강화 재료를 선택해주세요");
-      return;
-    }*/
+
     const success = Math.random() * 100 <= successPercent;
     if (success) {
       onUpgradeSuccess();
@@ -63,9 +71,14 @@ export default function TargetPlayer({ targetPlayer, setTargetPlayer, ingredient
   const onUpgradeSuccess = () => {
     const { overall, grade } = targetPlayer;
     const nextGrade = grade + 1;
+
     setUpgradeSuccess(true);
     setZoomIn(true);
+
     setTargetPlayer({ ...targetPlayer, grade: nextGrade, overall: overall + getPlusOverallFromGrade(nextGrade) });
+
+    const profit = totalPrice.profit - totalIngredientPrice + (priceList[nextGrade - 1].price - priceList[grade - 1].price);
+    setTotalPrice({ used: totalPrice.used + totalIngredientPrice, profit });
   };
 
   const onUpgradeFail = () => {
@@ -77,10 +90,13 @@ export default function TargetPlayer({ targetPlayer, setTargetPlayer, ingredient
     }
     setUpgradeSuccess(false);
     setTargetPlayer({ ...targetPlayer, grade: downGrade, overall: downGradeOvr });
+
+    const profit = totalPrice.profit - totalIngredientPrice;
+    setTotalPrice({ used: totalPrice.used + totalIngredientPrice, profit });
   };
 
   return (
-    <div className={""}>
+    <div>
       <div className={" border border-gray-300 rounded-lg p-5 flex flex-col items-center "}>
         <div className={"w-full"}>
           <div className={"text-center pb-3"}>
@@ -107,14 +123,14 @@ export default function TargetPlayer({ targetPlayer, setTargetPlayer, ingredient
               </div>
             ) : null}
           </div>
-          <div className={`flex w-full transition-all duration-500 cursor-pointer ${zoomIn ? "scale-125" : "scale-100"}`}>
+          <div className={`flex w-full transition-all duration-500 ${zoomIn ? "scale-125" : "scale-100"}`}>
             <div className={"flex flex-col items-center w-1/3"}>
               <img
                 className="w-24 h-24 mb-3 rounded-full shadow-lg"
                 src={`https://${process.env.NEXT_PUBLIC_NEXON_CDN_SEVER_URL}/live/externalAssets/common/playersAction/p${playerId}.png`}
               />
               <PlayerWithSeason playerName={playerName} seasonImgUrl={season.imageUrl} />
-              <PlayerPositions positions={positions} />
+              <PlayerPositions positions={positions} plusGrade={targetPlayer.grade} />
               <p className={"pt-1 text-bp font-semibold"}>{convertPriceFormat(priceList[grade - 1].price)} BP</p>
             </div>
             <div className={"flex flex-col items-center w-2/3"}>
@@ -135,7 +151,7 @@ export default function TargetPlayer({ targetPlayer, setTargetPlayer, ingredient
                         강화성공시 선수가치
                       </th>
                       <td className="px-6 py-4">
-                        <p className={"text-bp font-semibold text-base"}>{convertPriceFormat(priceList[grade + 1].price)} BP</p>
+                        <p className={"text-bp font-semibold text-base"}>{convertPriceFormat(priceList?.[grade]?.price || 0)} BP</p>
                       </td>
                     </tr>
                     <tr className="border-b border-gray-200">
@@ -143,7 +159,7 @@ export default function TargetPlayer({ targetPlayer, setTargetPlayer, ingredient
                         능력치
                       </th>
                       <td className="px-6 py-4 flex space-x-1 items-center">
-                        <p className={"font-semibold text-lg"}>{overall} </p>
+                        <p className={"font-semibold text-lg"}>{overall + getPlusOverallFromGrade(grade)} </p>
                         <p className={"font-semibold text-lg text-orange-600"}>+</p>
                         <p className={"font-semibold text-lg text-orange-600"}>{getPlusOverallFromGrade(grade + 1)}</p>
                       </td>
@@ -163,13 +179,15 @@ export default function TargetPlayer({ targetPlayer, setTargetPlayer, ingredient
                   누적 소모 BP
                 </th>
                 <td className="px-6 py-4 flex space-x-2 justify-center">
-                  <p className={"text-bp font-semibold text-base"}>{0} BP</p>
+                  <p className={"text-bp font-semibold text-base"}>{convertPriceFormat(totalPrice.used)} BP</p>
                 </td>
                 <th scope="row" className="py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50">
                   누적 수익 BP
                 </th>
                 <td className="px-6 py-4 flex space-x-2 justify-center">
-                  <p className={"text-bp font-semibold text-base"}>{0} BP</p>
+                  <p className={`${totalPrice.profit >= 0 ? "text-bp" : "text-red-500"} font-semibold text-base`}>
+                    {convertPriceFormat(totalPrice.profit)} BP
+                  </p>
                 </td>
               </tr>
             </tbody>

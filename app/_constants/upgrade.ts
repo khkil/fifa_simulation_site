@@ -1,7 +1,7 @@
 export const UPGRADE_INGREDIENT_MAX_COUNT = 5; // 선수 강화시 사용가능한 재료 수
 export const UPGRADEABLE_MIN_OVR_DIFF = 5; // 선수 강화시 최소 오버롤 차이
 export const UPGRADEABLE_MAX_OVR_DIFF = 6; // 선수 강화시 최대 오버롤 차이
-
+export const UPGRADE_MAX_GRADE = 10; // 선수 최대 강화수치
 // 강화 게이지(강화수치: +1 ~ +8, 오버롤 차이: -5 ~ +6)
 export const UPGRADE_GAUGES: number[][] = [
   [0.81, 0.81, 1.07, 1.42, 1.88, 2.5, 3.31, 4.39, 5, 5, 5, 5], // 1 > 2

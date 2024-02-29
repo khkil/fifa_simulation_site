@@ -5,8 +5,6 @@ import { IngredientPlayer, UpgradeTargetPlayer } from "@/app/_types/player";
 import TargetPlayer from "@/app/upgrade/_components/TargetPlayer";
 import TargetPlayerList from "@/app/upgrade/_components/TargetPlayerList";
 import IngredientPlayerList from "@/app/upgrade/_components/IngredientPlayerList";
-import IngredientCardList from "@/app/upgrade/_components/IngredientCardList";
-import { UpgradePercentBar } from "@/app/upgrade/_components/UpgradePercentBar";
 import NoResults from "@/app/_components/ui/NoResults";
 
 export default function UpgradePage() {
@@ -33,11 +31,7 @@ export default function UpgradePage() {
         {!targetPlayer ? (
           <TargetPlayerList setTargetPlayer={setTargetPlayer} />
         ) : (
-          <IngredientPlayerList
-            playerOverall={targetPlayer.overall}
-            ingredientPlayers={ingredientPlayers}
-            setIngredientPlayers={setIngredientPlayers}
-          />
+          <IngredientPlayerList targetPlayer={targetPlayer} ingredientPlayers={ingredientPlayers} setIngredientPlayers={setIngredientPlayers} />
         )}
       </div>
     </div>

@@ -1,24 +1,24 @@
 import { useEffect, useMemo, useState } from "react";
 import { fetchPlayersByOverall } from "@/app/_service/playerService";
 import { PageResponse } from "@/app/_types/pageable";
-import { IngredientPlayer } from "@/app/_types/player";
+import { IngredientPlayer, UpgradeTargetPlayer } from "@/app/_types/player";
 import Loader from "@/app/_components/ui/Loader";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import PlayerWithSeason from "@/app/_components/player/PlayerWithSeason";
 import PlayerPositions from "@/app/_components/player/PlayerPositions";
-import { convertPriceFormat } from "@/app/_utils";
+import { convertPriceFormat, getPlusOverallFromGrade } from "@/app/_utils";
 import NoResults from "@/app/_components/ui/NoResults";
 import { UPGRADE_INGREDIENT_MAX_COUNT, UPGRADEABLE_MAX_OVR_DIFF, UPGRADEABLE_MIN_OVR_DIFF } from "@/app/_constants/upgrade";
 
 interface Props {
-  playerOverall: number;
+  targetPlayer: UpgradeTargetPlayer;
   ingredientPlayers: IngredientPlayer[];
   setIngredientPlayers: (players: IngredientPlayer[]) => void;
 }
 
-export default function IngredientPlayerList({ ingredientPlayers, setIngredientPlayers, playerOverall }: Props) {
-  const defaultPlayerOverall = playerOverall - 1;
+export default function IngredientPlayerList({ ingredientPlayers, setIngredientPlayers, targetPlayer }: Props) {
+  const defaultPlayerOverall = useMemo<number>(() => targetPlayer.overall + getPlusOverallFromGrade(targetPlayer.grade) - 1, [targetPlayer]);
 
   const [overall, setOverall] = useState(defaultPlayerOverall);
   const [ref, inView] = useInView();
@@ -32,7 +32,7 @@ export default function IngredientPlayerList({ ingredientPlayers, setIngredientP
 
   useEffect(() => {
     setOverall(defaultPlayerOverall);
-  }, [playerOverall]);
+  }, [defaultPlayerOverall]);
 
   const { data, size, setSize, isLoading, mutate, isValidating } = useSWRInfinite<PageResponse<IngredientPlayer>, Error>(
     getPageKey,
@@ -52,7 +52,7 @@ export default function IngredientPlayerList({ ingredientPlayers, setIngredientP
 
   return (
     <div>
-      <OverallRangeSlider playerOverall={playerOverall} overall={overall} setOverall={setOverall} />
+      <OverallRangeSlider defaultPlayerOverall={defaultPlayerOverall} overall={overall} setOverall={setOverall} />
       <div className={"h-[52rem] overflow-y-auto border border-gray-300 rounded-lg"}>
         {isLoading ? (
           <Loader useScreenHeight={false} />
@@ -98,11 +98,11 @@ export default function IngredientPlayerList({ ingredientPlayers, setIngredientP
 }
 
 const OverallRangeSlider = ({
-  playerOverall,
+  defaultPlayerOverall,
   overall,
   setOverall,
 }: {
-  playerOverall: number;
+  defaultPlayerOverall: number;
   overall: number;
   setOverall: (ovr: number) => void;
 }) => {
@@ -116,8 +116,8 @@ const OverallRangeSlider = ({
       <input
         id="steps-range"
         type="range"
-        min={playerOverall - UPGRADEABLE_MIN_OVR_DIFF}
-        max={playerOverall + UPGRADEABLE_MAX_OVR_DIFF}
+        min={defaultPlayerOverall - UPGRADEABLE_MIN_OVR_DIFF}
+        max={defaultPlayerOverall + UPGRADEABLE_MAX_OVR_DIFF}
         value={overall}
         step={1}
         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"

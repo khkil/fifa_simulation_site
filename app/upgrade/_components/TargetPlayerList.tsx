@@ -11,6 +11,7 @@ import PlayerGrades from "@/app/_components/player/PlayerGrades";
 import Loader from "@/app/_components/ui/Loader";
 import NoResults from "@/app/_components/ui/NoResults";
 import { PageResponse } from "@/app/_types/pageable";
+import { UPGRADE_MAX_GRADE } from "@/app/_constants/upgrade";
 
 interface Props {
   setTargetPlayer: (player: UpgradeTargetPlayer) => void;
@@ -84,6 +85,10 @@ const TargetPlayerRow = ({
 
   const selectPlayer = () => {
     const targetPlayer = { playerId: spId, overall: maxOverall, grade, priceList, playerName, season, positions };
+    if (grade === UPGRADE_MAX_GRADE) {
+      alert(`최대 +${UPGRADE_MAX_GRADE}강 까지 강화가능합니다.`);
+      return;
+    }
     setTargetPlayer(targetPlayer);
   };
 
@@ -98,7 +103,7 @@ const TargetPlayerRow = ({
         </div>
         <div>
           <PlayerWithSeason seasonImgUrl={season.imageUrl} playerName={playerName} />
-          <PlayerPositions positions={positions} />
+          <PlayerPositions positions={positions} plusGrade={grade} />
         </div>
       </td>
       <td className="px-4 py-4 text-right">

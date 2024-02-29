@@ -1,13 +1,13 @@
 import { useState, Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { UPGRADE_MAX_GRADE } from "@/app/_constants/upgrade";
 
 interface Props {
   grade: number;
   setGrade: (grade: number) => void;
 }
 export default function PlayerGrades({ grade, setGrade }: Props) {
-  const [open, setOpen] = useState(false);
   const handleClick = (value: number) => {
     setGrade(value);
     //setOpen(false);
@@ -22,7 +22,7 @@ export default function PlayerGrades({ grade, setGrade }: Props) {
       </div>
       <Menu.Items className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg  focus:outline-none">
         <div className="py-1 text-center">
-          {Array.from({ length: 10 }, (_, index) => index + 1).map((v) => (
+          {Array.from({ length: UPGRADE_MAX_GRADE }, (_, index) => index + 1).map((v) => (
             <Menu.Item key={v}>
               {({ active }) => (
                 <div
