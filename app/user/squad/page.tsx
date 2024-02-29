@@ -28,7 +28,7 @@ export default function UserSquadPage() {
     data: seasons,
     isLoading: isLoadingSeason,
     error: seasonError,
-  } = useSWR<Season[], Error>("seasons", nickname ? fetchSeasons : null, {
+  } = useSWR<Season[], Error>("seasons", fetchSeasons, {
     revalidateOnFocus: false,
   });
   const {
@@ -69,9 +69,7 @@ export default function UserSquadPage() {
                   <PositionPriceGraph players={squad.players} />
                 </div>
               </div>
-            ) : (
-              <div>asd</div>
-            )}
+            ) : null}
           </div>
         </div>
       ) : (
