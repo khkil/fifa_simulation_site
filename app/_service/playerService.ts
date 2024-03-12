@@ -62,7 +62,7 @@ export const fetchNations = async () => {
 };
 
 /* export const fetchPlayersByOverall = async ({ overall }) => {
-  const { data } = await axios.get(`/api/price/overall/${overall}`);
+  const { data } = await axios.get(`/api/calculator/overall/${overall}`);
   return data;
 };
 
@@ -72,14 +72,14 @@ export const fetchPlayerDetail = async (playerId) => {
 };
 
 export const fetchPlayerPriceWave = async (params) => {
-  const { data } = await axios.get(`/api/players/price-rank`, {
+  const { data } = await axios.get(`/api/players/calculator-rank`, {
     params,
   });
   return data;
 };
 
 export const fetchPlayerPriceByOverall = async ({ overall }) => {
-  const { data } = await axios.get(`/api/price/overall/${overall}`, {
+  const { data } = await axios.get(`/api/calculator/overall/${overall}`, {
     params,
   });
   return data;
