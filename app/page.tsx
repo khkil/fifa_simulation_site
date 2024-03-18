@@ -6,10 +6,10 @@ export default function Home() {
   return (
     <div>
       <NicknameSearchBar pathname="/user/squad" />
-      {/*<div className="flex space-x-3 pt-10">
+      <div className="flex space-x-3 pt-10">
         <PlayerPriceTable theme="info" title="오늘의 시세 급상승 순위" />
         <PlayerPriceTable theme="error" title="오늘의 시세 급하락 순위" sort="wave,asc" />
-      </div>*/}
+      </div>
       <div className="flex space-x-3 pt-10">
         <ChargeCalculator />
         <div className="w-full"></div>

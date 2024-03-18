@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useMemo, useState } from "react";
-import { convertPriceFormat } from "@/app/_utils";
+import { convertKorPriceFormat, convertPriceFormat } from "@/app/_utils";
 
 interface Price {
   price?: number;
@@ -80,16 +80,16 @@ export default function ChargeCalculator() {
 
       <SaleList saleList={saleList} setSaleList={setSaleList} />
 
-      <div className={"flex space-x-4"}>
+      {/*   <div className={"flex space-x-4"}>
         <button type="button" className="text-white bg-gray-700 font-medium rounded-lg text-sm py-2.5 mb-2 w-1/2" onClick={() => {}}>
           수수료 계산
         </button>
         <button type="button" className="text-white bg-gray-400 font-medium rounded-lg text-sm py-2.5  mb-2 w-1/2" onClick={() => {}}>
           초기화
         </button>
-      </div>
+      </div>*/}
 
-      <CalculatedPriceResultList priceList={priceList} saleList={saleList} />
+      <CalculatedPriceResult priceList={priceList.filter(({ price }) => price)} saleList={saleList} />
     </div>
   );
 }
@@ -111,10 +111,12 @@ const SaleList = ({ saleList, setSaleList }: SaleProps) => {
   };
 
   return (
-    <div className={"flex border-b-2 pb-6 mb-4"}>
+    <div className={"flex pb-6 mb-4"}>
       {saleList.map(({ name, amount, active }, index) => (
         <div key={index} className={"w-1/2"}>
-          <p className={"text-gray-500 font-bold mb-2"}>{name}</p>
+          <p className={"text-gray-500 font-bold mb-2"}>
+            {name} ({amount}% 할인)
+          </p>
           <div className="inline-flex rounded-md shadow-sm">
             <button
               aria-current="page"
@@ -150,15 +152,16 @@ interface Result {
   charge: number;
 }
 
-const CalculatedPriceResultList = ({ priceList, saleList }: ResultProps) => {
+const CalculatedPriceResult = ({ priceList, saleList }: ResultProps) => {
   const calculateCharge = (originPrice: number, coupon: number) => {
-    let totalPrice = originPrice - originPrice * 0.4 + originPrice * 0.004 * coupon;
+    let totalPrice = originPrice * 0.4 - (originPrice * 0.004 * coupon || 0);
     saleList.forEach(({ amount, active }) => {
       if (active) {
-        totalPrice += originPrice * 0.004 * amount;
+        totalPrice -= originPrice * 0.004 * amount;
       }
     });
-    return totalPrice;
+
+    return parseInt(totalPrice.toFixed(0)) || 0;
   };
 
   const totalPrice = useMemo<number>(
@@ -166,22 +169,41 @@ const CalculatedPriceResultList = ({ priceList, saleList }: ResultProps) => {
     [priceList, saleList],
   );
 
+  if (priceList.length === 0) return null;
   return (
-    <div>
+    <div className={"border-t-2 pt-2"}>
       {priceList.map(({ price = 0, coupon = 0 }, index) => {
         const { originPrice, charge }: Result = { originPrice: price || 0, charge: 0 };
 
         return (
-          <div key={index} className={"flex"}>
-            <p>{convertPriceFormat(originPrice)} BP</p>
+          <div key={index} className={"flex text-bp text-base font-semibold"}>
+            <div>
+              <p className={"text-bp"}>{convertPriceFormat(originPrice)} BP</p>
+              <p className={"text-gray-400 font-medium"}>({convertKorPriceFormat(originPrice)} BP)</p>
+            </div>
             <p className={"mx-2"}> - </p>
-            <p>{convertPriceFormat(calculateCharge(price, coupon))} BP</p>
+            <div>
+              <p>{convertPriceFormat(calculateCharge(price, coupon))} BP</p>
+              <p className={"text-gray-400 font-medium"}>({convertKorPriceFormat(calculateCharge(price, coupon))} BP)</p>
+            </div>
             <p className={"mx-2"}> = </p>
-            <p>{convertPriceFormat(originPrice - calculateCharge(price, coupon))} BP</p>
+            <div>
+              <p>{convertPriceFormat(originPrice - calculateCharge(price, coupon))} BP</p>
+              <p className={"text-gray-400 font-medium"}>({convertKorPriceFormat(originPrice - calculateCharge(price, coupon))} BP)</p>
+            </div>
           </div>
         );
       })}
-      <div className={"border-t-2 my-2"}>{totalPrice}</div>
+      <div className={"border-t-2 my-2"}></div>
+      {priceList.length > 0 ? (
+        <div className={"flex items-center gap-3"}>
+          <div className={"font-bold text-xl"}>총합 : </div>
+          <div>
+            <p className={"font-bold text-xl"}>{convertPriceFormat(totalPrice)} BP</p>
+            <p className={"text-gray-400 font-medium"}>({convertKorPriceFormat(totalPrice)} BP)</p>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
