@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, KeyboardEvent, useState } from "react";
 import SearchBar from "@/app/_components/ui/SearchBar";
 
 interface Props {

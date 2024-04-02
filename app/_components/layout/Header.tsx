@@ -1,10 +1,14 @@
+"use client";
+
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Key } from "react";
+import { Key, useEffect } from "react";
+import { log } from "node:util";
 interface Menu {
   title: string;
   url: string;
 }
-const menus: Array<Menu> = [
+const menus: Menu[] = [
   {
     title: "선수 조회",
     url: "/players",
@@ -24,6 +28,7 @@ const menus: Array<Menu> = [
 ];
 
 export default function Header() {
+  const pathname = usePathname();
   return (
     <header className="border-b border-gray-300">
       <nav className="bg-white border-gray-200 px-4 lg:px-6 p-4">
@@ -33,20 +38,20 @@ export default function Header() {
             <span className="self-center text-2xl font-bold whitespace-nowrap text-gray-700">FC-ON</span>
           </Link>
           <div className="flex items-center lg:order-2">
-            <a href="#" className="text-gray-800 ">
+            {/*<a href="#" className="text-gray-800 ">
               로그인
-            </a>
+            </a>*/}
           </div>
-          <div className="hidden justify-start items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
+          <div className="hidden justify-center items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
               {menus.map(({ title, url }: Menu, index: Key) => (
                 <li key={index}>
                   <Link
                     href={url}
-                    className="block py-2 pr-4 pl-3 text-gray-800 rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0"
+                    className={`block py-2 pr-4 pl-3 text-gray-800 rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 ${pathname.indexOf(url) > -1 ? "text-gray-300 " : "text-gray-800 "}`}
                     aria-current="page"
                   >
-                    <p className="font-semibold hover:text-gray-400 text-xl">{title}</p>
+                    <p className="font-semibold hover:text-gray-300 text-xl">{title}</p>
                   </Link>
                 </li>
               ))}
