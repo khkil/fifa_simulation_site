@@ -1,6 +1,6 @@
 import { UserSquad } from "@/app/_types/user";
 
-// fetch /api/user/squad?nickname=구짱박사
+// fetch /api/platform/squad?nickname=구짱박사
 export const squad: UserSquad = {
   formation: "4-2-2-2",
   totalPay: 255,

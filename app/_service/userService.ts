@@ -5,7 +5,7 @@ import { UserSquad } from "@/app/_types/user";
 
 export const fetchUserInfo = async (params: { nickname: string }) => {
   try {
-    return customFetch({ url: `/api/user/info`, params });
+    return customFetch({ url: `/api/platform/user`, params });
   } catch (e) {
     console.error(e);
     throw new Error("선수 목록을 가져오는데 실패하였습니다.");
@@ -13,7 +13,7 @@ export const fetchUserInfo = async (params: { nickname: string }) => {
 };
 
 export const fetchUserSquad = async (nickname: string): Promise<UserSquad> => {
-  const { status, data, message } = await customFetch({ url: `/api/user/squad`, params: { nickname } });
+  const { status, data, message } = await customFetch({ url: `/api/platform/squad`, params: { nickname } });
   if (status !== SUCCESS_STATUS) {
     throw new Error(message);
   }
@@ -21,7 +21,7 @@ export const fetchUserSquad = async (nickname: string): Promise<UserSquad> => {
 };
 
 export const fetchUserMatches = async (params: { nickname: string; page: number; matchType: number }) => {
-  const { status, data, message } = await customFetch({ url: `/api/user/matches`, params });
+  const { status, data, message } = await customFetch({ url: `/api/platform/matches`, params });
   if (status !== SUCCESS_STATUS) {
     throw new Error(message);
   }
@@ -29,7 +29,7 @@ export const fetchUserMatches = async (params: { nickname: string; page: number;
 };
 
 export const fetchUserMatchDetail = async (matchId: string) => {
-  const { status, data, message } = await customFetch({ url: `/api/user/matches/${matchId}` });
+  const { status, data, message } = await customFetch({ url: `/api/platform/matches/${matchId}` });
   if (status !== SUCCESS_STATUS) {
     throw new Error(message);
   }

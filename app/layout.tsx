@@ -6,6 +6,7 @@ import { ReactNode } from "react";
 import "./globals.css";
 import Image from "next/image";
 import type { TemplateString } from "next/dist/lib/metadata/types/metadata-types";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +37,12 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light">
       <body className={inter.className}>
+        <Script
+          async
+          src="https://t1.kakaocdn.net/kakao_js_sdk/2.3.0/kakao.min.js"
+          integrity="sha384-70k0rrouSYPWJt7q9rSTKpiTfX6USlMYjZUtr1Du+9o4cGvhPAWxngdtVZDdErlh"
+          crossOrigin="anonymous"
+        />
         <Header />
         <div className="bg-slate-100 w-full min-h-screen space-y-10">
           <div className={"flex justify-center pt-10"}>
